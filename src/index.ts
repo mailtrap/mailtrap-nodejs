@@ -1,15 +1,10 @@
 import * as http from "http";
 import * as https from "https";
 import axios, { AxiosInstance, AxiosError } from "axios";
-import { Mail, SendResponse } from "./lib/types";
+import { MailtrapClientConfig, Mail, SendResponse } from "./lib/types";
 import encodeMailBuffers from "./lib/encodeMailBuffers";
 
 const MAILTRAP_ENDPOINT = "https://send.api.mailtrap.io";
-
-type MailtrapClientConfig = {
-  endpoint?: string;
-  token: string;
-};
 
 export class MailtrapClient {
   private axios: AxiosInstance;

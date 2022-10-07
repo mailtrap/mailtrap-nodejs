@@ -15,4 +15,13 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   rules: {},
   ignorePatterns: ["dist/**", "examples/**", ".eslintrc.js"],
+
+  overrides: [
+    {
+      files: ["src/lib/nodemailer/**"],
+      rules: {
+        "import/no-extraneous-dependencies": 0,
+      },
+    },
+  ],
 };

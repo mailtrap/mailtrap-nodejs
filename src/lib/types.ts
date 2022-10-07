@@ -1,3 +1,8 @@
+export type MailtrapClientConfig = {
+  endpoint?: string;
+  token: string;
+};
+
 export type Mail = {
   subject: string;
   from: Address;
@@ -8,17 +13,9 @@ export type Mail = {
   headers?: Record<string, string>;
   category?: string;
   custom_variables?: Record<string, string | number | boolean>;
-} & MailContent;
-
-type TextMailContent = {
-  text: string | Buffer;
+  text?: string | Buffer;
+  html?: string | Buffer;
 };
-
-type HTMLMailContent = {
-  html: string | Buffer;
-};
-
-type MailContent = TextMailContent | HTMLMailContent;
 
 export type Address = {
   name?: string;
@@ -27,8 +24,8 @@ export type Address = {
 
 export type Attachment = {
   filename: string;
-  type: string;
   content: string | Buffer;
+  type?: string;
   disposition?: string;
   content_id?: string;
 };
@@ -40,5 +37,5 @@ export type SendResponse = {
 
 export type SendError = {
   success: false;
-  error: string[];
+  errors: string[];
 };
