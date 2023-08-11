@@ -4,7 +4,7 @@ export type Mail = {
   cc?: Address[];
   bcc?: Address[];
   attachments?: Attachment[];
-  headers?: Record<string, string>;
+  headers?: Headers;
   custom_variables?: Record<string, string | number | boolean>;
 } & (MailContent | MailFromTemplateContent);
 
@@ -38,6 +38,8 @@ export type Attachment = {
   disposition?: string;
   content_id?: string;
 };
+
+export type Headers = Record<string, string>;
 
 export type SendResponse = {
   success: true;

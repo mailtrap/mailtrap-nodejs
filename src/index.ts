@@ -7,7 +7,7 @@ import MailtrapError from "./lib/MailtrapError";
 
 const MAILTRAP_ENDPOINT = "https://send.api.mailtrap.io";
 
-type MailtrapClientConfig = {
+export type MailtrapClientConfig = {
   endpoint?: string;
   token: string;
 };
