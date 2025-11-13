@@ -111,8 +111,8 @@ describe("lib/api/resources/ContactExports: ", () => {
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
         if (error instanceof MailtrapError) {
-          // axios logger returns "[object Object]" for error objects, so we check for that
-          expect(error.message).toBe("[object Object]");
+          // When errors object doesn't match recognized pattern, falls back to default Axios error message
+          expect(error.message).toBe("Request failed with status code 422");
         }
       }
     });

@@ -198,11 +198,9 @@ describe("lib/api/resources/ContactImports: ", () => {
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
         if (error instanceof MailtrapError) {
-          // Note: Current axios-logger doesn't properly handle array of objects format,
-          // so it falls back to stringifying the array, resulting in [object Object],[object Object]
-          // This test documents the current behavior. Updating axios-logger to properly
-          // parse this format will be a separate task.
-          expect(error.message).toBe("[object Object],[object Object]");
+          expect(error.message).toBe(
+            "invalid-email-1: email: is invalid, is required | invalid-email-2: Contact limit exceeded"
+          );
         }
       }
     });
