@@ -1,3 +1,20 @@
+## [4.3.1] - 2025-11-25
+- Contact fields by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/89
+- Fix optional account by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/91
+- build(deps-dev): bump nodemailer from 6.9.9 to 7.0.7 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/92
+- Sending domains API by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/93
+- Enhance package configuration with module exports and TypeScript settings by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/81
+- Fix #84 by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/96
+- Fix #82 by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/97
+- Contact imports by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/95
+- Contact exports  by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/98
+- Create contact event by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/99
+- Billing api by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/103
+- Fix axios error parsing by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/104
+- Update README.md to enhance installation and usage instructions, impr… by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/107
+- Fix 106 by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/108
+
+
 ## [4.3.0] - 2025-10-02
 - feat: add Permissions type to projects API for enhanced access control by @narekhovhannisyan in https://github.com/railsware/mailtrap-nodejs/pull/80
 - update readme by @yanchuk in https://github.com/railsware/mailtrap-nodejs/pull/66
