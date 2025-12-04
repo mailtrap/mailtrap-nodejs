@@ -41,10 +41,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "peerDependencies": {
