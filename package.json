@@ -1,7 +1,7 @@
 {
   "name": "mailtrap",
   "description": "Official mailtrap.io API client",
-  "version": "4.3.1",
+  "version": "4.4.0",
   "author": "Railsware Products Studio LLC",
   "dependencies": {
     "axios": ">=0.27"
