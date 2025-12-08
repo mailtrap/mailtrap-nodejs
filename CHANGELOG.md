@@ -3,7 +3,7 @@
 - Bump new minor version as previous changes were pretty huge and shouldn't be released under patch version
 
 ## [4.3.2] - 2025-11-27
-- Rollback to v4.3.1
+- Rollback to v4.3.0
 
 ## [4.3.1] - 2025-11-25
 - Contact fields by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/89
