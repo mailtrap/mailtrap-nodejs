@@ -1,3 +1,10 @@
+## [4.4.0] - 2025-12-08
+- Add ES module support by specifying import path in package.json by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/112
+- Bump new minor version as previous changes were pretty huge and shouldn't be released under patch version
+
+## [4.3.2] - 2025-11-27
+- Rollback to v4.3.0
+
 ## [4.3.1] - 2025-11-25
 - Contact fields by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/89
 - Fix optional account by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/91
