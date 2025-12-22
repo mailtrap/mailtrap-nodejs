@@ -36,7 +36,7 @@ The quickest way to send a single transactional email with only the required par
 import { MailtrapClient } from "mailtrap";
 
 const mailtrap = new MailtrapClient({
-  token: process.env.MAILTRAP_API_KEY, // your API key here https://mailtrap.io/api-tokens
+  token: process.env.MAILTRAP_API_KEY, // You can create your API key here https://mailtrap.io/api-tokens
 });
 
 mailtrap
