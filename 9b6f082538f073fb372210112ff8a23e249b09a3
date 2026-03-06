@@ -1,0 +1,23 @@
+package.json
+  5a0a866c6cbafb1c 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "9b6f082538f073fb372210112ff8a23e249b09a3",
+  "prompts": {
+    "5a0a866c6cbafb1c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "32855191-6074-40c3-983c-07554704ef03",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
