@@ -1,0 +1,25 @@
+src/lib/api/resources/EmailLogs.ts
+  220dc5d46c078a3c 27,29,32,34,36-37,41,44-50,52,60
+README.md
+  220dc5d46c078a3c 247-248
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "fc1a5d2d39133144f4a55fd2414cc010a99694e9",
+  "prompts": {
+    "220dc5d46c078a3c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "cd1317a2-3f47-4e5b-a359-680c8eaa5d56",
+        "model": "default"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 26,
+      "accepted_lines": 18,
+      "overriden_lines": 0
+    }
+  }
+}
