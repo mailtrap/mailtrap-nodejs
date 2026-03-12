@@ -17,6 +17,7 @@ import GeneralAPI from "./api/General";
 import TemplatesBaseAPI from "./api/Templates";
 import SuppressionsBaseAPI from "./api/Suppressions";
 import SendingDomainsBaseAPI from "./api/SendingDomains";
+import StatsBaseAPI from "./api/Stats";
 import TestingAPI from "./api/Testing";
 
 import CONFIG from "../config";
@@ -187,6 +188,14 @@ export default class MailtrapClient {
   get suppressions() {
     const accountId = this.validateAccountIdPresence();
     return new SuppressionsBaseAPI(this.axios, accountId);
+  }
+
+  /**
+   * Getter for Stats API.
+   */
+  get stats() {
+    const accountId = this.validateAccountIdPresence();
+    return new StatsBaseAPI(this.axios, accountId);
   }
 
   /**

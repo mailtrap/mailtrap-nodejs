@@ -1,11 +1,18 @@
+## [Unreleased]
+
+- Add StatsApi with get, byDomain, byCategory, byEmailServiceProvider, byDate endpoints
+
 ## [4.4.0] - 2025-12-08
+
 - Add ES module support by specifying import path in package.json by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/112
 - Bump new minor version as previous changes were pretty huge and shouldn't be released under patch version
 
 ## [4.3.2] - 2025-11-27
+
 - Rollback to v4.3.0
 
 ## [4.3.1] - 2025-11-25
+
 - Contact fields by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/89
 - Fix optional account by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/91
 - build(deps-dev): bump nodemailer from 6.9.9 to 7.0.7 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/92
@@ -14,21 +21,22 @@
 - Fix #84 by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/96
 - Fix #82 by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/97
 - Contact imports by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/95
-- Contact exports  by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/98
+- Contact exports by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/98
 - Create contact event by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/99
 - Billing api by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/103
 - Fix axios error parsing by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/104
 - Update README.md to enhance installation and usage instructions, impr… by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/107
 - Fix 106 by @narekhovhannisyan in https://github.com/mailtrap/mailtrap-nodejs/pull/108
 
-
 ## [4.3.0] - 2025-10-02
+
 - feat: add Permissions type to projects API for enhanced access control by @narekhovhannisyan in https://github.com/railsware/mailtrap-nodejs/pull/80
 - update readme by @yanchuk in https://github.com/railsware/mailtrap-nodejs/pull/66
 - build(deps): bump axios from 1.8.2 to 1.12.0 by @dependabot[bot] in https://github.com/railsware/mailtrap-nodejs/pull/86
 - Dynamic user agent by @narekhovhannisyan in https://github.com/railsware/mailtrap-nodejs/pull/85
 
 ## [4.2.0] - 2025-07-08
+
 - Add support for [Batch Sending API](https://github.com/railsware/mailtrap-nodejs/pull/63).
 - Add support for [Contacts API](https://github.com/railsware/mailtrap-nodejs/pull/64).
 - Add support for [Contact Lists API](https://github.com/railsware/mailtrap-nodejs/pull/65).
@@ -37,9 +45,11 @@
 - Make `testInboxId` optional in the `MailtrapClient` configuration (https://github.com/railsware/mailtrap-nodejs/pull/70).
 
 ## [4.1.0] - 2025-04-18
+
 - Add support for `reply_to` in Sending API (in https://github.com/railsware/mailtrap-nodejs/pull/58, thanks to @aolamide).
 
 ## [4.0.0] - 2025-02-28
+
 - BREAKING CHANGE: Missing params for the Testing API (here) are treated as errors (throw new Error(...)), not warnings.
 - BREAKING CHANGE: Removes send methods from the `BulkSendingAPI` and `TestingAPI` classes. There should be only one send method on the `MailtrapClient`.
 - The `general` and `testing` APIs are created lazily, after the first access to the corresponding getters.
@@ -47,17 +57,20 @@
 - Security updates for dependencies
 
 ## [3.4.0] - 2024-06-10
+
 - Add support for Bulk product API.
   - Refer to the [`examples/bulk`](examples/bulk) folder for code examples.
 - Restructure examples folder.
 
 ## [3.3.0] - 2024-01-31
+
 - Add support for Testing product API.
   - All public routes from API V2 are now available in SDK.
   - Refer to the [`examples`](examples) folder for code examples.
 - Security updates.
 
 ## [3.2.0] - 2023-08-30
+
 - Add `mailtrap-nodemailer-transporter` for sending emails using HTTP API via `nodemailer`.
 - Security updates.
 
