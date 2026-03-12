@@ -1,4 +1,4 @@
-## [Unreleased]
+## [4.5.0] - 2026-03-13
 
 - Add StatsApi with get, byDomain, byCategory, byEmailServiceProvider, byDate endpoints
 - Add Email Logs API
