@@ -1,7 +1,9 @@
 ## [4.5.0] - 2026-03-13
 
-- Add StatsApi with get, byDomain, byCategory, byEmailServiceProvider, byDate endpoints
-- Add Email Logs API
+- docs: clarify API key generation link in README by @evatorium in https://github.com/mailtrap/mailtrap-nodejs/pull/109
+- build(deps): bump axios from 1.12.0 to 1.13.5 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/114
+- Add Stats API by @piobeny in https://github.com/mailtrap/mailtrap-nodejs/pull/115
+- Add support for Email Logs API by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/117
 
 ## [4.4.0] - 2025-12-08
 
