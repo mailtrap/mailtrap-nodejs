@@ -227,65 +227,43 @@ See transport usage below:
 Email API:
 
 - Send an email (Transactional stream) – [`sending/minimal.ts`](examples/sending/minimal.ts)
-
 - Send an email (Bulk stream) – [`bulk/send-mail.ts`](examples/bulk/send-mail.ts)
-
 - Send an email with a Template (Transactional) – [`sending/template.ts`](examples/sending/template.ts)
-
 - Send an email with a Template (Bulk) – [`bulk/send-mail.ts`](examples/bulk/send-mail.ts)
-
 - Batch send (Transactional) – [`batch/transactional.ts`](examples/batch/transactional.ts)
-
-- Batch send (Bulk) – [`batch/bulk.ts`](examples/batch/bulk.ts)
-
+- Batch send (Bulk) – [`batch/bulk.ts`](examples/bulk/bulk.ts)
 - Batch send with Template (Transactional) – [`batch/template.ts`](examples/batch/template.ts)
-
 - Batch send with Template (Bulk) – [`batch/template.ts`](examples/batch/template.ts)
-
 - Sending domain management CRUD – [`sending-domains/everything.ts`](examples/sending-domains/everything.ts)
+- Sending stats (aggregated and by domain, category, ESP, date) – [`stats/everything.ts`](examples/stats/everything.ts)
+- Email logs (list with filters, get by message ID) – [`email-logs/everything.ts`](examples/email-logs/everything.ts)
 
 Email Sandbox (Testing):
 
 - Send an email (Sandbox) – [`testing/send-mail.ts`](examples/testing/send-mail.ts)
-
 - Send an email with a Template (Sandbox) – [`testing/template.ts`](examples/testing/template.ts)
-
 - Batch send (Sandbox) – [`batch/sandbox.ts`](examples/batch/sandbox.ts)
-
 - Batch send with Template (Sandbox) – [`batch/sandbox.ts`](examples/batch/sandbox.ts)
-
 - Message management CRUD – [`testing/messages.ts`](examples/testing/messages.ts)
-
 - Inbox management CRUD – [`testing/inboxes.ts`](examples/testing/inboxes.ts)
-
 - Project management CRUD – [`testing/projects.ts`](examples/testing/projects.ts)
-
 - Attachments operations – [`testing/attachments.ts`](examples/testing/attachments.ts)
 
 Contact management:
 
 - Contacts CRUD & listing – [`contacts/everything.ts`](examples/contacts/everything.ts)
-
 - Contact lists CRUD – [`contact-lists/everything.ts`](examples/contact-lists/everything.ts)
-
 - Custom fields CRUD – [`contact-fields/everything.ts`](examples/contact-fields/everything.ts)
-
 - Import/Export – [`contact-imports/everything.ts`](examples/contact-imports/everything.ts), [`contact-exports/everything.ts`](examples/contact-exports/everything.ts)
-
 - Events – [`contact-events/everything.ts`](examples/contact-events/everything.ts)
 
 General API:
 
 - Templates CRUD – [`templates/everything.ts`](examples/templates/everything.ts)
-
 - Suppressions (find & delete) – [`sending/suppressions.ts`](examples/sending/suppressions.ts)
-
 - Billing info – [`general/billing.ts`](examples/general/billing.ts)
-
 - Accounts info – [`general/accounts.ts`](examples/general/accounts.ts)
-
 - Permissions listing – [`general/permissions.ts`](examples/general/permissions.ts)
-
 - Users listing – [`general/account-accesses.ts`](examples/general/account-accesses.ts)
 
 ## Contributing

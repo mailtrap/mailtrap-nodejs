@@ -15,6 +15,7 @@ import ContactExportsBaseAPI from "../../lib/api/ContactExports";
 import TemplatesBaseAPI from "../../lib/api/Templates";
 import SuppressionsBaseAPI from "../../lib/api/Suppressions";
 import SendingDomainsBaseAPI from "../../lib/api/SendingDomains";
+import EmailLogsBaseAPI from "../../lib/api/EmailLogs";
 import ContactEventsBaseAPI from "../../lib/api/ContactEvents";
 
 const { ERRORS, CLIENT_SETTINGS } = CONFIG;
@@ -912,7 +913,7 @@ describe("lib/mailtrap-client: ", () => {
         });
 
         expect(() => client.sendingDomains).toThrow(
-          "accountId is missing, some features of testing API may not work properly."
+          "accountId is missing, please provide a valid accountId."
         );
       });
 
@@ -926,6 +927,32 @@ describe("lib/mailtrap-client: ", () => {
 
         const sendingDomainsClient = client.sendingDomains;
         expect(sendingDomainsClient).toBeInstanceOf(SendingDomainsBaseAPI);
+      });
+    });
+
+    describe("get emailLogs(): ", () => {
+      it("rejects with Mailtrap error, when `accountId` is missing.", () => {
+        expect.assertions(1);
+
+        const client = new MailtrapClient({
+          token: "test-token",
+        });
+
+        expect(() => client.emailLogs).toThrow(
+          "accountId is missing, please provide a valid accountId."
+        );
+      });
+
+      it("returns email logs API object when accountId is provided.", () => {
+        expect.assertions(1);
+
+        const client = new MailtrapClient({
+          token: "test-token",
+          accountId: 123,
+        });
+
+        const emailLogsClient = client.emailLogs;
+        expect(emailLogsClient).toBeInstanceOf(EmailLogsBaseAPI);
       });
     });
 
