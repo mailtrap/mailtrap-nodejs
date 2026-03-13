@@ -8,7 +8,7 @@ export default {
     NO_DATA_ERROR: "No Data.",
     TEST_INBOX_ID_MISSING: "testInboxId is missing, testing API will not work.",
     ACCOUNT_ID_MISSING:
-      "accountId is missing, some features of testing API may not work properly.",
+      "accountId is missing, please provide a valid accountId.",
     BULK_SANDBOX_INCOMPATIBLE: "Bulk mode is not applicable for sandbox API.",
   },
   CLIENT_SETTINGS: {
