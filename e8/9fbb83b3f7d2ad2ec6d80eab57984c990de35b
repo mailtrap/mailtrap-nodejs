@@ -1,0 +1,39 @@
+CHANGELOG.md
+  9b22089da5a268a9 1,3
+  679630e82efc12bc 5
+package.json
+  9b22089da5a268a9 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.11",
+  "base_commit_sha": "e89fbb83b3f7d2ad2ec6d80eab57984c990de35b",
+  "prompts": {
+    "679630e82efc12bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f306d859-3456-4286-928e-8dd4e0105ee7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "9b22089da5a268a9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e2633077-fec6-47eb-8bc6-f96c40a7566d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
