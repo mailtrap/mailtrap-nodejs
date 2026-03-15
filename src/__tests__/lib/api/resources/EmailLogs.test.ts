@@ -137,8 +137,8 @@ describe("lib/api/resources/EmailLogs: ", () => {
       const baseUrl = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_logs`;
       const expectedQuery =
         "filters[category][operator]=equal" +
-        "&filters[category][value]=Welcome%20Email" +
-        "&filters[category][value]=Forget%20Password";
+        "&filters[category][value][]=Welcome%20Email" +
+        "&filters[category][value][]=Forget%20Password";
       const expectedUrl = `${baseUrl}?${expectedQuery}`;
 
       expect.assertions(2);

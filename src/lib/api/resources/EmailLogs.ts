@@ -14,7 +14,7 @@ const { GENERAL_ENDPOINT } = CLIENT_SETTINGS;
 /**
  * Serialize query params for email logs list. Uses qs for deepObject-style
  * bracket notation (e.g. filters[sent_after]=..., filters[to][operator]=...)
- * with repeated keys for array values.
+ * with bracket notation for arrays (Rails-style, e.g. filters[category][value][]=foo).
  */
 function serializeEmailLogsParams(params: EmailLogsListParams): string {
   const query: Record<string, unknown> = {};
@@ -25,7 +25,7 @@ function serializeEmailLogsParams(params: EmailLogsListParams): string {
     query.filters = params.filters;
   }
   return qs.stringify(query, {
-    arrayFormat: "repeat",
+    arrayFormat: "brackets",
     encode: true,
     encodeValuesOnly: true,
   });
