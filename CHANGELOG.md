@@ -1,3 +1,7 @@
+## [4.5.1] - 2026-03-17
+
+- Fix Email Logs API multi-value filters query string to use brackets notation by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/118
+
 ## [4.5.0] - 2026-03-13
 
 - docs: clarify API key generation link in README by @evatorium in https://github.com/mailtrap/mailtrap-nodejs/pull/109
