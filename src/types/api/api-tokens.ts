@@ -19,12 +19,15 @@ export type CreateApiTokenRequest = {
   resources?: ResourcePermissionInput[];
 };
 
-export type ApiTokenWithToken = {
+export type ApiToken = {
   id: number;
   name: string;
   last_4_digits: string;
   created_by: string;
   expires_at: string | null;
   resources: ResourcePermission[];
+};
+
+export type ApiTokenWithToken = ApiToken & {
   token: string;
 };

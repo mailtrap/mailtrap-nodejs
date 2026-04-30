@@ -2,6 +2,7 @@ import { AxiosInstance } from "axios";
 
 import CONFIG from "../../../config";
 import {
+  ApiToken,
   ApiTokenWithToken,
   CreateApiTokenRequest,
 } from "../../../types/api/api-tokens";
@@ -27,5 +28,15 @@ export default class ApiTokensApi {
     const url = this.apiTokensURL;
 
     return this.client.post<ApiTokenWithToken, ApiTokenWithToken>(url, params);
+  }
+
+  /**
+   * Get a single API token by ID. The full token value is not returned —
+   * only `last_4_digits` is available outside of create/reset responses.
+   */
+  public async get(id: number) {
+    const url = `${this.apiTokensURL}/${id}`;
+
+    return this.client.get<ApiToken, ApiToken>(url);
   }
 }

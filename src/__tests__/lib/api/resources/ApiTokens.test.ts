@@ -19,6 +19,7 @@ describe("lib/api/resources/ApiTokens: ", () => {
     describe("init: ", () => {
       it("initializes with all necessary params.", () => {
         expect(apiTokensAPI).toHaveProperty("create");
+        expect(apiTokensAPI).toHaveProperty("get");
       });
     });
   });
@@ -86,6 +87,52 @@ describe("lib/api/resources/ApiTokens: ", () => {
 
       try {
         await apiTokensAPI.create(params);
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+  });
+
+  describe("get(): ", () => {
+    const tokenId = 12345;
+    const responseData = {
+      id: tokenId,
+      name: "My API Token",
+      last_4_digits: "x7k9",
+      created_by: "user@example.com",
+      expires_at: null,
+      resources: [
+        {
+          resource_type: "account",
+          resource_id: 3229,
+          access_level: 100,
+        },
+      ],
+    };
+
+    it("gets an API token by id.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens/${tokenId}`;
+
+      expect.assertions(2);
+
+      mock.onGet(endpoint).reply(200, responseData);
+      const result = await apiTokensAPI.get(tokenId);
+
+      expect(mock.history.get[0].url).toEqual(endpoint);
+      expect(result).toEqual(responseData);
+    });
+
+    it("fails with error.", async () => {
+      const expectedErrorMessage = "Request failed with status code 404";
+
+      expect.assertions(2);
+
+      try {
+        await apiTokensAPI.get(tokenId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
