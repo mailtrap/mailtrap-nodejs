@@ -14,6 +14,7 @@ describe("lib/api/General: ", () => {
         expect(generalAPI).toHaveProperty("accounts");
         expect(generalAPI).toHaveProperty("permissions");
         expect(generalAPI).toHaveProperty("billing");
+        expect(generalAPI).toHaveProperty("apiTokens");
       });
 
       it("lazily instantiates account-specific APIs via getters when accountId is provided.", () => {
@@ -21,6 +22,7 @@ describe("lib/api/General: ", () => {
         expect(generalAPI.permissions).toBeDefined();
         expect(generalAPI.billing).toBeDefined();
         expect(generalAPI.accounts).toBeDefined();
+        expect(generalAPI.apiTokens).toBeDefined();
       });
     });
 
@@ -63,6 +65,15 @@ describe("lib/api/General: ", () => {
         expect(() => {
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           generalAPI.billing;
+        }).toThrow(
+          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
+        );
+      });
+
+      it("throws error when accessing apiTokens without accountId.", () => {
+        expect(() => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          generalAPI.apiTokens;
         }).toThrow(
           "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
         );
