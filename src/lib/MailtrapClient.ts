@@ -20,6 +20,7 @@ import StatsBaseAPI from "./api/Stats";
 import SuppressionsBaseAPI from "./api/Suppressions";
 import TemplatesBaseAPI from "./api/Templates";
 import TestingAPI from "./api/Testing";
+import WebhooksBaseAPI from "./api/Webhooks";
 
 import CONFIG from "../config";
 
@@ -213,6 +214,14 @@ export default class MailtrapClient {
   get emailLogs() {
     const accountId = this.validateAccountIdPresence();
     return new EmailLogsBaseAPI(this.axios, accountId);
+  }
+
+  /**
+   * Getter for Webhooks API.
+   */
+  get webhooks() {
+    const accountId = this.validateAccountIdPresence();
+    return new WebhooksBaseAPI(this.axios, accountId);
   }
 
   /**
