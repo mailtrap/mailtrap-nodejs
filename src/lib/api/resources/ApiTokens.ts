@@ -21,6 +21,16 @@ export default class ApiTokensApi {
   }
 
   /**
+   * List all API tokens visible to the current API token.
+   * The full token value is never returned here — only `last_4_digits`.
+   */
+  public async getList() {
+    const url = this.apiTokensURL;
+
+    return this.client.get<ApiToken[], ApiToken[]>(url);
+  }
+
+  /**
    * Create a new API token for the account with the given name and resource permissions.
    * The full token value is returned only in the response of this call — store it securely.
    */
