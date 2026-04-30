@@ -72,6 +72,7 @@ export type MailtrapClientConfig = {
   token: string;
   testInboxId?: number;
   accountId?: number;
+  organizationId?: number;
   bulk?: boolean;
   sandbox?: boolean;
   userAgent?: string;

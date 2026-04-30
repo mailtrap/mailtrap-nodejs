@@ -9,6 +9,8 @@ export default {
     TEST_INBOX_ID_MISSING: "testInboxId is missing, testing API will not work.",
     ACCOUNT_ID_MISSING:
       "accountId is missing, please provide a valid accountId.",
+    ORGANIZATION_ID_MISSING:
+      "organizationId is missing, please provide a valid organizationId.",
     BULK_SANDBOX_INCOMPATIBLE: "Bulk mode is not applicable for sandbox API.",
   },
   CLIENT_SETTINGS: {
