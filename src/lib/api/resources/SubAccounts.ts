@@ -1,7 +1,10 @@
 import { AxiosInstance } from "axios";
 
 import CONFIG from "../../../config";
-import { SubAccount } from "../../../types/api/sub-accounts";
+import {
+  CreateSubAccountParams,
+  SubAccount,
+} from "../../../types/api/sub-accounts";
 
 const { CLIENT_SETTINGS } = CONFIG;
 const { GENERAL_ENDPOINT } = CLIENT_SETTINGS;
@@ -24,5 +27,16 @@ export default class SubAccountsApi {
     const url = this.subAccountsURL;
 
     return this.client.get<SubAccount[], SubAccount[]>(url);
+  }
+
+  /**
+   * Create a new sub account under the organization. Requires sub-account
+   * management permissions.
+   */
+  public async create(params: CreateSubAccountParams) {
+    const url = this.subAccountsURL;
+    const data = { account: params };
+
+    return this.client.post<SubAccount, SubAccount>(url, data);
   }
 }
