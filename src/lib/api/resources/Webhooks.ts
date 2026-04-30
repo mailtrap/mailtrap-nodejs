@@ -4,6 +4,7 @@ import CONFIG from "../../../config";
 import {
   CreateWebhookParams,
   CreateWebhookResponse,
+  DeleteWebhookResponse,
   GetWebhookResponse,
   ListWebhooksResponse,
   UpdateWebhookParams,
@@ -69,6 +70,18 @@ export default class WebhooksApi {
     return this.client.patch<UpdateWebhookResponse, UpdateWebhookResponse>(
       url,
       data
+    );
+  }
+
+  /**
+   * Permanently delete a webhook by ID. The deleted webhook is returned in
+   * the response.
+   */
+  public async delete(id: number) {
+    const url = `${this.webhooksURL}/${id}`;
+
+    return this.client.delete<DeleteWebhookResponse, DeleteWebhookResponse>(
+      url
     );
   }
 }

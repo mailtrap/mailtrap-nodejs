@@ -13,6 +13,8 @@ export default class WebhooksBaseAPI {
 
   public update: WebhooksApi["update"];
 
+  public delete: WebhooksApi["delete"];
+
   constructor(client: AxiosInstance, accountId: number) {
     this.client = client;
     const webhooks = new WebhooksApi(this.client, accountId);
@@ -20,5 +22,6 @@ export default class WebhooksBaseAPI {
     this.create = webhooks.create.bind(webhooks);
     this.get = webhooks.get.bind(webhooks);
     this.update = webhooks.update.bind(webhooks);
+    this.delete = webhooks.delete.bind(webhooks);
   }
 }

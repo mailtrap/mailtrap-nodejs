@@ -62,3 +62,7 @@ export type UpdateWebhookParams = {
 export type UpdateWebhookResponse = {
   data: Webhook;
 };
+
+export type DeleteWebhookResponse = {
+  data: Webhook;
+};

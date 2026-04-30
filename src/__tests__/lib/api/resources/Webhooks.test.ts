@@ -22,6 +22,7 @@ describe("lib/api/resources/Webhooks: ", () => {
         expect(webhooksAPI).toHaveProperty("create");
         expect(webhooksAPI).toHaveProperty("get");
         expect(webhooksAPI).toHaveProperty("update");
+        expect(webhooksAPI).toHaveProperty("delete");
       });
     });
   });
@@ -237,6 +238,47 @@ describe("lib/api/resources/Webhooks: ", () => {
 
       try {
         await webhooksAPI.update(webhookId, params);
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+  });
+
+  describe("delete(): ", () => {
+    const webhookId = 1;
+    const responseData = {
+      data: {
+        id: webhookId,
+        url: "https://example.com/mailtrap/webhooks",
+        active: true,
+        webhook_type: "audit_log",
+        payload_format: "json",
+      },
+    };
+
+    it("deletes a webhook and returns it.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/webhooks/${webhookId}`;
+
+      expect.assertions(2);
+
+      mock.onDelete(endpoint).reply(200, responseData);
+      const result = await webhooksAPI.delete(webhookId);
+
+      expect(mock.history.delete[0].url).toEqual(endpoint);
+      expect(result).toEqual(responseData);
+    });
+
+    it("fails with error.", async () => {
+      const expectedErrorMessage = "Request failed with status code 404";
+
+      expect.assertions(2);
+
+      try {
+        await webhooksAPI.delete(webhookId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 

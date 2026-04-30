@@ -13,6 +13,7 @@ describe("lib/api/Webhooks: ", () => {
         expect(webhooksAPI).toHaveProperty("create");
         expect(webhooksAPI).toHaveProperty("get");
         expect(webhooksAPI).toHaveProperty("update");
+        expect(webhooksAPI).toHaveProperty("delete");
       });
     });
   });
