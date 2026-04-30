@@ -6,6 +6,8 @@ import {
   CreateWebhookResponse,
   GetWebhookResponse,
   ListWebhooksResponse,
+  UpdateWebhookParams,
+  UpdateWebhookResponse,
 } from "../../../types/api/webhooks";
 
 const { CLIENT_SETTINGS } = CONFIG;
@@ -53,5 +55,20 @@ export default class WebhooksApi {
     const url = `${this.webhooksURL}/${id}`;
 
     return this.client.get<GetWebhookResponse, GetWebhookResponse>(url);
+  }
+
+  /**
+   * Update an existing webhook. Only `url`, `active`, `payload_format`, and
+   * `event_types` can be changed; `webhook_type`, `sending_stream`, and
+   * `domain_id` are immutable after creation.
+   */
+  public async update(id: number, params: UpdateWebhookParams) {
+    const url = `${this.webhooksURL}/${id}`;
+    const data = { webhook: params };
+
+    return this.client.patch<UpdateWebhookResponse, UpdateWebhookResponse>(
+      url,
+      data
+    );
   }
 }

@@ -51,3 +51,14 @@ export type WebhookWithSigningSecret = Webhook & {
 export type CreateWebhookResponse = {
   data: WebhookWithSigningSecret;
 };
+
+export type UpdateWebhookParams = {
+  url?: string;
+  active?: boolean;
+  payload_format?: PayloadFormat;
+  event_types?: WebhookEventType[];
+};
+
+export type UpdateWebhookResponse = {
+  data: Webhook;
+};

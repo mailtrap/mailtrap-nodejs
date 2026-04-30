@@ -21,6 +21,7 @@ describe("lib/api/resources/Webhooks: ", () => {
         expect(webhooksAPI).toHaveProperty("getList");
         expect(webhooksAPI).toHaveProperty("create");
         expect(webhooksAPI).toHaveProperty("get");
+        expect(webhooksAPI).toHaveProperty("update");
       });
     });
   });
@@ -181,6 +182,61 @@ describe("lib/api/resources/Webhooks: ", () => {
 
       try {
         await webhooksAPI.get(webhookId);
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+  });
+
+  describe("update(): ", () => {
+    const webhookId = 1;
+    const params = {
+      active: false,
+      event_types: [
+        "delivery" as const,
+        "bounce" as const,
+        "unsubscribe" as const,
+      ],
+    };
+
+    const responseData = {
+      data: {
+        id: webhookId,
+        url: "https://example.com/mailtrap/webhooks",
+        active: false,
+        webhook_type: "email_sending",
+        payload_format: "json",
+        sending_stream: "transactional",
+        domain_id: 435,
+        event_types: ["delivery", "bounce", "unsubscribe"],
+      },
+    };
+
+    it("updates a webhook.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/webhooks/${webhookId}`;
+      const expectedBody = { webhook: params };
+
+      expect.assertions(3);
+
+      mock.onPatch(endpoint, expectedBody).reply(200, responseData);
+      const result = await webhooksAPI.update(webhookId, params);
+
+      expect(mock.history.patch[0].url).toEqual(endpoint);
+      expect(JSON.parse(mock.history.patch[0].data)).toEqual(expectedBody);
+      expect(result).toEqual(responseData);
+    });
+
+    it("fails with error.", async () => {
+      const expectedErrorMessage = "Request failed with status code 404";
+
+      expect.assertions(2);
+
+      try {
+        await webhooksAPI.update(webhookId, params);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
