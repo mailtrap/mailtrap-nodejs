@@ -7,9 +7,12 @@ export default class WebhooksBaseAPI {
 
   public getList: WebhooksApi["getList"];
 
+  public create: WebhooksApi["create"];
+
   constructor(client: AxiosInstance, accountId: number) {
     this.client = client;
     const webhooks = new WebhooksApi(this.client, accountId);
     this.getList = webhooks.getList.bind(webhooks);
+    this.create = webhooks.create.bind(webhooks);
   }
 }

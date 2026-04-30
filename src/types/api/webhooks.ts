@@ -29,3 +29,21 @@ export type Webhook = {
 export type ListWebhooksResponse = {
   data: Webhook[];
 };
+
+export type CreateWebhookParams = {
+  url: string;
+  webhook_type: WebhookType;
+  active?: boolean;
+  payload_format?: PayloadFormat;
+  sending_stream?: SendingStream;
+  event_types?: WebhookEventType[];
+  domain_id?: number;
+};
+
+export type WebhookWithSigningSecret = Webhook & {
+  signing_secret: string;
+};
+
+export type CreateWebhookResponse = {
+  data: WebhookWithSigningSecret;
+};

@@ -19,6 +19,7 @@ describe("lib/api/resources/Webhooks: ", () => {
     describe("init: ", () => {
       it("initializes with all necessary params.", () => {
         expect(webhooksAPI).toHaveProperty("getList");
+        expect(webhooksAPI).toHaveProperty("create");
       });
     });
   });
@@ -80,6 +81,61 @@ describe("lib/api/resources/Webhooks: ", () => {
 
       try {
         await webhooksAPI.getList();
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+  });
+
+  describe("create(): ", () => {
+    const params = {
+      url: "https://example.com/mailtrap/webhooks",
+      webhook_type: "email_sending" as const,
+      payload_format: "json" as const,
+      sending_stream: "transactional" as const,
+      event_types: ["delivery" as const, "bounce" as const],
+      domain_id: 435,
+    };
+
+    const responseData = {
+      data: {
+        id: 1,
+        url: "https://example.com/mailtrap/webhooks",
+        active: true,
+        webhook_type: "email_sending",
+        payload_format: "json",
+        sending_stream: "transactional",
+        domain_id: 435,
+        event_types: ["delivery", "bounce"],
+        signing_secret: "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+      },
+    };
+
+    it("creates a webhook and returns the signing_secret.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/webhooks`;
+      const expectedBody = { webhook: params };
+
+      expect.assertions(3);
+
+      mock.onPost(endpoint, expectedBody).reply(200, responseData);
+      const result = await webhooksAPI.create(params);
+
+      expect(mock.history.post[0].url).toEqual(endpoint);
+      expect(JSON.parse(mock.history.post[0].data)).toEqual(expectedBody);
+      expect(result).toEqual(responseData);
+    });
+
+    it("fails with error.", async () => {
+      const expectedErrorMessage = "Request failed with status code 404";
+
+      expect.assertions(2);
+
+      try {
+        await webhooksAPI.create(params);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
