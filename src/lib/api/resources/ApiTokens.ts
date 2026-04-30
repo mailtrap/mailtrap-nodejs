@@ -39,4 +39,15 @@ export default class ApiTokensApi {
 
     return this.client.get<ApiToken, ApiToken>(url);
   }
+
+  /**
+   * Reset an API token: expires the existing token and returns a new one with
+   * the same permissions. The new token value is returned only in this response —
+   * store it securely. Only tokens that have not already been reset can be reset.
+   */
+  public async reset(id: number) {
+    const url = `${this.apiTokensURL}/${id}/reset`;
+
+    return this.client.post<ApiTokenWithToken, ApiTokenWithToken>(url);
+  }
 }
