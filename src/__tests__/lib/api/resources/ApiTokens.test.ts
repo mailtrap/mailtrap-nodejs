@@ -21,6 +21,7 @@ describe("lib/api/resources/ApiTokens: ", () => {
         expect(apiTokensAPI).toHaveProperty("create");
         expect(apiTokensAPI).toHaveProperty("get");
         expect(apiTokensAPI).toHaveProperty("reset");
+        expect(apiTokensAPI).toHaveProperty("delete");
       });
     });
   });
@@ -181,6 +182,37 @@ describe("lib/api/resources/ApiTokens: ", () => {
 
       try {
         await apiTokensAPI.reset(tokenId);
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+  });
+
+  describe("delete(): ", () => {
+    const tokenId = 12345;
+
+    it("deletes an API token by id.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens/${tokenId}`;
+
+      expect.assertions(1);
+
+      mock.onDelete(endpoint).reply(204);
+      await apiTokensAPI.delete(tokenId);
+
+      expect(mock.history.delete[0].url).toEqual(endpoint);
+    });
+
+    it("fails with error.", async () => {
+      const expectedErrorMessage = "Request failed with status code 404";
+
+      expect.assertions(2);
+
+      try {
+        await apiTokensAPI.delete(tokenId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 

@@ -50,4 +50,13 @@ export default class ApiTokensApi {
 
     return this.client.post<ApiTokenWithToken, ApiTokenWithToken>(url);
   }
+
+  /**
+   * Permanently delete an API token by ID.
+   */
+  public async delete(id: number) {
+    const url = `${this.apiTokensURL}/${id}`;
+
+    return this.client.delete(url);
+  }
 }
