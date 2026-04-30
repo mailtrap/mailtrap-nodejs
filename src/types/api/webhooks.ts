@@ -30,6 +30,10 @@ export type ListWebhooksResponse = {
   data: Webhook[];
 };
 
+export type GetWebhookResponse = {
+  data: Webhook;
+};
+
 export type CreateWebhookParams = {
   url: string;
   webhook_type: WebhookType;

@@ -4,6 +4,7 @@ import CONFIG from "../../../config";
 import {
   CreateWebhookParams,
   CreateWebhookResponse,
+  GetWebhookResponse,
   ListWebhooksResponse,
 } from "../../../types/api/webhooks";
 
@@ -42,5 +43,15 @@ export default class WebhooksApi {
       url,
       data
     );
+  }
+
+  /**
+   * Get a single webhook by ID. The `signing_secret` is not returned here —
+   * it is only available in the create response.
+   */
+  public async get(id: number) {
+    const url = `${this.webhooksURL}/${id}`;
+
+    return this.client.get<GetWebhookResponse, GetWebhookResponse>(url);
   }
 }

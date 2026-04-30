@@ -11,6 +11,7 @@ describe("lib/api/Webhooks: ", () => {
       it("initializes with all necessary params.", () => {
         expect(webhooksAPI).toHaveProperty("getList");
         expect(webhooksAPI).toHaveProperty("create");
+        expect(webhooksAPI).toHaveProperty("get");
       });
     });
   });

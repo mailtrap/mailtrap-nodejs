@@ -20,6 +20,7 @@ describe("lib/api/resources/Webhooks: ", () => {
       it("initializes with all necessary params.", () => {
         expect(webhooksAPI).toHaveProperty("getList");
         expect(webhooksAPI).toHaveProperty("create");
+        expect(webhooksAPI).toHaveProperty("get");
       });
     });
   });
@@ -136,6 +137,50 @@ describe("lib/api/resources/Webhooks: ", () => {
 
       try {
         await webhooksAPI.create(params);
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+  });
+
+  describe("get(): ", () => {
+    const webhookId = 1;
+    const responseData = {
+      data: {
+        id: webhookId,
+        url: "https://example.com/mailtrap/webhooks",
+        active: true,
+        webhook_type: "email_sending",
+        payload_format: "json",
+        sending_stream: "transactional",
+        domain_id: 435,
+        event_types: ["delivery", "bounce"],
+      },
+    };
+
+    it("gets a webhook by id.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/webhooks/${webhookId}`;
+
+      expect.assertions(2);
+
+      mock.onGet(endpoint).reply(200, responseData);
+      const result = await webhooksAPI.get(webhookId);
+
+      expect(mock.history.get[0].url).toEqual(endpoint);
+      expect(result).toEqual(responseData);
+    });
+
+    it("fails with error.", async () => {
+      const expectedErrorMessage = "Request failed with status code 404";
+
+      expect.assertions(2);
+
+      try {
+        await webhooksAPI.get(webhookId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
