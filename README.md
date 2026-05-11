@@ -237,6 +237,7 @@ Email API:
 - Sending domain management CRUD – [`sending-domains/everything.ts`](examples/sending-domains/everything.ts)
 - Sending stats (aggregated and by domain, category, ESP, date) – [`stats/everything.ts`](examples/stats/everything.ts)
 - Email logs (list with filters, get by message ID) – [`email-logs/everything.ts`](examples/email-logs/everything.ts)
+- Webhooks CRUD – [`webhooks/everything.ts`](examples/webhooks/everything.ts)
 
 Email Sandbox (Testing):
 
@@ -265,6 +266,8 @@ General API:
 - Accounts info – [`general/accounts.ts`](examples/general/accounts.ts)
 - Permissions listing – [`general/permissions.ts`](examples/general/permissions.ts)
 - Users listing – [`general/account-accesses.ts`](examples/general/account-accesses.ts)
+- API tokens CRUD & reset – [`general/api-tokens.ts`](examples/general/api-tokens.ts)
+- Sub-accounts (list & create) – [`sub-accounts/everything.ts`](examples/sub-accounts/everything.ts)
 
 ## Contributing
 
