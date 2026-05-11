@@ -1,0 +1,32 @@
+examples/webhooks/everything.ts
+  s_c5c6f0a7b640e5::t_da001ddb9380ea 1-53
+examples/general/api-tokens.ts
+  s_c5c6f0a7b640e5::t_f93bd3e21f3318 1-22,24-51
+  h_32e79f74e8df76 23
+examples/sub-accounts/everything.ts
+  s_c5c6f0a7b640e5::t_10d796fe80eeef 1-30
+README.md
+  s_c5c6f0a7b640e5::t_098bf37ff3ae52 269-270
+  s_c5c6f0a7b640e5::t_60ae9bd231dc5e 240
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "1f9f47da63dd9f9453461ecd3ac7cfd24bcac316",
+  "prompts": {},
+  "humans": {
+    "h_32e79f74e8df76": {
+      "author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  },
+  "sessions": {
+    "s_c5c6f0a7b640e5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "db978632-36d6-495a-b174-633ce3bc1624",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
