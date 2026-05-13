@@ -18,8 +18,10 @@ import GeneralAPI from "./api/General";
 import SendingDomainsBaseAPI from "./api/SendingDomains";
 import StatsBaseAPI from "./api/Stats";
 import SuppressionsBaseAPI from "./api/Suppressions";
+import OrganizationsBaseAPI from "./api/Organizations";
 import TemplatesBaseAPI from "./api/Templates";
 import TestingAPI from "./api/Testing";
+import WebhooksBaseAPI from "./api/Webhooks";
 
 import CONFIG from "../config";
 
@@ -40,8 +42,12 @@ const {
   BULK_ENDPOINT,
   USER_AGENT,
 } = CLIENT_SETTINGS;
-const { ACCOUNT_ID_MISSING, BULK_SANDBOX_INCOMPATIBLE, TEST_INBOX_ID_MISSING } =
-  ERRORS;
+const {
+  ACCOUNT_ID_MISSING,
+  BULK_SANDBOX_INCOMPATIBLE,
+  ORGANIZATION_ID_MISSING,
+  TEST_INBOX_ID_MISSING,
+} = ERRORS;
 
 /**
  * Mailtrap client class. Initializes instance with available methods.
@@ -52,6 +58,8 @@ export default class MailtrapClient {
   private testInboxId?: number;
 
   private accountId?: number;
+
+  private organizationId?: number;
 
   private bulk: boolean;
 
@@ -64,6 +72,7 @@ export default class MailtrapClient {
     token,
     testInboxId,
     accountId,
+    organizationId,
     bulk = false,
     sandbox = false,
     userAgent,
@@ -88,6 +97,7 @@ export default class MailtrapClient {
 
     this.testInboxId = testInboxId;
     this.accountId = accountId;
+    this.organizationId = organizationId;
     this.bulk = bulk;
     this.sandbox = sandbox;
   }
@@ -100,6 +110,16 @@ export default class MailtrapClient {
       throw new MailtrapError(ACCOUNT_ID_MISSING);
     }
     return this.accountId;
+  }
+
+  /**
+   * Validates that organization ID is present, throws MailtrapError if missing.
+   */
+  private validateOrganizationIdPresence(): number {
+    if (!this.organizationId) {
+      throw new MailtrapError(ORGANIZATION_ID_MISSING);
+    }
+    return this.organizationId;
   }
 
   /**
@@ -213,6 +233,22 @@ export default class MailtrapClient {
   get emailLogs() {
     const accountId = this.validateAccountIdPresence();
     return new EmailLogsBaseAPI(this.axios, accountId);
+  }
+
+  /**
+   * Getter for Webhooks API.
+   */
+  get webhooks() {
+    const accountId = this.validateAccountIdPresence();
+    return new WebhooksBaseAPI(this.axios, accountId);
+  }
+
+  /**
+   * Getter for Organizations API. Requires `organizationId` in config.
+   */
+  get organizations() {
+    const organizationId = this.validateOrganizationIdPresence();
+    return new OrganizationsBaseAPI(this.axios, organizationId);
   }
 
   /**

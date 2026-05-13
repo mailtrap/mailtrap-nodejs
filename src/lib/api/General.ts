@@ -2,6 +2,7 @@ import { AxiosInstance } from "axios";
 
 import AccountAccessesApi from "./resources/AccountAccesses";
 import AccountsApi from "./resources/Accounts";
+import ApiTokensApi from "./resources/ApiTokens";
 import BillingApi from "./resources/Billing";
 import PermissionsApi from "./resources/Permissions";
 
@@ -17,6 +18,8 @@ export default class GeneralAPI {
   private permissionsInstance: PermissionsApi | null = null;
 
   private billingInstance: BillingApi | null = null;
+
+  private apiTokensInstance: ApiTokensApi | null = null;
 
   constructor(client: AxiosInstance, accountId?: number) {
     this.client = client;
@@ -82,5 +85,17 @@ export default class GeneralAPI {
     }
 
     return this.billingInstance;
+  }
+
+  /**
+   * Singleton getter for API Tokens API.
+   */
+  public get apiTokens(): ApiTokensApi {
+    if (this.apiTokensInstance === null) {
+      const accountId = this.checkAccountIdPresence();
+      this.apiTokensInstance = new ApiTokensApi(this.client, accountId);
+    }
+
+    return this.apiTokensInstance;
   }
 }
