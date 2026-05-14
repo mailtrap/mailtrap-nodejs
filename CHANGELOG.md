@@ -1,3 +1,13 @@
+## [4.6.0] - 2026-05-14
+* build(deps): bump flatted from 3.2.5 to 3.4.2 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/120
+* build(deps): bump picomatch from 2.3.1 to 2.3.2 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/121
+* build(deps): bump axios from 1.13.5 to 1.15.0 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/124
+* build(deps-dev): bump nodemailer from 7.0.7 to 8.0.5 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/123
+* build(deps): bump follow-redirects from 1.15.11 to 1.16.0 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/125
+* build(deps): bump axios from 1.15.0 to 1.15.2 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/127
+* build(deps): bump @babel/plugin-transform-modules-systemjs from 7.19.6 to 7.29.4 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/128
+* Add missing endpoints by @IgorDobryn in https://github.com/mailtrap/mailtrap-nodejs/pull/126
+
 ## [4.5.1] - 2026-03-17
 
 - Fix Email Logs API multi-value filters query string to use brackets notation by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/118
