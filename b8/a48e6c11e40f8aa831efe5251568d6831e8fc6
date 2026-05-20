@@ -1,0 +1,30 @@
+CHANGELOG.md
+  s_0449bc88abf963::t_fb07410ec5204a 1-4
+src/__tests__/lib/webhooks/verify-signature.test.ts
+  s_0449bc88abf963::t_00ddce593a7e2e 1-149
+README.md
+  s_0449bc88abf963::t_63fde5bb27af40 241
+  s_0449bc88abf963::t_016eaa5e9ae82a 273-317
+src/lib/webhooks/verify-signature.ts
+  s_0449bc88abf963::t_f91a6157fb6b31 1-89
+examples/webhooks/verify-signature.ts
+  s_0449bc88abf963::t_558d6ed89e5ef1 1-49
+src/index.ts
+  s_0449bc88abf963::t_272f9dcc0daeed 3,6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "b8a48e6c11e40f8aa831efe5251568d6831e8fc6",
+  "prompts": {},
+  "sessions": {
+    "s_0449bc88abf963": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "209ab809-bbe5-4b88-a3d1-6277ee8cddf5",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
