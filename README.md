@@ -238,6 +238,7 @@ Email API:
 - Sending stats (aggregated and by domain, category, ESP, date) – [`stats/everything.ts`](examples/stats/everything.ts)
 - Email logs (list with filters, get by message ID) – [`email-logs/everything.ts`](examples/email-logs/everything.ts)
 - Webhooks CRUD – [`webhooks/everything.ts`](examples/webhooks/everything.ts)
+- Verifying webhook signatures – [`webhooks/verify-signature.ts`](examples/webhooks/verify-signature.ts)
 
 Email Sandbox (Testing):
 
@@ -268,6 +269,30 @@ General API:
 - Users listing – [`general/account-accesses.ts`](examples/general/account-accesses.ts)
 - API tokens CRUD & reset – [`general/api-tokens.ts`](examples/general/api-tokens.ts)
 - Sub-accounts (list & create) – [`sub-accounts/everything.ts`](examples/sub-accounts/everything.ts)
+
+## Verifying webhook signatures
+
+Mailtrap signs every outbound webhook with HMAC-SHA256 and sends the lowercase hex digest in the `Mailtrap-Signature` header. Verify the signature against the raw request body using the `signing_secret` returned when you created the webhook:
+
+```ts
+import { verifyWebhookSignature } from "mailtrap";
+
+// `rawBody` must be the unparsed request body bytes (string or Buffer) — do
+// NOT re-serialize the parsed JSON, as that may reorder keys and invalidate
+// the signature.
+const valid = verifyWebhookSignature(
+  rawBody,
+  req.header("Mailtrap-Signature") ?? "",
+  process.env.MAILTRAP_WEBHOOK_SIGNING_SECRET ?? ""
+);
+
+if (!valid) {
+  res.status(401).send();
+  return;
+}
+```
+
+The helper performs a constant-time comparison and returns `false` (rather than throwing) for empty, missing, or malformed signatures.
 
 ## Contributing
 
