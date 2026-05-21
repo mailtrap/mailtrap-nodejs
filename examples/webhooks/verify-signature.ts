@@ -1,4 +1,3 @@
-import assert from "assert";
 import { createHmac } from "crypto";
 
 // In a real project, this import would be `import { verifyWebhookSignature } from "mailtrap";`
@@ -11,14 +10,6 @@ const signature = createHmac("sha256", signingSecret)
   .update(payload)
   .digest("hex");
 
-assert.strictEqual(
-  verifyWebhookSignature(payload, signature, signingSecret),
-  true
-);
-
-// Bad input never throws — it returns false:
-assert.strictEqual(
-  verifyWebhookSignature(payload, "not-hex", signingSecret),
-  false
-);
-assert.strictEqual(verifyWebhookSignature(payload, "", signingSecret), false);
+if (!verifyWebhookSignature(payload, signature, signingSecret)) {
+  throw new Error("Signature verification failed!");
+}
