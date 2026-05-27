@@ -1,7 +1,6 @@
 import { createServer, IncomingMessage, ServerResponse } from "http";
 
-// In a real project, this import would be `import { verifyWebhookSignature } from "mailtrap";`
-import { verifyWebhookSignature } from "../../src";
+import { verifyWebhookSignature } from "mailtrap";
 
 const SIGNING_SECRET = process.env.MAILTRAP_WEBHOOK_SIGNING_SECRET ?? "";
 
