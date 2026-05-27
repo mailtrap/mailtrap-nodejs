@@ -238,6 +238,7 @@ Email API:
 - Sending stats (aggregated and by domain, category, ESP, date) – [`stats/everything.ts`](examples/stats/everything.ts)
 - Email logs (list with filters, get by message ID) – [`email-logs/everything.ts`](examples/email-logs/everything.ts)
 - Webhooks CRUD – [`webhooks/everything.ts`](examples/webhooks/everything.ts)
+- Verifying webhook signatures – [`webhooks/verify-signature.ts`](examples/webhooks/verify-signature.ts)
 
 Email Sandbox (Testing):
 
