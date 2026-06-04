@@ -1,0 +1,39 @@
+src/types/api/email-campaigns.ts
+  s_58fe9233586fc8::t_7efb437605d6d6 1-145
+src/lib/api/EmailCampaigns.ts
+  s_58fe9233586fc8::t_e7f4d85671ead1 1-30
+src/__tests__/lib/api/resources/EmailCampaigns.test.ts
+  s_58fe9233586fc8::t_38d55ab60c5be0 1-129,131-175,177-210,212-262,264-297,299-350,352-368
+  s_58fe9233586fc8::t_5fcf3fec8c159e 130
+  s_58fe9233586fc8::t_111a5428c0eba1 176
+  s_58fe9233586fc8::t_0d01ec1862e746 211,351
+  s_58fe9233586fc8::t_5a4358bd01a7cf 263
+  s_58fe9233586fc8::t_2ee0a0773c006d 298
+examples/email-campaigns/everything.ts
+  s_58fe9233586fc8::t_efa3f76348be1b 1-75
+README.md
+  s_58fe9233586fc8::t_b7cc92a24a7374 261
+src/lib/api/resources/EmailCampaigns.ts
+  s_58fe9233586fc8::t_355c27b34e523d 1-113
+src/__tests__/lib/api/EmailCampaigns.test.ts
+  s_58fe9233586fc8::t_e9c76ee5e9c6a5 1-20
+src/lib/MailtrapClient.ts
+  s_58fe9233586fc8::t_c477c684755b36 16
+  s_58fe9233586fc8::t_a422d95e7d324a 248-255
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "7b489400f1179b9352333a02983d2063b70b11f1",
+  "prompts": {},
+  "sessions": {
+    "s_58fe9233586fc8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3847246e-f700-4f6a-8a56-da302e2f8404",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
