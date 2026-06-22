@@ -1,0 +1,19 @@
+.github/workflows/test.yml
+  s_0e9bc6d67f33be::t_4556d629289ab1 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "e77510ecef490e798573ab5af12add0de43dabd8",
+  "prompts": {},
+  "sessions": {
+    "s_0e9bc6d67f33be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5b33fdc-1f7f-47a6-9868-36547b951883",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>"
+    }
+  }
+}
