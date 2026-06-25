@@ -1,3 +1,21 @@
+## [4.6.1] - 2026-06-25
+
+## What's Changed
+* Bump version to 4.6.0 by @IgorDobryn in https://github.com/mailtrap/mailtrap-nodejs/pull/129
+* build(deps): bump qs from 6.15.0 to 6.15.2 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/131
+* MT-22022: Add webhook signature verification helper by @Rabsztok in https://github.com/mailtrap/mailtrap-nodejs/pull/130
+* build(deps): bump axios from 1.15.2 to 1.16.0 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/132
+* build(deps-dev): bump nodemailer from 8.0.5 to 9.0.1 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/133
+* build(deps): bump form-data from 4.0.5 to 4.0.6 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/135
+* build(deps-dev): bump @babel/core from 7.20.5 to 7.29.6 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/134
+* Add draft-release.yml workflow placeholder by @IgorDobryn in https://github.com/mailtrap/mailtrap-nodejs/pull/136
+* Implement draft-release.yml workflow by @IgorDobryn in https://github.com/mailtrap/mailtrap-nodejs/pull/137
+
+## New Contributors
+* @Rabsztok made their first contribution in https://github.com/mailtrap/mailtrap-nodejs/pull/130
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v4.6.0...v4.6.1
+
 ## [4.6.0] - 2026-05-14
 * build(deps): bump flatted from 3.2.5 to 3.4.2 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/120
 * build(deps): bump picomatch from 2.3.1 to 2.3.2 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/121
