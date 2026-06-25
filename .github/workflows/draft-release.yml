@@ -74,10 +74,7 @@ jobs:
               if (error.status !== 404) throw error;
             }
 
-      - name: Update version in package.json
-        run: yarn version --new-version "${{ steps.bump.outputs.next }}" --no-git-tag-version
-
-      - name: Generate release notes from PRs since last tag
+      - name: Generate release notes, abort if nothing to release
         id: notes
         uses: actions/github-script@v7
         with:
@@ -85,15 +82,26 @@ jobs:
             const tag = '${{ steps.bump.outputs.tag }}';
 
             // Detect the previous release tag so notes only cover PRs since then.
-            let previousTag;
-            try {
-              const latest = await github.rest.repos.getLatestRelease({
+            const latest = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            }).catch((error) => {
+              if (error.status === 404) return null;
+              throw error;
+            });
+            const previousTag = latest?.data.tag_name;
+
+            // Skip the rest of the release if nothing changed since the previous release.
+            if (previousTag) {
+              const { data: comparison } = await github.rest.repos.compareCommitsWithBasehead({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
+                basehead: `${previousTag}...main`,
               });
-              previousTag = latest.data.tag_name;
-            } catch (error) {
-              if (error.status !== 404) throw error;
+              if (comparison.total_commits === 0) {
+                core.info(`No commits since ${previousTag}; nothing to release. Skipping.`);
+                return;
+              }
             }
 
             const { data } = await github.rest.repos.generateReleaseNotes({
@@ -103,9 +111,14 @@ jobs:
               ...(previousTag ? { previous_tag_name: previousTag } : {}),
             });
 
-            core.setOutput('release_notes', data.body || '* No changes since previous release');
+            core.setOutput('release_notes', data.body);
+
+      - name: Update version in package.json
+        if: steps.notes.outputs.release_notes != ''
+        run: yarn version --new-version "${{ steps.bump.outputs.next }}" --no-git-tag-version
 
       - name: Prepend new section to CHANGELOG.md
+        if: steps.notes.outputs.release_notes != ''
         uses: actions/github-script@v7
         env:
           NEXT: ${{ steps.bump.outputs.next }}
@@ -121,6 +134,7 @@ jobs:
             fs.writeFileSync('CHANGELOG.md', entry + original);
 
       - name: Commit, push, open PR
+        if: steps.notes.outputs.release_notes != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -139,6 +153,7 @@ jobs:
           ${{ steps.notes.outputs.release_notes }}"
 
       - name: Create draft GitHub release
+        if: steps.notes.outputs.release_notes != ''
         uses: actions/github-script@v7
         env:
           RELEASE_NOTES: ${{ steps.notes.outputs.release_notes }}
