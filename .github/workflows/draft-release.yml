@@ -137,20 +137,29 @@ jobs:
         if: steps.notes.outputs.release_notes != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUMP_TYPE: ${{ inputs.bump_type }}
+          CURRENT: ${{ steps.bump.outputs.current }}
+          NEXT: ${{ steps.bump.outputs.next }}
+          TAG: ${{ steps.bump.outputs.tag }}
+          BRANCH: ${{ steps.bump.outputs.branch }}
+          RELEASE_NOTES: ${{ steps.notes.outputs.release_notes }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "${{ steps.bump.outputs.branch }}"
+          git checkout -b "$BRANCH"
           git add package.json CHANGELOG.md
-          git commit -m "Release ${{ steps.bump.outputs.tag }}"
-          git push -u origin "${{ steps.bump.outputs.branch }}"
+          git commit -m "Release $TAG"
+          git push -u origin "$BRANCH"
+          body_file="$(mktemp)"
+          {
+            printf '## Automated `%s` bump from v%s to v%s\n\n' "$BUMP_TYPE" "$CURRENT" "$NEXT"
+            printf '%s\n' "$RELEASE_NOTES"
+          } > "$body_file"
           gh pr create \
             --base main \
-            --head "${{ steps.bump.outputs.branch }}" \
-            --title "Release ${{ steps.bump.outputs.tag }}" \
-            --body "## Automated \`${{ inputs.bump_type }}\` bump from v${{ steps.bump.outputs.current }} to v${{ steps.bump.outputs.next }}
-
-          ${{ steps.notes.outputs.release_notes }}"
+            --head "$BRANCH" \
+            --title "Release $TAG" \
+            --body-file "$body_file"
 
       - name: Create draft GitHub release
         if: steps.notes.outputs.release_notes != ''
