@@ -75,6 +75,25 @@ describe("lib/api/resources/ContactLists: ", () => {
       expect(result).toEqual(expectedResponseData);
     });
 
+    it("successfully gets contact lists filtered by name.", async () => {
+      const search = "news";
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts/lists`;
+      const expectedResponseData: ContactList[] = [
+        { id: 1, name: "Newsletter" },
+      ];
+
+      expect.assertions(3);
+
+      mock
+        .onGet(endpoint, { params: { search } })
+        .reply(200, expectedResponseData);
+      const result = await contactListsAPI.getList({ search });
+
+      expect(mock.history.get[0].url).toEqual(endpoint);
+      expect(mock.history.get[0].params).toEqual({ search });
+      expect(result).toEqual(expectedResponseData);
+    });
+
     it("fails with error.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts/lists`;
       const expectedErrorMessage = "Request failed with status code 400";

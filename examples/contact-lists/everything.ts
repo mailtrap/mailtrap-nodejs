@@ -18,6 +18,10 @@ async function contactListsFlow() {
   const all = await client.contactLists.getList();
   console.log("All contact lists:", all);
 
+  // Filter contact lists by name (case-insensitive prefix match)
+  const filtered = await client.contactLists.getList({ search: "news" });
+  console.log("Filtered contact lists:", filtered);
+
   // Get a specific contact list
   const one = await client.contactLists.get(all[0].id);
   console.log("One contact list:", one);

@@ -6,3 +6,7 @@ export interface ContactList {
 export interface ContactListOptions {
   name: string;
 }
+
+export interface ContactListsListOptions {
+  search?: string;
+}
