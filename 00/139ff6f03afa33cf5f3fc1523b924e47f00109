@@ -1,0 +1,31 @@
+README.md
+  s_d562da60dc1773::t_cb5da8590f24b9 257
+src/types/api/contactlist.ts
+  s_d562da60dc1773::t_9b6556f5cf3ec9 9-12
+src/__tests__/lib/api/ContactLists.test.ts
+  s_d562da60dc1773::t_f138e6610b4e07 2,5-11,14,29-75
+  s_d562da60dc1773::t_4d2df8d8b0b1ad 76-77
+src/__tests__/lib/api/resources/ContactLists.test.ts
+  s_d562da60dc1773::t_6a22638bf0938c 78-96
+examples/contact-lists/everything.ts
+  s_d562da60dc1773::t_ba03e92f7d0c51 21-24
+src/lib/api/resources/ContactLists.ts
+  s_d562da60dc1773::t_31102bed8965a9 7
+  s_d562da60dc1773::t_fa27c0dc600ff9 24-25,27-30,32-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "00139ff6f03afa33cf5f3fc1523b924e47f00109",
+  "prompts": {},
+  "sessions": {
+    "s_d562da60dc1773": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0c94c3a5-75e7-49f4-ae2a-aeeef6ebf18c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
