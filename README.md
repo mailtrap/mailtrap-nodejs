@@ -254,7 +254,7 @@ Email Sandbox (Testing):
 Contact management:
 
 - Contacts CRUD & listing – [`contacts/everything.ts`](examples/contacts/everything.ts)
-- Contact lists CRUD & search by name – [`contact-lists/everything.ts`](examples/contact-lists/everything.ts)
+- Contact lists CRUD – [`contact-lists/everything.ts`](examples/contact-lists/everything.ts)
 - Custom fields CRUD – [`contact-fields/everything.ts`](examples/contact-fields/everything.ts)
 - Import/Export – [`contact-imports/everything.ts`](examples/contact-imports/everything.ts), [`contact-exports/everything.ts`](examples/contact-exports/everything.ts)
 - Events – [`contact-events/everything.ts`](examples/contact-events/everything.ts)
