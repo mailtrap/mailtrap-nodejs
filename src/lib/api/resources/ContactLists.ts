@@ -4,6 +4,7 @@ import CONFIG from "../../../config";
 import {
   ContactList,
   ContactListOptions,
+  ContactListsListOptions,
 } from "../../../types/api/contactlist";
 
 const { CLIENT_SETTINGS } = CONFIG;
@@ -20,12 +21,17 @@ export default class ContactListsApi {
   }
 
   /**
-   * Get all contact lists.
+   * Get all contact lists. Optionally filter by name via a case-insensitive
+   * prefix match with `search`.
    */
-  public async getList() {
-    const url = `${this.contactListsURL}`;
+  public async getList(options?: ContactListsListOptions) {
+    const params = {
+      ...(options?.search && { search: options.search }),
+    };
 
-    return this.client.get<ContactList[], ContactList[]>(url);
+    return this.client.get<ContactList[], ContactList[]>(this.contactListsURL, {
+      params,
+    });
   }
 
   /**
