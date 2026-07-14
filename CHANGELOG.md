@@ -1,3 +1,11 @@
+## [4.7.0] - 2026-07-14
+
+## What's Changed
+* MT-22678: Add search param to contact lists getList by @Rabsztok in https://github.com/mailtrap/mailtrap-nodejs/pull/142
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v4.6.1...v4.7.0
+
 ## [4.6.1] - 2026-06-25
 
 ## What's Changed
