@@ -28,6 +28,8 @@ export interface SendingDomain {
   health_alerts_enabled: boolean;
   critical_alerts_enabled: boolean;
   alert_recipient_email: string | null;
+  inbound_enabled: boolean;
+  inbound_verified: boolean;
   permissions: SendingDomainPermissions;
 }
 

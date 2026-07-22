@@ -8,6 +8,10 @@ export type EmailLogMessage = {
   message_id: string;
   status: EmailLogMessageStatus;
   subject: string | null;
+  rfc_message_id: string | null;
+  in_reply_to: string | null;
+  references: string[];
+  thread_id: string | null;
   from: string;
   to: string;
   sent_at: string;
