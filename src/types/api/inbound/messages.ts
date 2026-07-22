@@ -87,6 +87,11 @@ export interface SendMessageParams {
   custom_variables?: Record<string, string>;
 }
 
+/** Forward requires at least one recipient in `to`. */
+export interface ForwardMessageParams extends Omit<SendMessageParams, "to"> {
+  to: [Address, ...Address[]];
+}
+
 export interface SendMessageResult {
   message_ids: string[];
 }

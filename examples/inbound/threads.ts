@@ -3,6 +3,10 @@ import { MailtrapClient } from "mailtrap";
 const TOKEN = "<YOUR-TOKEN-HERE>";
 const INBOX_ID = Number("<YOUR-INBOX-ID-HERE>");
 
+// Set to a real thread id to try deletion below. Left empty, the example is
+// read-only (list + get).
+const THREAD_ID = "";
+
 // Inbound is scoped to the token's account, so no accountId is required.
 const client = new MailtrapClient({ token: TOKEN });
 const threadsClient = client.inbound.threads;
@@ -20,20 +24,21 @@ async function threadsFlow() {
       );
     }
 
-    if (list.data.length === 0) {
-      console.log("No threads yet.");
+    if (list.data.length > 0) {
+      console.log(
+        "First thread:",
+        await threadsClient.get(INBOX_ID, list.data[0].id)
+      );
+    }
+
+    if (!THREAD_ID) {
+      console.log("Set THREAD_ID above to try deletion.");
       return;
     }
 
-    const threadId = list.data[0].id;
-
-    console.log(
-      "Thread with messages:",
-      await threadsClient.get(INBOX_ID, threadId)
-    );
-
-    await threadsClient.delete(INBOX_ID, threadId);
-    console.log("Deleted thread", threadId);
+    // Deletes a real thread — only run against one you own.
+    await threadsClient.delete(INBOX_ID, THREAD_ID);
+    console.log("Deleted thread", THREAD_ID);
   } catch (error) {
     console.error(error instanceof Error ? error.message : String(error));
   }

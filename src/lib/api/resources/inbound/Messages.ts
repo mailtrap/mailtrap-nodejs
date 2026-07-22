@@ -6,6 +6,7 @@ import {
   MessagesListResponse,
   MessagesListParams,
   SendMessageParams,
+  ForwardMessageParams,
   SendMessageResult,
 } from "../../../../types/api/inbound/messages";
 
@@ -90,7 +91,7 @@ export default class MessagesApi {
   public async forward(
     inboxId: number,
     messageId: string,
-    params: SendMessageParams
+    params: ForwardMessageParams
   ) {
     const url = `${this.messagesURL(inboxId)}/${messageId}/forward`;
 

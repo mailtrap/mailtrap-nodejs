@@ -6,6 +6,7 @@ import {
   MessageDetails,
   MessagesListResponse,
   SendMessageResult,
+  ForwardMessageParams,
 } from "../../../../../types/api/inbound/messages";
 
 describe("lib/api/resources/inbound/Messages: ", () => {
@@ -105,7 +106,9 @@ describe("lib/api/resources/inbound/Messages: ", () => {
 
   describe("forward(): ", () => {
     it("forwards a message.", async () => {
-      const params = { to: [{ email: "colleague@example.com" }] };
+      const params: ForwardMessageParams = {
+        to: [{ email: "colleague@example.com" }],
+      };
 
       mock
         .onPost(`${messagesURL}/1700000000000123/forward`, params)
