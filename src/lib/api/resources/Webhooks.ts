@@ -59,9 +59,9 @@ export default class WebhooksApi {
   }
 
   /**
-   * Update an existing webhook. Only `url`, `active`, `payload_format`, and
-   * `event_types` can be changed; `webhook_type`, `sending_stream`, and
-   * `domain_id` are immutable after creation.
+   * Update an existing webhook. Only `url`, `active`, `payload_format`,
+   * `event_types`, and `inbound_inbox_id` can be changed; `webhook_type`,
+   * `sending_stream`, and `domain_id` are immutable after creation.
    */
   public async update(id: number, params: UpdateWebhookParams) {
     const url = `${this.webhooksURL}/${id}`;

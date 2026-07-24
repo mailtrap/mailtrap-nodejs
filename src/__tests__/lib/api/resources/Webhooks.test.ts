@@ -147,6 +147,37 @@ describe("lib/api/resources/Webhooks: ", () => {
         }
       }
     });
+
+    it("creates an inbound_receiving webhook linked to an inbox.", async () => {
+      const inboundParams = {
+        url: "https://example.com/mailtrap/webhooks",
+        webhook_type: "inbound_receiving" as const,
+        payload_format: "json" as const,
+        inbound_inbox_id: 1,
+      };
+      const inboundResponseData = {
+        data: {
+          id: 3,
+          url: "https://example.com/mailtrap/webhooks",
+          active: true,
+          webhook_type: "inbound_receiving",
+          payload_format: "json",
+          inbound_inbox_id: 1,
+          signing_secret: "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+        },
+      };
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/webhooks`;
+      const expectedBody = { webhook: inboundParams };
+
+      expect.assertions(3);
+
+      mock.onPost(endpoint, expectedBody).reply(200, inboundResponseData);
+      const result = await webhooksAPI.create(inboundParams);
+
+      expect(mock.history.post[0].url).toEqual(endpoint);
+      expect(JSON.parse(mock.history.post[0].data)).toEqual(expectedBody);
+      expect(result).toEqual(inboundResponseData);
+    });
   });
 
   describe("get(): ", () => {
