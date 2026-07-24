@@ -251,6 +251,13 @@ Email Sandbox (Testing):
 - Project management CRUD – [`testing/projects.ts`](examples/testing/projects.ts)
 - Attachments operations – [`testing/attachments.ts`](examples/testing/attachments.ts)
 
+Inbound Email:
+
+- Folders CRUD – [`inbound/folders.ts`](examples/inbound/folders.ts)
+- Inboxes CRUD (hosted & custom-domain) – [`inbound/inboxes.ts`](examples/inbound/inboxes.ts)
+- Messages (list, get, delete, reply, reply-all, forward) – [`inbound/messages.ts`](examples/inbound/messages.ts)
+- Threads (list, get, delete) – [`inbound/threads.ts`](examples/inbound/threads.ts)
+
 Contact management:
 
 - Contacts CRUD & listing – [`contacts/everything.ts`](examples/contacts/everything.ts)

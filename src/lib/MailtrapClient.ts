@@ -15,6 +15,7 @@ import ContactListsBaseAPI from "./api/ContactLists";
 import ContactsBaseAPI from "./api/Contacts";
 import EmailLogsBaseAPI from "./api/EmailLogs";
 import GeneralAPI from "./api/General";
+import InboundAPI from "./api/Inbound";
 import SendingDomainsBaseAPI from "./api/SendingDomains";
 import StatsBaseAPI from "./api/Stats";
 import SuppressionsBaseAPI from "./api/Suppressions";
@@ -145,6 +146,13 @@ export default class MailtrapClient {
   get general() {
     const accountId = this.validateAccountIdPresence();
     return new GeneralAPI(this.axios, accountId);
+  }
+
+  /**
+   * Getter for Inbound API. Scoped to the token's account, so no accountId is required.
+   */
+  get inbound() {
+    return new InboundAPI(this.axios);
   }
 
   /**

@@ -75,6 +75,8 @@ describe("lib/api/SendingDomains: ", () => {
             health_alerts_enabled: true,
             critical_alerts_enabled: true,
             alert_recipient_email: "john.doe@example.com",
+            inbound_enabled: true,
+            inbound_verified: true,
             permissions: mockPermissions,
           },
         ];
@@ -125,6 +127,8 @@ describe("lib/api/SendingDomains: ", () => {
           health_alerts_enabled: true,
           critical_alerts_enabled: true,
           alert_recipient_email: "john.doe@example.com",
+          inbound_enabled: true,
+          inbound_verified: true,
           permissions: mockPermissions,
         };
 
@@ -174,6 +178,8 @@ describe("lib/api/SendingDomains: ", () => {
           health_alerts_enabled: true,
           critical_alerts_enabled: true,
           alert_recipient_email: "admin@newdomain.com",
+          inbound_enabled: true,
+          inbound_verified: true,
           permissions: mockPermissions,
         };
 
