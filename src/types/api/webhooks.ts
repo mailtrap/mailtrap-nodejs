@@ -1,4 +1,8 @@
-export type WebhookType = "email_sending" | "audit_log";
+export type WebhookType =
+  | "email_sending"
+  | "campaigns"
+  | "audit_log"
+  | "inbound_receiving";
 
 export type PayloadFormat = "json" | "jsonlines";
 
@@ -23,6 +27,7 @@ export type Webhook = {
   payload_format: PayloadFormat;
   sending_stream?: SendingStream | null;
   domain_id?: number | null;
+  inbound_inbox_id?: number | null;
   event_types?: WebhookEventType[];
 };
 
@@ -42,6 +47,7 @@ export type CreateWebhookParams = {
   sending_stream?: SendingStream;
   event_types?: WebhookEventType[];
   domain_id?: number;
+  inbound_inbox_id?: number;
 };
 
 export type WebhookWithSigningSecret = Webhook & {
@@ -57,6 +63,7 @@ export type UpdateWebhookParams = {
   active?: boolean;
   payload_format?: PayloadFormat;
   event_types?: WebhookEventType[];
+  inbound_inbox_id?: number;
 };
 
 export type UpdateWebhookResponse = {
