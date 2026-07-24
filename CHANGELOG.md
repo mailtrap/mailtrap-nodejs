@@ -1,3 +1,12 @@
+## [4.8.0] - 2026-07-24
+
+## What's Changed
+* build(deps): bump axios from 1.16.0 to 1.18.0 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/144
+* Add Inbound Email v2 API support by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/145
+* Sync webhook types with the current API by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/147
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v4.7.0...v4.8.0
+
 ## [4.7.0] - 2026-07-14
 
 ## What's Changed
