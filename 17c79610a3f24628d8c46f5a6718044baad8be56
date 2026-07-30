@@ -1,0 +1,21 @@
+README.md
+  s_576b7c7847dbe9::t_c743d671d449b5 254-260
+examples/inbound/everything.ts
+  s_576b7c7847dbe9::t_1c0b2bc099945d 1-111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "17c79610a3f24628d8c46f5a6718044baad8be56",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}
