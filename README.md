@@ -265,6 +265,7 @@ Contact management:
 - Custom fields CRUD – [`contact-fields/everything.ts`](examples/contact-fields/everything.ts)
 - Import/Export – [`contact-imports/everything.ts`](examples/contact-imports/everything.ts), [`contact-exports/everything.ts`](examples/contact-exports/everything.ts)
 - Events – [`contact-events/everything.ts`](examples/contact-events/everything.ts)
+- Email campaigns CRUD, lifecycle & stats – [`email-campaigns/everything.ts`](examples/email-campaigns/everything.ts)
 
 General API:
 

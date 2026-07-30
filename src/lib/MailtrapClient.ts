@@ -13,6 +13,7 @@ import ContactFieldsBaseAPI from "./api/ContactFields";
 import ContactImportsBaseAPI from "./api/ContactImports";
 import ContactListsBaseAPI from "./api/ContactLists";
 import ContactsBaseAPI from "./api/Contacts";
+import EmailCampaignsBaseAPI from "./api/EmailCampaigns";
 import EmailLogsBaseAPI from "./api/EmailLogs";
 import GeneralAPI from "./api/General";
 import InboundAPI from "./api/Inbound";
@@ -249,6 +250,15 @@ export default class MailtrapClient {
   get webhooks() {
     const accountId = this.validateAccountIdPresence();
     return new WebhooksBaseAPI(this.axios, accountId);
+  }
+
+  /**
+   * Getter for Email Campaigns API. The endpoint is token-scoped, but
+   * `accountId` is still validated for consistency with sibling resources.
+   */
+  get emailCampaigns() {
+    this.validateAccountIdPresence();
+    return new EmailCampaignsBaseAPI(this.axios);
   }
 
   /**
