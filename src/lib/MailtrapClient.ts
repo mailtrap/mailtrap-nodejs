@@ -253,11 +253,9 @@ export default class MailtrapClient {
   }
 
   /**
-   * Getter for Email Campaigns API. The endpoint is token-scoped, but
-   * `accountId` is still validated for consistency with sibling resources.
+   * Getter for Email Campaigns API. Scoped to the token's account, so no accountId is required.
    */
   get emailCampaigns() {
-    this.validateAccountIdPresence();
     return new EmailCampaignsBaseAPI(this.axios);
   }
 

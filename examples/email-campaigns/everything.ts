@@ -1,18 +1,17 @@
 import { MailtrapClient } from "mailtrap";
 
 const TOKEN = "<YOUR-TOKEN-HERE>";
-const ACCOUNT_ID = "<YOUR-ACCOUNT-ID-HERE>";
 // ID of a verified sending domain on the account (required to create a campaign),
 // as returned by the Sending Domains endpoints.
 const SENDING_DOMAIN_ID = "<YOUR-SENDING-DOMAIN-ID-HERE>";
 
-const client = new MailtrapClient({
-  token: TOKEN,
-  accountId: Number(ACCOUNT_ID),
-});
+// The Email Campaigns API is token-scoped — no `accountId` is needed.
+const client = new MailtrapClient({ token: TOKEN });
 
 async function emailCampaignsFlow() {
   try {
+    const scheduledAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
     // List campaigns (newest first). The response is a `{ data, pagination }`
     // envelope; pagination is page-token based.
     const list = await client.emailCampaigns.getList({
@@ -65,7 +64,7 @@ async function emailCampaignsFlow() {
     // Schedule the draft to send later. The time is reported back in
     // `current_state_metadata.scheduled_at`.
     const scheduled = await client.emailCampaigns.schedule(campaignId, {
-      datetime: "2026-06-01T09:00:00.000Z",
+      datetime: scheduledAt,
     });
     console.log(
       "Scheduled for:",
@@ -86,11 +85,9 @@ async function emailCampaignsFlow() {
     console.log("State after terminate:", terminated.data.current_state);
 
     // Get aggregated stats for the campaign, optionally narrowed to a date
-    // window. Counts and rates are all `0` until the campaign has been started.
-    const stats = await client.emailCampaigns.getStats(campaignId, {
-      start_date: "2026-05-01",
-      end_date: "2026-05-31",
-    });
+    // window via `start_date`/`end_date`. Counts and rates are all `0` until
+    // the campaign has been started.
+    const stats = await client.emailCampaigns.getStats(campaignId);
     console.log("Campaign stats:", JSON.stringify(stats.data, null, 2));
 
     // Delete the campaign. Returns nothing (204 No Content).
