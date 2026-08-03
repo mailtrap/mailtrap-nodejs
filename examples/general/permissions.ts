@@ -15,6 +15,6 @@ permissionsClient.getResources()
 
     return permissionsClient.bulkPermissionsUpdate(5142, [
       {resourceId: '3281', resourceType: 'account', accessLevel: 'viewer'},
-      {resourceId: '3809', resourceType: 'inbox', destroy: 'true'}
+      {resourceId: '3809', resourceType: 'inbox', destroy: true}
     ])
   })

@@ -63,7 +63,7 @@ describe("lib/api/resources/Permissions: ", () => {
         {
           resourceId: "3809",
           resourceType: "inbox",
-          destroy: "true",
+          destroy: true,
         },
       ];
 
@@ -86,7 +86,7 @@ describe("lib/api/resources/Permissions: ", () => {
           {
             resource_id: "3809",
             resource_type: "inbox",
-            _destroy: "true",
+            _destroy: true,
           },
         ],
       });
