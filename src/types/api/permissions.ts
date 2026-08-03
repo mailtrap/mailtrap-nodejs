@@ -10,5 +10,5 @@ export type PermissionResourceParams = {
   resourceId: string;
   resourceType: string;
   accessLevel?: string;
-  destroy?: string;
+  destroy?: boolean;
 };
