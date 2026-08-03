@@ -63,11 +63,11 @@ describe("lib/api/resources/Permissions: ", () => {
         {
           resourceId: "3809",
           resourceType: "inbox",
-          _destroy: "true",
+          destroy: "true",
         },
       ];
 
-      expect.assertions(2);
+      expect.assertions(3);
 
       mock.onPut(endpoint).reply(200, expectedResponseData);
       const result = await permissionsAPI.bulkPermissionsUpdate(
@@ -76,6 +76,20 @@ describe("lib/api/resources/Permissions: ", () => {
       );
 
       expect(mock.history.put[0].url).toEqual(endpoint);
+      expect(JSON.parse(mock.history.put[0].data)).toEqual({
+        permissions: [
+          {
+            resource_id: "3281",
+            resource_type: "account",
+            access_level: "viewer",
+          },
+          {
+            resource_id: "3809",
+            resource_type: "inbox",
+            _destroy: "true",
+          },
+        ],
+      });
       expect(result).toEqual(expectedResponseData);
     });
 
@@ -93,7 +107,7 @@ describe("lib/api/resources/Permissions: ", () => {
         },
       ];
 
-      expect.assertions(2);
+      expect.assertions(3);
 
       mock.onPut(endpoint).reply(200, expectedResponseData);
       const result = await permissionsAPI.bulkPermissionsUpdate(
@@ -102,6 +116,12 @@ describe("lib/api/resources/Permissions: ", () => {
       );
 
       expect(mock.history.put[0].url).toEqual(endpoint);
+      expect(JSON.parse(mock.history.put[0].data)).toEqual({
+        permissions: [
+          { resource_id: "3281", resource_type: "account" },
+          { resource_id: "3809", resource_type: "inbox" },
+        ],
+      });
       expect(result).toEqual(expectedResponseData);
     });
 
