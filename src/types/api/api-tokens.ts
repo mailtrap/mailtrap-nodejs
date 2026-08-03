@@ -16,6 +16,13 @@ export type ResourcePermission = {
 
 export type CreateApiTokenRequest = {
   name: string;
+  /**
+   * Optional token expiration as an ISO 8601 date-time.
+   * Omit for the server default (a 1-year default is being rolled out).
+   * Pass explicit `null` for a token that never expires.
+   * Past or more-than-5-years-ahead values are rejected with 422.
+   */
+  expires_at?: string | null;
   resources?: ResourcePermissionInput[];
 };
 

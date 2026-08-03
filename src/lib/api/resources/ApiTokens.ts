@@ -33,6 +33,9 @@ export default class ApiTokensApi {
   /**
    * Create a new API token for the account with the given name and resource permissions.
    * The full token value is returned only in the response of this call — store it securely.
+   * Unless `expires_at` is provided, the token expiration falls back to the server
+   * default (a 1-year default is being rolled out); pass `expires_at: null` for a
+   * token that never expires.
    */
   public async create(params: CreateApiTokenRequest) {
     const url = this.apiTokensURL;
