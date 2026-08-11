@@ -1,3 +1,5 @@
+import { Pagination } from "./common";
+
 export type DeliveryMode = "rapid" | "gradual";
 
 export type CampaignState =
@@ -110,16 +112,6 @@ export type EmailCampaign = {
   delivery_mode: DeliveryMode;
   delivery_options: DeliveryOptions;
   template: CampaignTemplate;
-};
-
-export type Pagination = {
-  token: number;
-  prev_token: number | null;
-  next_token: number | null;
-  first_url: string;
-  prev_url: string | null;
-  current_url: string;
-  next_url: string | null;
 };
 
 export type ListEmailCampaignsParams = {
