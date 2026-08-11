@@ -1,0 +1,18 @@
+src/types/api/permissions.ts
+  h_68ae9308e52348 13
+src/__tests__/lib/api/resources/Permissions.test.ts
+  h_68ae9308e52348 66,89
+examples/general/permissions.ts
+  h_68ae9308e52348 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "888504182134e5c7294df9f6024a6c84c68d7ad8",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}
