@@ -26,8 +26,8 @@ export default class EmailCampaignsApi {
 
   constructor(client: AxiosInstance) {
     this.client = client;
-    // The Email Campaigns API is token-scoped, not account-scoped: the account
-    // is resolved from the API token server-side, so the path is bare.
+    // Token-scoped: the account is resolved from the API token server-side,
+    // so the path takes no account id.
     this.emailCampaignsURL = `${GENERAL_ENDPOINT}/api/email_campaigns`;
   }
 
