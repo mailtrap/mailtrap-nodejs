@@ -90,9 +90,17 @@ async function emailCampaignsFlow() {
     const stats = await client.emailCampaigns.getStats(campaignId);
     console.log("Campaign stats:", JSON.stringify(stats.data, null, 2));
 
-    // Delete the campaign. Returns nothing (204 No Content).
-    await client.emailCampaigns.delete(campaignId);
-    console.log("Deleted campaign:", campaignId);
+    // Only a campaign in the `draft` state can be deleted, and a campaign that
+    // has been started can never return to `draft` — so delete a fresh draft
+    // rather than the one above. Returns nothing (204 No Content).
+    const throwaway = await client.emailCampaigns.create({
+      name: "Draft to delete",
+      domain_id: Number(SENDING_DOMAIN_ID),
+      from_local_part: "news",
+      template_attributes: { subject: "Draft to delete" },
+    });
+    await client.emailCampaigns.delete(throwaway.data.id);
+    console.log("Deleted campaign:", throwaway.data.id);
   } catch (error) {
     console.error(
       "Error in emailCampaignsFlow:",

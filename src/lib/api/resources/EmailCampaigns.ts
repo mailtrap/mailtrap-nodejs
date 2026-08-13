@@ -88,8 +88,8 @@ export default class EmailCampaignsApi {
   }
 
   /**
-   * Delete an email campaign by ID. The campaign must not be in a sending
-   * state. Returns nothing (204 No Content).
+   * Delete an email campaign by ID. Only a campaign in the `draft` state can be
+   * deleted. Returns nothing (204 No Content).
    */
   public async delete(id: number) {
     const url = `${this.emailCampaignsURL}/${id}`;
