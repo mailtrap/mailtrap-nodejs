@@ -266,6 +266,10 @@ Contact management:
 - Import/Export – [`contact-imports/everything.ts`](examples/contact-imports/everything.ts), [`contact-exports/everything.ts`](examples/contact-exports/everything.ts)
 - Events – [`contact-events/everything.ts`](examples/contact-events/everything.ts)
 
+Email Marketing:
+
+- Email campaigns CRUD, lifecycle & stats – [`email-campaigns/everything.ts`](examples/email-campaigns/everything.ts)
+
 General API:
 
 - Templates CRUD – [`templates/everything.ts`](examples/templates/everything.ts)
