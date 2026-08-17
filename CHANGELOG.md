@@ -1,3 +1,11 @@
+## [4.9.0] - 2026-08-14
+
+## What's Changed
+* MT-22401: Add Email Campaigns API by @Rabsztok in https://github.com/mailtrap/mailtrap-nodejs/pull/148
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v4.8.0...v4.9.0
+
 ## [4.8.0] - 2026-07-24
 
 ## What's Changed
