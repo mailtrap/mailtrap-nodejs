@@ -37,11 +37,9 @@ export default class PermissionsApi {
 
     const flattenPermissionObjects = permissions.map((permission) => ({
       resource_id: permission.resourceId,
-      resourceType: permission.resourceType,
-      ...(permission.accessLevel && { accessLevel: permission.accessLevel }),
-      // @ts-ignore
-      // eslint-disable-next-line no-underscore-dangle
-      ...(permission._destroy && { _destroy: permission.destroy }),
+      resource_type: permission.resourceType,
+      ...(permission.accessLevel && { access_level: permission.accessLevel }),
+      ...(permission.destroy && { _destroy: permission.destroy }),
     }));
     const body = { permissions: flattenPermissionObjects };
 
