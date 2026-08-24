@@ -1,0 +1,19 @@
+src/lib/api/resources/EmailCampaigns.ts
+  s_44ea77dabd4ee4::t_b57f634965e9c1 29-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "f76fffec7dc65ced0665b4cb7c40a36fc800ebdf",
+  "prompts": {},
+  "sessions": {
+    "s_44ea77dabd4ee4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a7ac95f6-68c7-4e3b-bf74-eb68a723c929",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
