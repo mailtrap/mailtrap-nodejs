@@ -175,13 +175,13 @@ describe("lib/api/resources/ApiTokens: ", () => {
 
     it("fails with error when the server rejects expires_at.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens`;
-      const expectedErrorMessage = "expires_at: must not be in the past";
+      const expectedErrorMessage = "Expiration date must be in the future";
 
       expect.assertions(2);
 
-      mock
-        .onPost(endpoint)
-        .reply(422, { errors: { expires_at: ["must not be in the past"] } });
+      mock.onPost(endpoint).reply(422, {
+        errors: { base: ["Expiration date must be in the future"] },
+      });
 
       try {
         await apiTokensAPI.create({
@@ -333,13 +333,13 @@ describe("lib/api/resources/ApiTokens: ", () => {
 
     it("fails with error when the server rejects expires_at.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens/${tokenId}/reset`;
-      const expectedErrorMessage = "expires_at: must not be in the past";
+      const expectedErrorMessage = "Expiration date must be in the future";
 
       expect.assertions(2);
 
-      mock
-        .onPost(endpoint)
-        .reply(422, { errors: { expires_at: ["must not be in the past"] } });
+      mock.onPost(endpoint).reply(422, {
+        errors: { base: ["Expiration date must be in the future"] },
+      });
 
       try {
         await apiTokensAPI.reset(tokenId, {
