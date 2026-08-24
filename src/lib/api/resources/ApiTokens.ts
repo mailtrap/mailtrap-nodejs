@@ -57,7 +57,8 @@ export default class ApiTokensApi {
   /**
    * Reset an API token: expires the existing token and returns a new one with
    * the same permissions. The new token value is returned only in this response —
-   * store it securely. Only tokens that have not already been reset can be reset.
+   * store it securely. Tokens that have already been reset or have already
+   * expired cannot be reset — both are rejected with a 422.
    * Unless `expires_at` is provided, the new token expiration falls back to the
    * server default (a 1-year default is being rolled out); pass `expires_at: null`
    * for a token that never expires.
@@ -65,14 +66,7 @@ export default class ApiTokensApi {
   public async reset(id: number, params?: ResetApiTokenRequest) {
     const url = `${this.apiTokensURL}/${id}/reset`;
 
-    if (params && "expires_at" in params) {
-      return this.client.post<ApiTokenWithToken, ApiTokenWithToken>(
-        url,
-        params
-      );
-    }
-
-    return this.client.post<ApiTokenWithToken, ApiTokenWithToken>(url);
+    return this.client.post<ApiTokenWithToken, ApiTokenWithToken>(url, params);
   }
 
   /**
