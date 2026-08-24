@@ -1,0 +1,19 @@
+src/lib/api/resources/ApiTokens.ts
+  s_20e8e57d8a9527::t_b79a0c010c735e 60-61,69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "83c61a608978c72a2635f982308a1a1d4f598e0a",
+  "prompts": {},
+  "sessions": {
+    "s_20e8e57d8a9527": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "14ae8e5a-444d-44b3-a7f4-519196ae461b",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}
