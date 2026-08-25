@@ -1,0 +1,52 @@
+src/types/api/company-info.ts
+  s_a416a2bbf03afd::t_d3d5c7f9b00882 1-33
+examples/company-info/everything.ts
+  s_a416a2bbf03afd::t_0311d209a4be15 1-43
+src/types/api/sending-domains.ts
+  s_a416a2bbf03afd::t_76c7ea3fd91bb4 26
+  s_a416a2bbf03afd::t_c8d5bb24c76cb1 44-51
+src/__tests__/lib/api/resources/SendingDomains.test.ts
+  s_a416a2bbf03afd::t_c1852d827f63c2 127,179
+  s_a416a2bbf03afd::t_21b5b8550112a0 74
+  s_a416a2bbf03afd::t_17fa785c3dde38 30
+  s_a416a2bbf03afd::t_cbb16e96bbff25 207-224,226-259
+  s_a416a2bbf03afd::t_eaef4a84bbbc3f 225
+src/lib/api/resources/SendingDomains.ts
+  s_a416a2bbf03afd::t_515da9926f38aa 55
+  s_a416a2bbf03afd::t_2e20c0bde53e42 56-67
+  s_a416a2bbf03afd::t_ba334502a84be5 8
+src/lib/api/CompanyInfo.ts
+  s_a416a2bbf03afd::t_87ed04659f67ad 1-21
+src/lib/api/SendingDomains.ts
+  s_a416a2bbf03afd::t_2e6eafafe4b4cf 26
+  s_a416a2bbf03afd::t_a92aa2b15f73cf 14-15
+src/lib/MailtrapClient.ts
+  s_a416a2bbf03afd::t_cfaa09ec4d4d63 264
+  s_a416a2bbf03afd::t_17c5664e0d72b3 10
+  s_a416a2bbf03afd::t_d1a7c8aa8c7aec 265-269
+  s_a416a2bbf03afd::t_b7dfe3d26497ae 263
+examples/sending-domains/everything.ts
+  s_a416a2bbf03afd::t_b45d6fe4f9ebd0 38-48
+src/lib/api/resources/CompanyInfo.ts
+  s_a416a2bbf03afd::t_4151a0e608b9b5 1-71
+README.md
+  s_a416a2bbf03afd::t_f0ab123ddd2df6 237-238
+src/__tests__/lib/api/resources/CompanyInfo.test.ts
+  s_a416a2bbf03afd::t_a2314d016edc7c 1-109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "51ae4e6adcd1ddc0a23a8a530e0ee2c35fd2779a",
+  "prompts": {},
+  "sessions": {
+    "s_a416a2bbf03afd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73aab1cf-cfd1-42b8-b656-f26905d319ee",
+        "model": "claude-opus-5"
+      },
+      "human_author": null
+    }
+  }
+}
