@@ -23,6 +23,7 @@ export interface SendingDomain {
   dns_records: DnsRecord[];
   open_tracking_enabled: boolean;
   click_tracking_enabled: boolean;
+  tracking_opt_out_enabled: boolean;
   auto_unsubscribe_link_enabled: boolean;
   custom_domain_tracking_enabled: boolean;
   health_alerts_enabled: boolean;
@@ -39,4 +40,12 @@ export interface CreateSendingDomainParams {
 
 export interface SendingDomainsResponse {
   data: SendingDomain[];
+}
+
+export interface UpdateSendingDomainParams {
+  open_tracking_enabled?: boolean;
+  click_tracking_enabled?: boolean;
+  tracking_opt_out_enabled?: boolean;
+  auto_unsubscribe_link_enabled?: boolean;
+  inbound_enabled?: boolean;
 }

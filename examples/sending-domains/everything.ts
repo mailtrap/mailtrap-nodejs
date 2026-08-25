@@ -35,7 +35,17 @@ async function sendingDomainsFlow() {
       domain_name: "test-domain-" + Date.now() + ".com",
     });
     console.log("Created sending domain:", JSON.stringify(created, null, 2));
-    
+
+    // Update the settings of the created domain
+    const updated = await client.sendingDomains.update(created.id, {
+      open_tracking_enabled: true,
+      click_tracking_enabled: true,
+      tracking_opt_out_enabled: true,
+      auto_unsubscribe_link_enabled: false,
+      inbound_enabled: false,
+    });
+    console.log("Updated sending domain:", JSON.stringify(updated, null, 2));
+
     // Delete the created domain
     await client.sendingDomains.delete(created.id);
     console.log("Sending domain deleted");

@@ -27,6 +27,7 @@ describe("lib/api/SendingDomains: ", () => {
         expect(sendingDomainsAPI).toHaveProperty("get");
         expect(sendingDomainsAPI).toHaveProperty("getList");
         expect(sendingDomainsAPI).toHaveProperty("create");
+        expect(sendingDomainsAPI).toHaveProperty("update");
         expect(sendingDomainsAPI).toHaveProperty("delete");
         expect(sendingDomainsAPI).toHaveProperty("sendSetupInstructions");
       });
@@ -70,6 +71,7 @@ describe("lib/api/SendingDomains: ", () => {
             dns_records: mockDnsRecords,
             open_tracking_enabled: true,
             click_tracking_enabled: true,
+            tracking_opt_out_enabled: false,
             auto_unsubscribe_link_enabled: true,
             custom_domain_tracking_enabled: true,
             health_alerts_enabled: true,
@@ -122,6 +124,7 @@ describe("lib/api/SendingDomains: ", () => {
           dns_records: mockDnsRecords,
           open_tracking_enabled: true,
           click_tracking_enabled: true,
+          tracking_opt_out_enabled: false,
           auto_unsubscribe_link_enabled: true,
           custom_domain_tracking_enabled: true,
           health_alerts_enabled: true,
@@ -173,6 +176,7 @@ describe("lib/api/SendingDomains: ", () => {
           dns_records: mockDnsRecords,
           open_tracking_enabled: true,
           click_tracking_enabled: true,
+          tracking_opt_out_enabled: false,
           auto_unsubscribe_link_enabled: true,
           custom_domain_tracking_enabled: true,
           health_alerts_enabled: true,
@@ -195,6 +199,59 @@ describe("lib/api/SendingDomains: ", () => {
           .reply(201, mockSendingDomain);
 
         const result = await sendingDomainsAPI.create(createParams);
+
+        expect(result).toEqual(mockSendingDomain);
+      });
+    });
+
+    describe("sendingDomains.update(): ", () => {
+      it("should update a sending domain.", async () => {
+        const mockPermissions: SendingDomainPermissions = {
+          can_read: true,
+          can_update: true,
+          can_destroy: true,
+        };
+
+        const mockSendingDomain: SendingDomain = {
+          id: 435,
+          domain_name: "example.com",
+          demo: false,
+          compliance_status: "compliant",
+          dns_verified: true,
+          dns_verified_at: "2024-12-26T09:40:44.161Z",
+          dns_records: [],
+          open_tracking_enabled: true,
+          click_tracking_enabled: true,
+          tracking_opt_out_enabled: true,
+          auto_unsubscribe_link_enabled: false,
+          custom_domain_tracking_enabled: true,
+          health_alerts_enabled: true,
+          critical_alerts_enabled: true,
+          alert_recipient_email: "john.doe@example.com",
+          inbound_enabled: true,
+          inbound_verified: true,
+          permissions: mockPermissions,
+        };
+
+        const updateParams = {
+          open_tracking_enabled: true,
+          click_tracking_enabled: true,
+          tracking_opt_out_enabled: true,
+          auto_unsubscribe_link_enabled: false,
+          inbound_enabled: true,
+        };
+
+        mock
+          .onPatch(
+            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${mockSendingDomain.id}`,
+            { sending_domain: updateParams }
+          )
+          .reply(200, mockSendingDomain);
+
+        const result = await sendingDomainsAPI.update(
+          mockSendingDomain.id,
+          updateParams
+        );
 
         expect(result).toEqual(mockSendingDomain);
       });
