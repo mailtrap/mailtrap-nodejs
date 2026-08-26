@@ -7,6 +7,7 @@ import encodeMailBuffers from "./mail-buffer-encoder";
 import handleSendingError from "./axios-logger";
 import MailtrapError from "./MailtrapError";
 
+import CompanyInfoBaseAPI from "./api/CompanyInfo";
 import ContactEventsBaseAPI from "./api/ContactEvents";
 import ContactExportsBaseAPI from "./api/ContactExports";
 import ContactFieldsBaseAPI from "./api/ContactFields";
@@ -257,6 +258,13 @@ export default class MailtrapClient {
    */
   get emailCampaigns() {
     return new EmailCampaignsBaseAPI(this.axios);
+  }
+
+  /**
+   * Getter for Company Info API.
+   */
+  get companyInfo() {
+    return new CompanyInfoBaseAPI(this.axios);
   }
 
   /**

@@ -11,6 +11,8 @@ export default class SendingDomainsBaseAPI {
 
   public create: SendingDomainsApi["create"];
 
+  public update: SendingDomainsApi["update"];
+
   public delete: SendingDomainsApi["delete"];
 
   public sendSetupInstructions: SendingDomainsApi["sendSetupInstructions"];
@@ -21,6 +23,7 @@ export default class SendingDomainsBaseAPI {
     this.get = sendingDomains.get.bind(sendingDomains);
     this.getList = sendingDomains.getList.bind(sendingDomains);
     this.create = sendingDomains.create.bind(sendingDomains);
+    this.update = sendingDomains.update.bind(sendingDomains);
     this.delete = sendingDomains.delete.bind(sendingDomains);
     this.sendSetupInstructions =
       sendingDomains.sendSetupInstructions.bind(sendingDomains);

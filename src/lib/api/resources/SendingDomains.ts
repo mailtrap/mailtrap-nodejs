@@ -5,6 +5,7 @@ import {
   CreateSendingDomainParams,
   SendingDomain,
   SendingDomainsResponse,
+  UpdateSendingDomainParams,
 } from "../../../types/api/sending-domains";
 
 const { CLIENT_SETTINGS } = CONFIG;
@@ -49,6 +50,19 @@ export default class SendingDomainsApi {
     const data = { sending_domain: params };
 
     return this.client.post<SendingDomain, SendingDomain>(url, data);
+  }
+
+  /**
+   * Update configuration settings for a sending domain.
+   * @param id Sending domain ID
+   * @param params Settings to update
+   * @returns Returns the updated sending domain
+   */
+  public async update(id: number, params: UpdateSendingDomainParams) {
+    const url = `${this.sendingDomainsURL}/${id}`;
+    const data = { sending_domain: params };
+
+    return this.client.patch<SendingDomain, SendingDomain>(url, data);
   }
 
   /**
