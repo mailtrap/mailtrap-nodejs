@@ -1,7 +1,12 @@
 import { AxiosInstance } from "axios";
 
 import CONFIG from "../../../config";
-import { ListOptions, Suppression } from "../../../types/api/suppressions";
+import {
+  CreateSuppressionParams,
+  CreateSuppressionResponse,
+  ListOptions,
+  Suppression,
+} from "../../../types/api/suppressions";
 
 const { CLIENT_SETTINGS } = CONFIG;
 const { GENERAL_ENDPOINT } = CLIENT_SETTINGS;
@@ -27,6 +32,17 @@ export default class SuppressionsApi {
     return this.client.get<Suppression[], Suppression[]>(this.suppressionsURL, {
       params,
     });
+  }
+
+  /**
+   * Add an email address to the account's suppression list. `type` defaults to
+   * `manual import` when omitted.
+   */
+  public async create(params: CreateSuppressionParams) {
+    return this.client.post<
+      CreateSuppressionResponse,
+      CreateSuppressionResponse
+    >(this.suppressionsURL, params);
   }
 
   /**

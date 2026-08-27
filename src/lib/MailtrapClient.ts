@@ -21,6 +21,7 @@ import InboundAPI from "./api/Inbound";
 import SendingDomainsBaseAPI from "./api/SendingDomains";
 import StatsBaseAPI from "./api/Stats";
 import SuppressionsBaseAPI from "./api/Suppressions";
+import TrackingOptOutsBaseAPI from "./api/TrackingOptOuts";
 import OrganizationsBaseAPI from "./api/Organizations";
 import TemplatesBaseAPI from "./api/Templates";
 import TestingAPI from "./api/Testing";
@@ -258,6 +259,13 @@ export default class MailtrapClient {
    */
   get emailCampaigns() {
     return new EmailCampaignsBaseAPI(this.axios);
+  }
+
+  /**
+   * Getter for Tracking Opt-outs API.
+   */
+  get trackingOptOuts() {
+    return new TrackingOptOutsBaseAPI(this.axios);
   }
 
   /**

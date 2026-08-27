@@ -17,6 +17,14 @@ async function suppressionsFlow() {
   const filteredSuppressions = await client.suppressions.getList({email: "test@example.com"});
   console.log("Filtered suppressions:", filteredSuppressions);
 
+  // Add an email to the suppression list. `type` defaults to "manual import".
+  const created = await client.suppressions.create({
+    email: "suppressed@example.com",
+    domain_id: 12345,
+    sending_stream: "transactional"
+  });
+  console.log("Created suppression:", created.data);
+
   // Delete a suppression by ID (if any exist)
   if (suppressions.length > 0) {
     const suppressionToDelete = suppressions[0];

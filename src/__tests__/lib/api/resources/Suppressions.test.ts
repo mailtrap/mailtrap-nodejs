@@ -27,6 +27,8 @@ describe("lib/api/resources/Suppressions: ", () => {
     message_category: "test",
     message_client_ip: "192.168.1.1",
     message_created_at: "2023-01-01T00:00:00Z",
+    message_esp_response: null,
+    message_esp_server_type: null,
     message_outgoing_ip: "10.0.0.1",
     message_recipient_mx_name: "mx.example.com",
     message_sender_email: "sender@example.com",
@@ -45,6 +47,8 @@ describe("lib/api/resources/Suppressions: ", () => {
       message_category: "test",
       message_client_ip: "192.168.1.1",
       message_created_at: "2023-01-01T00:00:00Z",
+      message_esp_response: null,
+      message_esp_server_type: null,
       message_outgoing_ip: "10.0.0.1",
       message_recipient_mx_name: "mx.example.com",
       message_sender_email: "sender@example.com",
@@ -61,6 +65,8 @@ describe("lib/api/resources/Suppressions: ", () => {
       message_category: "promotional",
       message_client_ip: "192.168.1.2",
       message_created_at: "2023-01-02T00:00:00Z",
+      message_esp_response: null,
+      message_esp_server_type: null,
       message_outgoing_ip: "10.0.0.2",
       message_recipient_mx_name: "mx.example.com",
       message_sender_email: "sender@example.com",
@@ -72,6 +78,7 @@ describe("lib/api/resources/Suppressions: ", () => {
     describe("init: ", () => {
       it("initializes with all necessary params.", () => {
         expect(suppressionsAPI).toHaveProperty("getList");
+        expect(suppressionsAPI).toHaveProperty("create");
         expect(suppressionsAPI).toHaveProperty("delete");
       });
     });
@@ -144,6 +151,64 @@ describe("lib/api/resources/Suppressions: ", () => {
 
       try {
         await suppressionsAPI.getList();
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+  });
+
+  describe("create(): ", () => {
+    const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/suppressions`;
+
+    it("sends a flat body and returns the wrapped suppression.", async () => {
+      const params = {
+        email: "test@example.com",
+        domain_id: 12345,
+        sending_stream: "transactional" as const,
+      };
+      const expectedResponse = { data: mockSuppression };
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint).reply(201, expectedResponse);
+      const result = await suppressionsAPI.create(params);
+
+      expect(JSON.parse(mock.history.post[0].data)).toEqual(params);
+      expect(result).toEqual(expectedResponse);
+    });
+
+    it("sends the optional type when provided.", async () => {
+      const params = {
+        email: "test@example.com",
+        domain_id: 12345,
+        sending_stream: "bulk" as const,
+        type: "spam complaint" as const,
+      };
+
+      expect.assertions(1);
+
+      mock.onPost(endpoint).reply(201, { data: mockSuppression });
+      await suppressionsAPI.create(params);
+
+      expect(JSON.parse(mock.history.post[0].data)).toEqual(params);
+    });
+
+    it("fails with unauthorized error (401).", async () => {
+      const expectedErrorMessage = "Incorrect API token";
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint).reply(401, { error: expectedErrorMessage });
+
+      try {
+        await suppressionsAPI.create({
+          email: "test@example.com",
+          domain_id: 12345,
+          sending_stream: "transactional",
+        });
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
         if (error instanceof MailtrapError) {

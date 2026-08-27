@@ -274,7 +274,8 @@ Email Marketing:
 General API:
 
 - Templates CRUD – [`templates/everything.ts`](examples/templates/everything.ts)
-- Suppressions (find & delete) – [`sending/suppressions.ts`](examples/sending/suppressions.ts)
+- Suppressions (create, find & delete) – [`sending/suppressions.ts`](examples/sending/suppressions.ts)
+- Tracking Opt-outs (list, create & delete) – [`sending/tracking-opt-outs.ts`](examples/sending/tracking-opt-outs.ts)
 - Billing info – [`general/billing.ts`](examples/general/billing.ts)
 - Accounts info – [`general/accounts.ts`](examples/general/accounts.ts)
 - Permissions listing – [`general/permissions.ts`](examples/general/permissions.ts)
