@@ -1,3 +1,15 @@
+## [4.10.0] - 2026-08-28
+
+## What's Changed
+* MT-23488: fix bulk permissions request body field names by @oshchyhol in https://github.com/mailtrap/mailtrap-nodejs/pull/151
+* Add sending domain update and company info endpoints by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/153
+* Add tracking opt-outs and create-suppression endpoints by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/154
+
+## New Contributors
+* @oshchyhol made their first contribution in https://github.com/mailtrap/mailtrap-nodejs/pull/151
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v4.9.0...v4.10.0
+
 ## [4.9.0] - 2026-08-14
 
 ## What's Changed
