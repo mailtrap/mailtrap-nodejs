@@ -19,8 +19,14 @@ async function apiTokensFlow() {
 
     // Create a new API token scoped to specific resources.
     // The full `token` value is returned only in this response — store it securely.
+    // `expires_at` is optional: omit it for the server default (a 1-year default
+    // is being rolled out), pass an ISO 8601 date-time for a custom expiration,
+    // or pass `null` for a token that never expires.
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
     const created = await apiTokensClient.create({
       name: "My token",
+      expires_at: expiresAt,
       resources: [
         { resource_type: "account", resource_id: Number(ACCOUNT_ID), access_level: 10 },
       ],
@@ -36,6 +42,8 @@ async function apiTokensFlow() {
 
     // Reset the API token: expires the existing token and returns a new one
     // with the same permissions. The new `token` value is only returned here.
+    // Like create, reset accepts an optional `expires_at` for the new token,
+    // e.g. `reset(tokenId, { expires_at: null })` for a token that never expires.
     const reset = await apiTokensClient.reset(tokenId);
     console.log("Reset API token:", JSON.stringify(reset, null, 2));
     console.log("New token value (store securely):", reset.token);

@@ -130,6 +130,73 @@ describe("lib/api/resources/ApiTokens: ", () => {
       expect(result).toEqual(responseData);
     });
 
+    it("omits expires_at from the request body when not provided.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens`;
+
+      expect.assertions(1);
+
+      mock.onPost(endpoint).reply(200, responseData);
+      await apiTokensAPI.create(params);
+
+      expect("expires_at" in JSON.parse(mock.history.post[0].data)).toEqual(
+        false
+      );
+    });
+
+    it("sends expires_at when provided.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens`;
+      const expiresAt = "2027-06-01T00:00:00Z";
+
+      expect.assertions(1);
+
+      mock
+        .onPost(endpoint)
+        .reply(200, { ...responseData, expires_at: expiresAt });
+      await apiTokensAPI.create({ ...params, expires_at: expiresAt });
+
+      expect(JSON.parse(mock.history.post[0].data).expires_at).toEqual(
+        expiresAt
+      );
+    });
+
+    it("sends explicit null expires_at for a token that never expires.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens`;
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint).reply(200, responseData);
+      await apiTokensAPI.create({ ...params, expires_at: null });
+
+      const body = JSON.parse(mock.history.post[0].data);
+
+      expect("expires_at" in body).toEqual(true);
+      expect(body.expires_at).toBeNull();
+    });
+
+    it("fails with error when the server rejects expires_at.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens`;
+      const expectedErrorMessage = "Expiration date must be in the future";
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint).reply(422, {
+        errors: { base: ["Expiration date must be in the future"] },
+      });
+
+      try {
+        await apiTokensAPI.create({
+          ...params,
+          expires_at: "2020-01-01T00:00:00Z",
+        });
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+
     it("fails with error.", async () => {
       const expectedErrorMessage = "Request failed with status code 404";
 
@@ -221,6 +288,70 @@ describe("lib/api/resources/ApiTokens: ", () => {
 
       expect(mock.history.post[0].url).toEqual(endpoint);
       expect(result).toEqual(responseData);
+    });
+
+    it("sends no request body when params are omitted.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens/${tokenId}/reset`;
+
+      expect.assertions(1);
+
+      mock.onPost(endpoint).reply(200, responseData);
+      await apiTokensAPI.reset(tokenId);
+
+      expect(mock.history.post[0].data).toBeUndefined();
+    });
+
+    it("sends expires_at in the request body when provided.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens/${tokenId}/reset`;
+      const expiresAt = "2027-06-01T00:00:00Z";
+
+      expect.assertions(1);
+
+      mock
+        .onPost(endpoint)
+        .reply(200, { ...responseData, expires_at: expiresAt });
+      await apiTokensAPI.reset(tokenId, { expires_at: expiresAt });
+
+      expect(JSON.parse(mock.history.post[0].data)).toEqual({
+        expires_at: expiresAt,
+      });
+    });
+
+    it("sends explicit null expires_at for a token that never expires.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens/${tokenId}/reset`;
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint).reply(200, responseData);
+      await apiTokensAPI.reset(tokenId, { expires_at: null });
+
+      const body = JSON.parse(mock.history.post[0].data);
+
+      expect("expires_at" in body).toEqual(true);
+      expect(body.expires_at).toBeNull();
+    });
+
+    it("fails with error when the server rejects expires_at.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/api_tokens/${tokenId}/reset`;
+      const expectedErrorMessage = "Expiration date must be in the future";
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint).reply(422, {
+        errors: { base: ["Expiration date must be in the future"] },
+      });
+
+      try {
+        await apiTokensAPI.reset(tokenId, {
+          expires_at: "2020-01-01T00:00:00Z",
+        });
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
     });
 
     it("fails with error.", async () => {
