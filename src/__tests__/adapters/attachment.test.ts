@@ -1,4 +1,5 @@
 import { Readable } from "stream";
+import { readFileSync } from "node:fs";
 
 import adaptAttachment from "../../adapters/attachement";
 
@@ -83,6 +84,24 @@ describe("adapters/attachment: ", () => {
       const expectedAttachment = {
         filename: attachment.filename,
         content: attachment.content,
+        disposition: undefined,
+        content_id: undefined,
+        type: undefined,
+      };
+      const result = adaptAttachment(attachment);
+
+      expect(result).toEqual(expectedAttachment);
+    });
+
+    it("returns adapted attachment object in case if content is a content object.", () => {
+      const attachment = {
+        filename: "mock-filename",
+        content: { path: __filename },
+      };
+
+      const expectedAttachment = {
+        filename: attachment.filename,
+        content: readFileSync(__filename),
         disposition: undefined,
         content_id: undefined,
         type: undefined,

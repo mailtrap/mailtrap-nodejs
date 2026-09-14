@@ -3,7 +3,7 @@ import adaptMail from "../../adapters/mail";
 import config from "../../config";
 import {
   adaptSingleRecipient,
-  adaptReplyToRecipient,
+  adaptFirstRecipient,
 } from "../../adapters/recipients";
 
 const { ERRORS } = config;
@@ -37,7 +37,7 @@ describe("adapters/mail: ", () => {
         bcc: [],
         headers: data.headers,
         subject: data.subject,
-        reply_to: adaptReplyToRecipient(data.replyTo),
+        reply_to: adaptFirstRecipient(data.replyTo),
       };
       const result = adaptMail(data);
 
@@ -63,7 +63,7 @@ describe("adapters/mail: ", () => {
         bcc: [],
         headers: data.headers,
         attachments: data.attachments,
-        reply_to: adaptReplyToRecipient(data.replyTo),
+        reply_to: adaptFirstRecipient(data.replyTo),
       };
       const result = adaptMail(data);
 
@@ -93,7 +93,7 @@ describe("adapters/mail: ", () => {
         headers: data.headers,
         attachments: data.attachments,
         custom_variables: data.customVariables,
-        reply_to: adaptReplyToRecipient(data.replyTo),
+        reply_to: adaptFirstRecipient(data.replyTo),
       };
       const result = adaptMail(data);
 

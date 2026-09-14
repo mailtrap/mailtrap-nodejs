@@ -61,5 +61,59 @@ describe("adapters/headers: ", () => {
 
       expect(result).toEqual(expectedResult);
     });
+
+    it("returns object if headers is a single `{ key, value }` pair.", () => {
+      const headers = {
+        key: "mock-key",
+        value: "mock-value",
+      };
+
+      const expectedResult = {
+        [headers.key]: headers.value,
+      };
+      const result = adaptHeaders(headers);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("converts non-string header values to strings.", () => {
+      const date = new Date("2026-01-02T03:04:05Z");
+      const headers = {
+        mockNumber: 42,
+        mockBoolean: true,
+        mockDate: date,
+        mockAddress: { name: "mock-name", address: "mock-email" },
+        mockAddressWithoutName: { address: "mock-email" },
+        mockNested: [[{ prepared: true, value: 7 }]],
+      };
+
+      const expectedResult = {
+        mockNumber: "42",
+        mockBoolean: "true",
+        mockDate: date.toUTCString(),
+        mockAddress: "mock-name <mock-email>",
+        mockAddressWithoutName: "mock-email",
+        mockNested: "7",
+      };
+      const result = adaptHeaders(headers);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("skips headers with empty values.", () => {
+      const headers = {
+        mockNull: null,
+        mockUndefined: undefined,
+        mockEmptyArray: [],
+        mockKey: "mock-value",
+      };
+
+      const expectedResult = {
+        mockKey: "mock-value",
+      };
+      const result = adaptHeaders(headers);
+
+      expect(result).toEqual(expectedResult);
+    });
   });
 });
