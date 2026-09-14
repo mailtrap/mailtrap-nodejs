@@ -20,7 +20,7 @@ const { SUBJECT_REQUIRED, FROM_REQUIRED } = ERRORS;
 export default function adaptMail(data: MailtrapMailOptions): Mail | SendError {
   const from = adaptFirstRecipient(data.from);
 
-  if (!from) {
+  if (!from?.email) {
     return { success: false, errors: [FROM_REQUIRED] };
   }
 

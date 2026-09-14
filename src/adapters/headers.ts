@@ -39,7 +39,11 @@ function adaptHeaderValue(value: unknown): string | undefined {
     if ("address" in value) {
       const { name, address } = value as Mail.Address;
 
-      return name ? `${name} <${address ?? ""}>` : address;
+      if (!address) {
+        return undefined;
+      }
+
+      return name ? `${name} <${address}>` : address;
     }
   }
 

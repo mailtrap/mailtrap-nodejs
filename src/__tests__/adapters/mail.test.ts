@@ -20,6 +20,17 @@ describe("adapters/mail: ", () => {
       expect(result).toEqual(expectedResult);
     });
 
+    it("returns object with error `from is required` if from has no address.", () => {
+      const expectedResult = { success: false, errors: [FROM_REQUIRED] };
+
+      expect(adaptMail({ from: "" })).toEqual(expectedResult);
+      expect(adaptMail({ from: [] })).toEqual(expectedResult);
+      expect(adaptMail({ from: { address: "" } })).toEqual(expectedResult);
+      expect(adaptMail({ from: { name: "mock-name" } })).toEqual(
+        expectedResult
+      );
+    });
+
     it("returns `mail` object with basic info + headers.", () => {
       const data = {
         from: "mock-from",
