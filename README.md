@@ -198,7 +198,7 @@ mailtrap
 
 ## Nodemailer Transport
 
-> NOTE: [Nodemailer](https://www.npmjs.com/package/nodemailer) is needed as a dependency.
+> NOTE: [Nodemailer](https://www.npmjs.com/package/nodemailer) is needed as a dependency. Versions 9 and 10 are supported (Nodemailer 10 requires Node.js 20 or newer).
 
 ```sh
 npm install nodemailer
@@ -207,7 +207,7 @@ npm install nodemailer
 yarn add nodemailer
 ```
 
-If you're using TypeScript, install `@types/nodemailer` as a `devDependency`:
+If you're using TypeScript with Nodemailer 9, install `@types/nodemailer` as a `devDependency` (Nodemailer 10 ships its own type definitions, so this is not needed there):
 
 ```sh
 npm install -D @types/nodemailer
