@@ -106,6 +106,7 @@ describe("adapters/headers: ", () => {
         mockUndefined: undefined,
         mockEmptyArray: [],
         mockAddressWithoutAddress: { name: "mock-name" },
+        mockAddressWithBlankAddress: { name: "mock-name", address: "  " },
         mockKey: "mock-value",
       };
 

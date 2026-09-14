@@ -1,6 +1,7 @@
 import NodemailerMail from "nodemailer/lib/mailer";
 
 import { Readable } from "node:stream";
+import { Url } from "node:url";
 import { Transport, Transporter } from "nodemailer";
 import {
   SendResponse,
@@ -31,7 +32,7 @@ export type NodemailerRecipients =
  */
 type NodemailerContentObject = {
   content?: NodemailerContent | undefined;
-  path?: unknown;
+  path?: string | false | Url | undefined;
 };
 
 /**
