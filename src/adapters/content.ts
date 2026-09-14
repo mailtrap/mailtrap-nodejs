@@ -1,15 +1,7 @@
 import { readFileSync } from "node:fs";
 import { Readable } from "node:stream";
 
-/**
- * Content as nodemailer accepts it for `text`, `html` and attachments: a string, a Buffer, a readable stream or an object pointing to the content.
- */
-export type NodemailerContent = string | Buffer | Readable | ContentObject;
-
-interface ContentObject {
-  content?: NodemailerContent | undefined;
-  path?: unknown;
-}
+import { NodemailerContent } from "../types/transport";
 
 /**
  * Checks if content type is rather string or buffer, returns content.

@@ -1,21 +1,5 @@
 import { Address } from "../types/mailtrap";
-
-/**
- * Address object as nodemailer accepts it. Declared structurally so it matches both the types bundled with nodemailer >= 10 and `@types/nodemailer`.
- */
-type NodemailerAddress = {
-  name?: string | undefined;
-  address?: string | undefined;
-  group?: NodemailerAddress[] | undefined;
-};
-
-/**
- * Recipients as nodemailer accepts them: a string, an address object, or an array of these (nested arrays included).
- */
-export type NodemailerRecipients =
-  | string
-  | NodemailerAddress
-  | NodemailerRecipients[];
+import { NodemailerAddress, NodemailerRecipients } from "../types/transport";
 
 /**
  * Flattens nodemailer recipients into a plain list of string or address objects.
