@@ -1,10 +1,7 @@
 import adaptAttachment from "./attachement";
 import adaptContent from "./content";
 import adaptHeaders from "./headers";
-import adaptRecipients, {
-  adaptSingleRecipient,
-  adaptReplyToRecipient,
-} from "./recipients";
+import adaptRecipients, { adaptFirstRecipient } from "./recipients";
 
 import CONFIG from "../config";
 
@@ -21,16 +18,18 @@ const { SUBJECT_REQUIRED, FROM_REQUIRED } = ERRORS;
  * Then returns mail with all params needed.
  */
 export default function adaptMail(data: MailtrapMailOptions): Mail | SendError {
-  if (!data.from) {
+  const from = adaptFirstRecipient(data.from);
+
+  if (!from?.email) {
     return { success: false, errors: [FROM_REQUIRED] };
   }
 
   const mail: CommonMail = {
-    from: adaptSingleRecipient(data.from),
+    from,
     to: adaptRecipients(data.to),
     cc: adaptRecipients(data.cc),
     bcc: adaptRecipients(data.bcc),
-    reply_to: adaptReplyToRecipient(data.replyTo),
+    reply_to: adaptFirstRecipient(data.replyTo),
   };
 
   if (data.headers) {

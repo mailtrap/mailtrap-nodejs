@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { Readable } from "node:stream";
-import { AttachmentLike } from "nodemailer/lib/mailer";
+
+import { NodemailerContent } from "../types/transport";
 
 /**
  * Checks if content type is rather string or buffer, returns content.
@@ -9,7 +10,7 @@ import { AttachmentLike } from "nodemailer/lib/mailer";
  * Otherwise reads file.
  */
 export default function adaptContent(
-  content: string | Buffer | Readable | AttachmentLike
+  content: NodemailerContent
 ): string | Buffer {
   if (typeof content === "string" || content instanceof Buffer) {
     return content;

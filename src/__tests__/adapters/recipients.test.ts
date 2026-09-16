@@ -1,6 +1,6 @@
 import adaptRecipients, {
   adaptSingleRecipient,
-  adaptReplyToRecipient,
+  adaptFirstRecipient,
 } from "../../adapters/recipients";
 
 describe("adapters/recipients: ", () => {
@@ -24,6 +24,19 @@ describe("adapters/recipients: ", () => {
 
       const expectedResult = {
         name: recipient.name,
+        email: recipient.address,
+      };
+      const result = adaptSingleRecipient(recipient);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("omits name if Nodemailer address has no name.", () => {
+      const recipient = {
+        address: "mock-email",
+      };
+
+      const expectedResult = {
         email: recipient.address,
       };
       const result = adaptSingleRecipient(recipient);
@@ -85,14 +98,48 @@ describe("adapters/recipients: ", () => {
 
       expect(result).toEqual(expectedResult);
     });
+
+    it("flattens nested recipients arrays.", () => {
+      const recipients = [
+        "mock-email-1",
+        [{ name: "mock-name-2", address: "mock-email-2" }, ["mock-email-3"]],
+      ];
+
+      const expectedResult = [
+        { email: "mock-email-1" },
+        { name: "mock-name-2", email: "mock-email-2" },
+        { email: "mock-email-3" },
+      ];
+      const result = adaptRecipients(recipients);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("expands address groups into their members.", () => {
+      const recipients = {
+        name: "mock-group",
+        group: [
+          { name: "mock-name-1", address: "mock-email-1" },
+          { address: "mock-email-2" },
+        ],
+      };
+
+      const expectedResult = [
+        { name: "mock-name-1", email: "mock-email-1" },
+        { email: "mock-email-2" },
+      ];
+      const result = adaptRecipients(recipients);
+
+      expect(result).toEqual(expectedResult);
+    });
   });
 
-  describe("adaptReplyToRecipient(): ", () => {
+  describe("adaptFirstRecipient(): ", () => {
     it("returns undefined if recipients is invalid.", () => {
       const recipients = undefined;
 
       const expectedResult = undefined;
-      const result = adaptReplyToRecipient(recipients);
+      const result = adaptFirstRecipient(recipients);
 
       expect(result).toEqual(expectedResult);
     });
@@ -101,7 +148,7 @@ describe("adapters/recipients: ", () => {
       const recipients: any = [];
 
       const expectedResult = undefined;
-      const result = adaptReplyToRecipient(recipients);
+      const result = adaptFirstRecipient(recipients);
 
       expect(result).toEqual(expectedResult);
     });
@@ -116,7 +163,7 @@ describe("adapters/recipients: ", () => {
         name: recipients.name,
         email: recipients.address,
       };
-      const result = adaptReplyToRecipient(recipients);
+      const result = adaptFirstRecipient(recipients);
 
       expect(result).toEqual(expectedResult);
     });
@@ -137,7 +184,16 @@ describe("adapters/recipients: ", () => {
         name: recipients[0].name,
         email: recipients[0].address,
       };
-      const result = adaptReplyToRecipient(recipients);
+      const result = adaptFirstRecipient(recipients);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("returns first adapted recipient if it's a nested array.", () => {
+      const recipients = [[], ["mock-email-1", "mock-email-2"]];
+
+      const expectedResult = { email: "mock-email-1" };
+      const result = adaptFirstRecipient(recipients);
 
       expect(result).toEqual(expectedResult);
     });

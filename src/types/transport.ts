@@ -1,5 +1,7 @@
-import NodemailerMail = require("nodemailer/lib/mailer");
+import NodemailerMail from "nodemailer/lib/mailer";
 
+import { Readable } from "node:stream";
+import { Url } from "node:url";
 import { Transport, Transporter } from "nodemailer";
 import {
   SendResponse,
@@ -7,6 +9,40 @@ import {
   CustomVariables,
   TemplateVariables,
 } from "./mailtrap";
+
+/**
+ * Address object as nodemailer accepts it. Declared structurally so it matches both the types bundled with nodemailer >= 10 and `@types/nodemailer`.
+ */
+export type NodemailerAddress = {
+  name?: string | undefined;
+  address?: string | undefined;
+  group?: NodemailerAddress[] | undefined;
+};
+
+/**
+ * Recipients as nodemailer accepts them: a string, an address object, or an array of these (nested arrays included).
+ */
+export type NodemailerRecipients =
+  | string
+  | NodemailerAddress
+  | NodemailerRecipients[];
+
+/**
+ * Object pointing to a content instead of carrying it.
+ */
+type NodemailerContentObject = {
+  content?: NodemailerContent | undefined;
+  path?: string | false | Url | undefined;
+};
+
+/**
+ * Content as nodemailer accepts it for `text`, `html` and attachments: a string, a Buffer, a readable stream or an object pointing to the content.
+ */
+export type NodemailerContent =
+  | string
+  | Buffer
+  | Readable
+  | NodemailerContentObject;
 
 type AdditionalFields = {
   category?: string;

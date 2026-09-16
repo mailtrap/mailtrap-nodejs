@@ -1,10 +1,27 @@
-import { Address as NodemailerAddress } from "nodemailer/lib/mailer";
-
 import { Address } from "../types/mailtrap";
+import { NodemailerAddress, NodemailerRecipients } from "../types/transport";
+
+/**
+ * Flattens nodemailer recipients into a plain list of string or address objects.
+ * Address groups (`{ name, group: [...] }`) are expanded into their members.
+ */
+function flattenRecipients(
+  recipients: NodemailerRecipients
+): Array<string | NodemailerAddress> {
+  if (Array.isArray(recipients)) {
+    return recipients.flatMap(flattenRecipients);
+  }
+
+  if (typeof recipients !== "string" && recipients.group) {
+    return flattenRecipients(recipients.group);
+  }
+
+  return [recipients];
+}
 
 /**
  * If type of `recipient` is string, then wraps it into email object.
- * Otherwise maps into { `name`, `email` } pair.
+ * Otherwise maps into { `name`, `email` } pair, `name` being optional in nodemailer.
  */
 export function adaptSingleRecipient(
   recipient: string | NodemailerAddress
@@ -13,52 +30,39 @@ export function adaptSingleRecipient(
     return { email: recipient };
   }
 
-  return { name: recipient.name, email: recipient.address };
+  return {
+    ...(recipient.name !== undefined && { name: recipient.name }),
+    email: recipient.address ?? "",
+  };
 }
 
 /**
  * If there is no recipient, then returns empty array.
- * If it's not array, then adopts recipient and wraps into array.
- * Otherwise maps trough recipients and adopts each one for Mailtrap.
+ * Otherwise flattens recipients and adopts each one for Mailtrap.
  */
 export default function adaptRecipients(
-  recipients:
-    | string
-    | NodemailerAddress
-    | Array<string | NodemailerAddress>
-    | undefined
+  recipients: NodemailerRecipients | undefined
 ): Address[] {
   if (!recipients) {
     return [];
   }
 
-  if (!Array.isArray(recipients)) {
-    return [adaptSingleRecipient(recipients)];
-  }
-
-  return recipients.map(adaptSingleRecipient);
+  return flattenRecipients(recipients).map(adaptSingleRecipient);
 }
 
 /**
  * If there is no recipient or empty array is passed, then return undefined since it is an optional field.
- * If it's not array, then adapt recipient and returns it.
- * Otherwise, if type is array as nodemailer allows, we pick the first recipient
- * as Mailtrap doesn't support multiple reply-to recipients.
+ * Otherwise, if several recipients are given as nodemailer allows, we pick the first one.
+ * Used for `from` and `reply_to` as Mailtrap supports a single address for both.
  */
-export function adaptReplyToRecipient(
-  recipients:
-    | string
-    | NodemailerAddress
-    | Array<string | NodemailerAddress>
-    | undefined
+export function adaptFirstRecipient(
+  recipients: NodemailerRecipients | undefined
 ): Address | undefined {
-  if (!recipients || (Array.isArray(recipients) && recipients.length === 0)) {
+  if (!recipients) {
     return undefined;
   }
 
-  if (!Array.isArray(recipients)) {
-    return adaptSingleRecipient(recipients);
-  }
+  const [first] = flattenRecipients(recipients);
 
-  return adaptSingleRecipient(recipients[0]);
+  return first === undefined ? undefined : adaptSingleRecipient(first);
 }
