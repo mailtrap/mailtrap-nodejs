@@ -22,6 +22,12 @@ async function subAccountsFlow() {
       name: "Acme Marketing",
     });
     console.log("Created sub account:", JSON.stringify(created, null, 2));
+
+    // Delete the sub account created above. Permanent – removes all of its
+    // data; deleting the organization's last sub account deletes the
+    // organization as well.
+    await subAccountsClient.delete(created.id);
+    console.log("Deleted sub account:", created.id);
   } catch (error) {
     console.error("Error in subAccountsFlow:", error instanceof Error ? error.message : String(error));
   }
