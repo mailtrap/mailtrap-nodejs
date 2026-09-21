@@ -28,9 +28,15 @@ export default function adaptAttachment(
     throw new Error(CONTENT_REQUIRED);
   }
 
+  const content = adaptContent(nodemailerAttachment.content);
+
+  if (!content) {
+    throw new Error(CONTENT_REQUIRED);
+  }
+
   return {
     filename: nodemailerAttachment.filename,
-    content: adaptContent(nodemailerAttachment.content),
+    content,
     disposition: nodemailerAttachment.contentDisposition,
     content_id: nodemailerAttachment.cid,
     type: nodemailerAttachment.contentType,

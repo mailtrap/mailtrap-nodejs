@@ -28,6 +28,21 @@ describe("adapters/attachment: ", () => {
       );
     });
 
+    it("throws `content required` error if adapted content is empty.", () => {
+      const emptyStream = new Readable({
+        read() {
+          this.push(null);
+        },
+      });
+
+      expect(() =>
+        adaptAttachment({ filename: "mock-filename", content: "" })
+      ).toThrowError(new Error(CONTENT_REQUIRED));
+      expect(() =>
+        adaptAttachment({ filename: "mock-filename", content: emptyStream })
+      ).toThrowError(new Error(CONTENT_REQUIRED));
+    });
+
     it("returns adapted attachment object in case if content is buffer.", () => {
       const attachment = {
         filename: "mock-filename",
