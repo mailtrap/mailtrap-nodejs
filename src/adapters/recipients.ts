@@ -3,7 +3,7 @@ import { NodemailerAddress, NodemailerRecipients } from "../types/transport";
 
 /**
  * Flattens nodemailer recipients into a plain list of string or address objects.
- * Address groups (`{ name, group: [...] }`) are expanded into their members.
+ * An address group (`{ name, group: [...] }`) is expanded into its members, unless it carries an address of its own, which nodemailer keeps instead.
  */
 function flattenRecipients(
   recipients: NodemailerRecipients
@@ -12,7 +12,11 @@ function flattenRecipients(
     return recipients.flatMap(flattenRecipients);
   }
 
-  if (typeof recipients !== "string" && recipients.group) {
+  if (
+    typeof recipients !== "string" &&
+    !recipients.address &&
+    recipients.group
+  ) {
     return flattenRecipients(recipients.group);
   }
 

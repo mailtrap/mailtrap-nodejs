@@ -115,6 +115,21 @@ describe("adapters/recipients: ", () => {
       expect(result).toEqual(expectedResult);
     });
 
+    it("keeps the address of a group that carries one.", () => {
+      const recipients = {
+        name: "mock-group",
+        address: "mock-group@mail.com",
+        group: [{ address: "mock-member@mail.com" }],
+      };
+
+      const expectedResult = [
+        { name: "mock-group", email: "mock-group@mail.com" },
+      ];
+      const result = adaptRecipients(recipients);
+
+      expect(result).toEqual(expectedResult);
+    });
+
     it("expands address groups into their members.", () => {
       const recipients = {
         name: "mock-group",
