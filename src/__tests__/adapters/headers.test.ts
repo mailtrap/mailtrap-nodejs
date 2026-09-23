@@ -77,23 +77,59 @@ describe("adapters/headers: ", () => {
     });
 
     it("converts non-string header values to strings.", () => {
-      const date = new Date("2026-01-02T03:04:05Z");
       const headers = {
         mockNumber: 42,
         mockBoolean: true,
-        mockDate: date,
-        mockAddress: { name: "mock-name", address: "mock-email" },
-        mockAddressWithoutName: { address: "mock-email" },
+        mockAddress: { name: "mockname", address: "mock@mail.com" },
+        mockAddressWithoutName: { address: "mock@mail.com" },
         mockNested: [[{ prepared: true, value: 7 }]],
       };
 
       const expectedResult = {
         mockNumber: "42",
         mockBoolean: "true",
-        mockDate: date.toUTCString(),
-        mockAddress: "mock-name <mock-email>",
-        mockAddressWithoutName: "mock-email",
+        mockAddress: "mockname <mock@mail.com>",
+        mockAddressWithoutName: "mock@mail.com",
         mockNested: "7",
+      };
+      const result = adaptHeaders(headers);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("quotes display names nodemailer would not leave as they are.", () => {
+      const headers = {
+        mockPlain: { name: "John Doe", address: "j@mail.com" },
+        mockComma: { name: "Doe, John", address: "j@mail.com" },
+        mockQuote: { name: 'He said "hi"', address: "j@mail.com" },
+        mockBackslash: { name: "back\\slash", address: "j@mail.com" },
+        mockUnicode: { name: "Ünïcode", address: "j@mail.com" },
+      };
+
+      const expectedResult = {
+        mockPlain: "John Doe <j@mail.com>",
+        mockComma: '"Doe, John" <j@mail.com>',
+        mockQuote: '"He said \\"hi\\"" <j@mail.com>',
+        mockBackslash: '"back\\\\slash" <j@mail.com>',
+        mockUnicode: '"Ünïcode" <j@mail.com>',
+      };
+      const result = adaptHeaders(headers);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("replaces line breaks in header values.", () => {
+      const headers = {
+        mockInjection: "mock-value\r\nInjected: yes",
+        mockAddress: {
+          name: "Eve\r\nBcc: victim@mail.com",
+          address: "j@mail.com",
+        },
+      };
+
+      const expectedResult = {
+        mockInjection: "mock-value Injected: yes",
+        mockAddress: '"Eve Bcc: victim@mail.com" <j@mail.com>',
       };
       const result = adaptHeaders(headers);
 
@@ -105,6 +141,10 @@ describe("adapters/headers: ", () => {
         mockNull: null,
         mockUndefined: undefined,
         mockEmptyArray: [],
+        mockFalse: false,
+        mockZero: 0,
+        mockBlank: "   ",
+        mockDate: new Date("2026-01-02T03:04:05Z"),
         mockAddressWithoutAddress: { name: "mock-name" },
         mockAddressWithBlankAddress: { name: "mock-name", address: "  " },
         mockKey: "mock-value",

@@ -2,26 +2,43 @@ import { MailtrapHeaders } from "../types/mailtrap";
 import { NodemailerAddress, NodemailerHeaders } from "../types/transport";
 
 /**
+ * Display name that nodemailer leaves as it is in its own address headers.
+ */
+const UNQUOTED_NAME = /^[\w ]*$/;
+
+/**
+ * Replaces the line breaks a header value can't carry with spaces, as nodemailer does.
+ */
+function adaptLineBreaks(value: string): string {
+  return value.replace(/[\r\n]+/g, " ");
+}
+
+/**
+ * Quotes and escapes a display name unless nodemailer would leave it as it is.
+ * A non-ASCII name is quoted rather than turned into a MIME encoded word, since the Mailtrap API takes it as UTF-8.
+ */
+function adaptAddressName(name: string): string {
+  return UNQUOTED_NAME.test(name)
+    ? name
+    : `"${name.replace(/([\\"])/g, "\\$1")}"`;
+}
+
+/**
  * Converts a single nodemailer header value to a string.
- * Nodemailer accepts strings, numbers, booleans, dates, address objects, `{ prepared, value }` objects and arrays of these. Returns `undefined`
- * for empty values so the header gets skipped.
+ * Nodemailer accepts strings, numbers, booleans, address objects, `{ prepared, value }` objects and arrays of these. Values nodemailer drops itself, like `false`, `0`, blank strings and dates, return `undefined` so the header gets skipped.
  * @todo support multiple value per header
  */
 function adaptHeaderValue(value: unknown): string | undefined {
-  if (value === null || value === undefined) {
+  if (!value) {
     return undefined;
   }
 
   if (typeof value === "string") {
-    return value;
+    return adaptLineBreaks(value).trim() || undefined;
   }
 
   if (typeof value === "number" || typeof value === "boolean") {
     return String(value);
-  }
-
-  if (value instanceof Date) {
-    return value.toUTCString();
   }
 
   if (Array.isArray(value)) {
@@ -35,13 +52,17 @@ function adaptHeaderValue(value: unknown): string | undefined {
 
     if ("address" in value) {
       const { name, address } = value as NodemailerAddress;
-      const email = address?.trim();
+      const email = adaptHeaderValue(address);
 
       if (!email) {
         return undefined;
       }
 
-      return name ? `${name} <${email}>` : email;
+      const displayName = adaptHeaderValue(name);
+
+      return displayName
+        ? `${adaptAddressName(displayName)} <${email}>`
+        : email;
     }
   }
 
