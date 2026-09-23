@@ -32,16 +32,14 @@ describe("adapters/recipients: ", () => {
     });
 
     it("omits name if Nodemailer address has no name.", () => {
-      const recipient = {
-        address: "mock-email",
-      };
+      const expectedResult = { email: "mock-email" };
 
-      const expectedResult = {
-        email: recipient.address,
-      };
-      const result = adaptSingleRecipient(recipient);
-
-      expect(result).toEqual(expectedResult);
+      expect(adaptSingleRecipient({ address: "mock-email" })).toEqual(
+        expectedResult
+      );
+      expect(
+        adaptSingleRecipient({ name: "   ", address: "mock-email" })
+      ).toEqual(expectedResult);
     });
   });
 
@@ -130,6 +128,14 @@ describe("adapters/recipients: ", () => {
       expect(result).toEqual(expectedResult);
     });
 
+    it("skips recipients without an address.", () => {
+      expect(adaptRecipients([{ name: "mock-name" }, "mock-email"])).toEqual([
+        { email: "mock-email" },
+      ]);
+      expect(adaptRecipients({ address: "   " })).toEqual([]);
+      expect(adaptRecipients({ name: "mock-group", group: [] })).toEqual([]);
+    });
+
     it("expands address groups into their members.", () => {
       const recipients = {
         name: "mock-group",
@@ -202,6 +208,13 @@ describe("adapters/recipients: ", () => {
       const result = adaptFirstRecipient(recipients);
 
       expect(result).toEqual(expectedResult);
+    });
+
+    it("returns the first recipient that has an address.", () => {
+      expect(
+        adaptFirstRecipient([{ name: "mock-name" }, "mock-email"])
+      ).toEqual({ email: "mock-email" });
+      expect(adaptFirstRecipient([{ name: "mock-name" }])).toBeUndefined();
     });
 
     it("returns first adapted recipient if it's a nested array.", () => {

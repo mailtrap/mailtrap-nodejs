@@ -31,18 +31,21 @@ export function adaptSingleRecipient(
   recipient: string | NodemailerAddress
 ): Address {
   if (typeof recipient === "string") {
-    return { email: recipient };
+    return { email: recipient.trim() };
   }
 
+  const name = recipient.name?.trim();
+
   return {
-    ...(recipient.name !== undefined && { name: recipient.name }),
-    email: recipient.address ?? "",
+    ...(name && { name }),
+    email: recipient.address?.trim() ?? "",
   };
 }
 
 /**
  * If there is no recipient, then returns empty array.
  * Otherwise flattens recipients and adopts each one for Mailtrap.
+ * Recipients without an address are left out, as nodemailer leaves them out of the envelope and the headers.
  */
 export default function adaptRecipients(
   recipients: NodemailerRecipients | undefined
@@ -51,22 +54,19 @@ export default function adaptRecipients(
     return [];
   }
 
-  return flattenRecipients(recipients).map(adaptSingleRecipient);
+  return flattenRecipients(recipients)
+    .map(adaptSingleRecipient)
+    .filter(({ email }) => email);
 }
 
 /**
- * If there is no recipient or empty array is passed, then return undefined since it is an optional field.
- * Otherwise, if several recipients are given as nodemailer allows, we pick the first one.
+ * Returns the first recipient that has an address, or undefined when there is none, since it is an optional field.
  * Used for `from` and `reply_to` as Mailtrap supports a single address for both.
  */
 export function adaptFirstRecipient(
   recipients: NodemailerRecipients | undefined
 ): Address | undefined {
-  if (!recipients) {
-    return undefined;
-  }
+  const [first] = adaptRecipients(recipients);
 
-  const [first] = flattenRecipients(recipients);
-
-  return first === undefined ? undefined : adaptSingleRecipient(first);
+  return first;
 }
