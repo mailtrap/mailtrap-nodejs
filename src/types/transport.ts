@@ -1,8 +1,6 @@
-import NodemailerMail from "nodemailer/lib/mailer";
-
 import { Readable } from "node:stream";
 import { Url } from "node:url";
-import { Transport, Transporter } from "nodemailer";
+import { SendMailOptions, Transport, Transporter } from "nodemailer";
 import {
   SendResponse,
   SendError,
@@ -44,6 +42,18 @@ export type NodemailerContent =
   | Readable
   | NodemailerContentObject;
 
+/**
+ * Headers as nodemailer accepts them, derived from the message options so the shape follows whichever nodemailer version is installed.
+ */
+export type NodemailerHeaders = NonNullable<SendMailOptions["headers"]>;
+
+/**
+ * Attachment as nodemailer accepts it, derived from the message options.
+ */
+export type NodemailerAttachment = NonNullable<
+  SendMailOptions["attachments"]
+>[number];
+
 type AdditionalFields = {
   category?: string;
   custom_variables?: CustomVariables;
@@ -52,7 +62,7 @@ type AdditionalFields = {
 };
 
 export type NormalizeCallbackData =
-  | (NodemailerMail.Options & AdditionalFields)
+  | (SendMailOptions & AdditionalFields)
   | undefined;
 
 export type NormalizeCallbackError = Error | null | undefined;
@@ -62,13 +72,13 @@ export type NormalizeCallback = (
   info: SendResponse | SendError
 ) => void;
 
-interface MailtrapMailOptionsSandbox extends NodemailerMail.Options {
+interface MailtrapMailOptionsSandbox extends SendMailOptions {
   customVariables?: CustomVariables;
   category?: string;
   sandbox: boolean;
 }
 
-export interface MailtrapMailOptions extends NodemailerMail.Options {
+export interface MailtrapMailOptions extends SendMailOptions {
   customVariables?: CustomVariables;
   category?: string;
   templateUuid?: string;

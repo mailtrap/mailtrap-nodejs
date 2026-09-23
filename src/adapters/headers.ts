@@ -1,8 +1,5 @@
-import Mail from "nodemailer/lib/mailer";
-
 import { MailtrapHeaders } from "../types/mailtrap";
-
-type Headers = Mail.Headers;
+import { NodemailerAddress, NodemailerHeaders } from "../types/transport";
 
 /**
  * Converts a single nodemailer header value to a string.
@@ -37,7 +34,7 @@ function adaptHeaderValue(value: unknown): string | undefined {
     }
 
     if ("address" in value) {
-      const { name, address } = value as Mail.Address;
+      const { name, address } = value as NodemailerAddress;
       const email = address?.trim();
 
       if (!email) {
@@ -57,7 +54,7 @@ function adaptHeaderValue(value: unknown): string | undefined {
  * Otherwise iterates over the object keys, converting each value to string.
  */
 export default function adaptHeaders(
-  nodemailerHeaders: Headers
+  nodemailerHeaders: NodemailerHeaders
 ): MailtrapHeaders {
   const entries: Array<[string, unknown]> = (() => {
     if (Array.isArray(nodemailerHeaders)) {

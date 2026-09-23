@@ -1,12 +1,9 @@
-import Mail from "nodemailer/lib/mailer";
-
 import adaptContent from "./content";
 
 import CONFIG from "../config";
 
 import { Attachment } from "../types/mailtrap";
-
-type NodemailerAttachment = Mail.Attachment;
+import { NodemailerAttachment } from "../types/transport";
 
 const { ERRORS } = CONFIG;
 const { FILENAME_REQUIRED, CONTENT_REQUIRED } = ERRORS;
