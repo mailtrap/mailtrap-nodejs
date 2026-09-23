@@ -79,17 +79,22 @@ export default function adaptHeaders(
 ): MailtrapHeaders {
   const entries: Array<[string, unknown]> = (() => {
     if (Array.isArray(nodemailerHeaders)) {
-      return nodemailerHeaders.map(({ key, value }) => [key, value]);
+      return nodemailerHeaders.map(({ key, value }) => [
+        key ? String(key) : "",
+        value,
+      ]);
     }
 
-    // Single `{ key, value }` header, handled the same way nodemailer does in `setHeader`.
+    /**
+     * Single `{ key, value }` header. Nodemailer applies custom headers through `addHeader`, which reads the object as a pair only when both are set, and as plain headers otherwise.
+     */
     const { key, value } = nodemailerHeaders as {
       key?: unknown;
       value?: unknown;
     };
 
-    if (typeof key === "string" && "value" in nodemailerHeaders) {
-      return [[key, value]];
+    if (key && value) {
+      return [[String(key), value]];
     }
 
     return Object.entries(nodemailerHeaders);
@@ -98,7 +103,7 @@ export default function adaptHeaders(
   return entries.reduce((acc, [key, value]) => {
     const adaptedValue = adaptHeaderValue(value);
 
-    if (adaptedValue !== undefined) {
+    if (key.trim() && adaptedValue !== undefined) {
       acc[key] = adaptedValue;
     }
 

@@ -76,6 +76,32 @@ describe("adapters/headers: ", () => {
       expect(result).toEqual(expectedResult);
     });
 
+    it("reads `{ key, value }` as a pair only when both are set.", () => {
+      expect(adaptHeaders({ key: "X-Custom", value: "mock-value" })).toEqual({
+        "X-Custom": "mock-value",
+      });
+      expect(adaptHeaders({ key: "", value: "mock-value" })).toEqual({
+        value: "mock-value",
+      });
+      expect(adaptHeaders({ key: "X-Count", value: 0 })).toEqual({
+        key: "X-Count",
+      });
+      expect(adaptHeaders({ key: "X-Only" })).toEqual({ key: "X-Only" });
+      expect(adaptHeaders({ value: "mock-value" })).toEqual({
+        value: "mock-value",
+      });
+    });
+
+    it("skips headers with a blank name.", () => {
+      expect(adaptHeaders({ key: "   ", value: "mock-value" })).toEqual({});
+      expect(
+        adaptHeaders([
+          { key: "X-One", value: "mock-value" },
+          { key: "", value: "mock-other-value" },
+        ])
+      ).toEqual({ "X-One": "mock-value" });
+    });
+
     it("converts non-string header values to strings.", () => {
       const headers = {
         mockNumber: 42,
