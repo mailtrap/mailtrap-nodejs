@@ -1,15 +1,27 @@
+import CONFIG from "../config";
+
 import { Address } from "../types/mailtrap";
 import { NodemailerAddress, NodemailerRecipients } from "../types/transport";
 
+const { TRANSPORT_SETTINGS } = CONFIG;
+const { MAX_NESTING_DEPTH } = TRANSPORT_SETTINGS;
+
 /**
  * Flattens nodemailer recipients into a plain list of string or address objects.
- * An address group (`{ name, group: [...] }`) is expanded into its members, unless it carries an address of its own, which nodemailer keeps instead.
+ * An address group (`{ name, group: [...] }`) is expanded into its members, unless it carries an address of its own, which nodemailer keeps instead. Recipients nested deeper than `MAX_NESTING_DEPTH` are left out, so input that refers to itself doesn't overflow the stack.
  */
 function flattenRecipients(
-  recipients: NodemailerRecipients
+  recipients: NodemailerRecipients,
+  depth = 0
 ): Array<string | NodemailerAddress> {
+  if (depth > MAX_NESTING_DEPTH) {
+    return [];
+  }
+
   if (Array.isArray(recipients)) {
-    return recipients.flatMap(flattenRecipients);
+    return recipients.flatMap((recipient) =>
+      flattenRecipients(recipient, depth + 1)
+    );
   }
 
   if (
@@ -17,7 +29,7 @@ function flattenRecipients(
     !recipients.address &&
     recipients.group
   ) {
-    return flattenRecipients(recipients.group);
+    return flattenRecipients(recipients.group, depth + 1);
   }
 
   return [recipients];

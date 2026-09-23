@@ -1,3 +1,5 @@
+import { NodemailerAddress } from "../../types/transport";
+
 import adaptRecipients, {
   adaptSingleRecipient,
   adaptFirstRecipient,
@@ -134,6 +136,16 @@ describe("adapters/recipients: ", () => {
       ]);
       expect(adaptRecipients({ address: "   " })).toEqual([]);
       expect(adaptRecipients({ name: "mock-group", group: [] })).toEqual([]);
+    });
+
+    it("skips recipients that refer to themselves.", () => {
+      const selfReferencing: NodemailerAddress = {
+        name: "mock-group",
+        group: [],
+      };
+      selfReferencing.group?.push(selfReferencing);
+
+      expect(adaptRecipients(selfReferencing)).toEqual([]);
     });
 
     it("expands address groups into their members.", () => {

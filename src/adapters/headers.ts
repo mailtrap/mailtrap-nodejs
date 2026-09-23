@@ -1,5 +1,10 @@
+import CONFIG from "../config";
+
 import { MailtrapHeaders } from "../types/mailtrap";
 import { NodemailerAddress, NodemailerHeaders } from "../types/transport";
+
+const { TRANSPORT_SETTINGS } = CONFIG;
+const { MAX_NESTING_DEPTH } = TRANSPORT_SETTINGS;
 
 /**
  * Display name that nodemailer leaves as it is in its own address headers.
@@ -25,11 +30,11 @@ function adaptAddressName(name: string): string {
 
 /**
  * Converts a single nodemailer header value to a string.
- * Nodemailer accepts strings, numbers, booleans, address objects, `{ prepared, value }` objects and arrays of these. Values nodemailer drops itself, like `false`, `0`, blank strings and dates, return `undefined` so the header gets skipped.
+ * Nodemailer accepts strings, numbers, booleans, address objects, `{ prepared, value }` objects and arrays of these. Values nodemailer drops itself, like `false`, `0`, blank strings and dates, return `undefined` so the header gets skipped, and so does a value nested deeper than `MAX_NESTING_DEPTH`.
  * @todo support multiple value per header
  */
-function adaptHeaderValue(value: unknown): string | undefined {
-  if (!value) {
+function adaptHeaderValue(value: unknown, depth = 0): string | undefined {
+  if (!value || depth > MAX_NESTING_DEPTH) {
     return undefined;
   }
 
@@ -42,23 +47,23 @@ function adaptHeaderValue(value: unknown): string | undefined {
   }
 
   if (Array.isArray(value)) {
-    return adaptHeaderValue(value[0]); // TODO: support multiple value per header
+    return adaptHeaderValue(value[0], depth + 1); // TODO: support multiple value per header
   }
 
   if (typeof value === "object") {
     if ("value" in value) {
-      return adaptHeaderValue(value.value);
+      return adaptHeaderValue(value.value, depth + 1);
     }
 
     if ("address" in value) {
       const { name, address } = value as NodemailerAddress;
-      const email = adaptHeaderValue(address);
+      const email = adaptHeaderValue(address, depth + 1);
 
       if (!email) {
         return undefined;
       }
 
-      const displayName = adaptHeaderValue(name);
+      const displayName = adaptHeaderValue(name, depth + 1);
 
       return displayName
         ? `${adaptAddressName(displayName)} <${email}>`

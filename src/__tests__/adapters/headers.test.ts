@@ -102,6 +102,13 @@ describe("adapters/headers: ", () => {
       ).toEqual({ "X-One": "mock-value" });
     });
 
+    it("skips a value that refers to itself.", () => {
+      const selfReferencing: { value?: unknown } = {};
+      selfReferencing.value = selfReferencing;
+
+      expect(adaptHeaders({ mockKey: selfReferencing })).toEqual({});
+    });
+
     it("converts non-string header values to strings.", () => {
       const headers = {
         mockNumber: 42,
