@@ -60,7 +60,7 @@
   },
   "repository": "https://github.com/railsware/mailtrap-nodejs",
   "scripts": {
-    "build": "rimraf dist && tsc --project tsconfig.build.json",
+    "build": "rimraf dist && tsc --project tsconfig.build.json && rimraf dist/lib/transport-esm.mjs",
     "lint": "yarn lint:eslint && yarn lint:tsc",
     "lint:eslint": "yarn run eslint . --ext .js,.ts",
     "lint:tsc": "tsc -p . --noEmit --incremental false",

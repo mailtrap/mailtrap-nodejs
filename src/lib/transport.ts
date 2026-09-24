@@ -1,3 +1,4 @@
+/// <reference path="./transport-esm.mts" preserve="true" />
 import { Transport } from "nodemailer";
 
 import MailtrapClient from "./MailtrapClient";
@@ -59,6 +60,8 @@ declare module "nodemailer" {
     transport: MailtrapTransport
   ): MailtrapTransporter;
 }
+
+export type { MailtrapTransport as MailtrapTransportInstance };
 
 export default (options: MailtrapClientConfig) =>
   new MailtrapTransport(options);
