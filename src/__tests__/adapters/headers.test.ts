@@ -102,6 +102,15 @@ describe("adapters/headers: ", () => {
       ).toEqual({ "X-One": "mock-value" });
     });
 
+    it("trims header names, as nodemailer does.", () => {
+      expect(adaptHeaders({ "  X-One  ": "mock-value" })).toEqual({
+        "X-One": "mock-value",
+      });
+      expect(
+        adaptHeaders([{ key: " X-Two ", value: "mock-other-value" }])
+      ).toEqual({ "X-Two": "mock-other-value" });
+    });
+
     it("skips a value that refers to itself.", () => {
       const selfReferencing: { value?: unknown } = {};
       selfReferencing.value = selfReferencing;

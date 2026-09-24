@@ -78,6 +78,7 @@ function adaptHeaderValue(value: unknown, depth = 0): string | undefined {
  * Adapts nodemailer headers to mailtrap compatible form.
  * If `nodemailerHeaders` is a { key, value } object or an array of them, then converts to object.
  * Otherwise iterates over the object keys, converting each value to string.
+ * Header names are trimmed as nodemailer does, and a name left blank drops the header.
  */
 export default function adaptHeaders(
   nodemailerHeaders: NodemailerHeaders
@@ -106,10 +107,11 @@ export default function adaptHeaders(
   })();
 
   return entries.reduce((acc, [key, value]) => {
+    const name = key.trim();
     const adaptedValue = adaptHeaderValue(value);
 
-    if (key.trim() && adaptedValue !== undefined) {
-      acc[key] = adaptedValue;
+    if (name && adaptedValue !== undefined) {
+      acc[name] = adaptedValue;
     }
 
     return acc;

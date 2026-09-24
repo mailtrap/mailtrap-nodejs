@@ -1,10 +1,12 @@
+import adaptContent from "./content";
+
 import CONFIG from "../config";
 
 import { Attachment } from "../types/mailtrap";
 import { NodemailerAttachment } from "../types/transport";
 
 const { ERRORS } = CONFIG;
-const { FILENAME_REQUIRED, CONTENT_REQUIRED } = ERRORS;
+const { FILENAME_REQUIRED } = ERRORS;
 
 /**
  * Adopts Nodemailer attachment to Mailtrap.
@@ -19,21 +21,9 @@ export default function adaptAttachment(
     throw new Error(FILENAME_REQUIRED);
   }
 
-  /**
-   * Nodemailer resolves every content form it supports into a string or a Buffer before the transport runs, so anything left is not a content we can read: reading it here would bypass options like `disableFileAccess`.
-   */
-  const { content } = nodemailerAttachment;
-
-  if (
-    !content ||
-    (typeof content !== "string" && !(content instanceof Buffer))
-  ) {
-    throw new Error(CONTENT_REQUIRED);
-  }
-
   return {
     filename: nodemailerAttachment.filename,
-    content,
+    content: adaptContent(nodemailerAttachment.content),
     disposition: nodemailerAttachment.contentDisposition,
     content_id: nodemailerAttachment.cid,
     type: nodemailerAttachment.contentType,
