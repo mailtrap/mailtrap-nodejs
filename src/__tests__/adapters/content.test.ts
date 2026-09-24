@@ -1,9 +1,11 @@
 import { Readable } from "stream";
-import fs from "node:fs";
 
 import adaptContent from "../../adapters/content";
 
-jest.mock("node:fs");
+import config from "../../config";
+
+const { ERRORS } = config;
+const { CONTENT_REQUIRED } = ERRORS;
 
 describe("adapters/content: ", () => {
   describe("adaptContent(): ", () => {
@@ -23,39 +25,29 @@ describe("adapters/content: ", () => {
       expect(result).toBe(content);
     });
 
-    it("checks if read method has been called if content is readable.", () => {
-      const content = "mock-content";
+    it("throws `content required` error for content nodemailer did not resolve.", () => {
       const readableStream = new Readable({
         read() {
-          this.push(content);
+          this.push("mock-content");
           this.push(null);
         },
       });
 
-      const result = adaptContent(readableStream);
+      const unresolvedContents = [
+        undefined,
+        "",
+        readableStream,
+        { path: __filename },
+        { content: "mock-content" },
+        { content: { path: __filename } },
+        { content: { content: { path: __filename } } },
+      ];
 
-      expect(result.toString()).toEqual(content);
-    });
-
-    it("recursively checks the content if content has content property.", () => {
-      const content = {
-        content: "mock-content",
-      };
-
-      const result = adaptContent(content);
-
-      expect(result).toBe(content.content);
-    });
-
-    it("reads file in case if content is file and has path.", () => {
-      const content = {
-        path: "mock-path",
-      };
-
-      adaptContent(content);
-
-      expect(fs.readFileSync).toBeCalledTimes(1);
-      expect(fs.readFileSync).toBeCalledWith(content.path);
+      unresolvedContents.forEach((content) => {
+        expect(() => adaptContent(content)).toThrowError(
+          new Error(CONTENT_REQUIRED)
+        );
+      });
     });
   });
 });

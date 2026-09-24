@@ -1,27 +1,23 @@
-import { readFileSync } from "node:fs";
-import { Readable } from "node:stream";
-import { AttachmentLike } from "nodemailer/lib/mailer";
+import CONFIG from "../config";
+
+import { NodemailerContent } from "../types/transport";
+
+const { ERRORS } = CONFIG;
+const { CONTENT_REQUIRED } = ERRORS;
 
 /**
- * Checks if content type is rather string or buffer, returns content.
- * If content is Readble stream, then calls .read().
- * If content has recursive content property then calls the same function recursively.
- * Otherwise reads file.
+ * Returns the content in the form Mailtrap takes it.
+ * Nodemailer resolves every content form it supports into a string or a Buffer before the transport runs, so anything left is not a content we can read: reading it here would bypass options like `disableFileAccess`.
  */
 export default function adaptContent(
-  content: string | Buffer | Readable | AttachmentLike
+  content: NodemailerContent | undefined
 ): string | Buffer {
-  if (typeof content === "string" || content instanceof Buffer) {
-    return content;
+  if (
+    !content ||
+    (typeof content !== "string" && !(content instanceof Buffer))
+  ) {
+    throw new Error(CONTENT_REQUIRED);
   }
 
-  if (content instanceof Readable) {
-    return content.read();
-  }
-
-  if (content.content) {
-    return adaptContent(content.content);
-  }
-
-  return readFileSync(content.path as string);
+  return content;
 }
