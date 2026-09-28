@@ -3,7 +3,7 @@ import adaptMail from "../../adapters/mail";
 import config from "../../config";
 import {
   adaptSingleRecipient,
-  adaptReplyToRecipient,
+  adaptFirstRecipient,
 } from "../../adapters/recipients";
 
 const { ERRORS } = config;
@@ -18,6 +18,17 @@ describe("adapters/mail: ", () => {
       const result = adaptMail(data);
 
       expect(result).toEqual(expectedResult);
+    });
+
+    it("returns object with error `from is required` if from has no address.", () => {
+      const expectedResult = { success: false, errors: [FROM_REQUIRED] };
+
+      expect(adaptMail({ from: "" })).toEqual(expectedResult);
+      expect(adaptMail({ from: [] })).toEqual(expectedResult);
+      expect(adaptMail({ from: { address: "" } })).toEqual(expectedResult);
+      expect(adaptMail({ from: { name: "mock-name" } })).toEqual(
+        expectedResult
+      );
     });
 
     it("returns `mail` object with basic info + headers.", () => {
@@ -37,7 +48,7 @@ describe("adapters/mail: ", () => {
         bcc: [],
         headers: data.headers,
         subject: data.subject,
-        reply_to: adaptReplyToRecipient(data.replyTo),
+        reply_to: adaptFirstRecipient(data.replyTo),
       };
       const result = adaptMail(data);
 
@@ -63,7 +74,7 @@ describe("adapters/mail: ", () => {
         bcc: [],
         headers: data.headers,
         attachments: data.attachments,
-        reply_to: adaptReplyToRecipient(data.replyTo),
+        reply_to: adaptFirstRecipient(data.replyTo),
       };
       const result = adaptMail(data);
 
@@ -93,7 +104,7 @@ describe("adapters/mail: ", () => {
         headers: data.headers,
         attachments: data.attachments,
         custom_variables: data.customVariables,
-        reply_to: adaptReplyToRecipient(data.replyTo),
+        reply_to: adaptFirstRecipient(data.replyTo),
       };
       const result = adaptMail(data);
 

@@ -27,7 +27,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^29.3.1",
-    "nodemailer": "^9.0.1",
+    "nodemailer": "^10.0.0",
     "prettier": "^2.6.2",
     "rimraf": "^5.0.5",
     "ts-node": "^10.2.1",
@@ -48,7 +48,7 @@
   },
   "peerDependencies": {
     "@types/nodemailer": "^6.4.9",
-    "nodemailer": "^9.0.1"
+    "nodemailer": "^9.0.1 || ^10.0.0"
   },
   "peerDependenciesMeta": {
     "nodemailer": {
@@ -60,7 +60,7 @@
   },
   "repository": "https://github.com/railsware/mailtrap-nodejs",
   "scripts": {
-    "build": "rimraf dist && tsc --project tsconfig.build.json",
+    "build": "rimraf dist && tsc --project tsconfig.build.json && rimraf dist/lib/transport-esm.mjs",
     "lint": "yarn lint:eslint && yarn lint:tsc",
     "lint:eslint": "yarn run eslint . --ext .js,.ts",
     "lint:tsc": "tsc -p . --noEmit --incremental false",

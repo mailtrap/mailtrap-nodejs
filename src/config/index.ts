@@ -25,5 +25,9 @@ export default {
   },
   TRANSPORT_SETTINGS: {
     NAME: "MailtrapTransport",
+    /**
+     * How deep an adapter follows a nested value before giving up, so input that refers to itself doesn't overflow the stack.
+     */
+    MAX_NESTING_DEPTH: 10,
   },
 };

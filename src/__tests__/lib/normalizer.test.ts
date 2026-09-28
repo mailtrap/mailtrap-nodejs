@@ -5,7 +5,8 @@ import config from "../../config";
 import { SendError, SendResponse } from "../../types/mailtrap";
 
 const { ERRORS } = config;
-const { SENDING_FAILED, NO_DATA_ERROR, FROM_REQUIRED } = ERRORS;
+const { SENDING_FAILED, NO_DATA_ERROR, FROM_REQUIRED, CONTENT_REQUIRED } =
+  ERRORS;
 
 describe("lib/normalizer: ", () => {
   describe("normalizeCallback(): ", () => {
@@ -99,6 +100,37 @@ describe("lib/normalizer: ", () => {
           name: "mock-name",
         },
         subject: "mock-subject",
+      };
+
+      // @ts-ignore
+      const cb = normalizeCallback(mockClient, callback);
+
+      cb(null, mailData);
+    });
+
+    it("passes error to callback in case if adapter throws.", () => {
+      expect.assertions(3);
+
+      const mockClient = {
+        send: () => Promise.resolve("mock-result"),
+      };
+      const callback = (error: Error, data: SendError) => {
+        expect(error).toBeInstanceOf(Error);
+        expect(data.success).toBeFalsy();
+        expect(data.errors[0]).toEqual(CONTENT_REQUIRED);
+      };
+      const mailData = {
+        text: "mock-text",
+        to: {
+          address: "mock@mail.com",
+          name: "mock-name",
+        },
+        from: {
+          address: "mock@mail.com",
+          name: "mock-name",
+        },
+        subject: "mock-subject",
+        attachments: [{ filename: "mock-filename" }],
       };
 
       // @ts-ignore
