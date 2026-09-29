@@ -4,6 +4,7 @@
 * MT-23488: fix bulk permissions request body field names by @oshchyhol in https://github.com/mailtrap/mailtrap-nodejs/pull/151
 * Add sending domain update and company info endpoints by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/153
 * Add tracking opt-outs and create-suppression endpoints by @mklocek in https://github.com/mailtrap/mailtrap-nodejs/pull/154
+* MT-23076: support expires_at on api token create and reset by @oshchyhol in https://github.com/mailtrap/mailtrap-nodejs/pull/149
 
 ## New Contributors
 * @oshchyhol made their first contribution in https://github.com/mailtrap/mailtrap-nodejs/pull/151
