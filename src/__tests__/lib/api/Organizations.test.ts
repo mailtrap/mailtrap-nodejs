@@ -12,6 +12,7 @@ describe("lib/api/Organizations: ", () => {
         expect(organizationsAPI).toHaveProperty("subAccounts");
         expect(typeof organizationsAPI.subAccounts.getList).toBe("function");
         expect(typeof organizationsAPI.subAccounts.create).toBe("function");
+        expect(typeof organizationsAPI.subAccounts.delete).toBe("function");
       });
     });
   });

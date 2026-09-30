@@ -281,7 +281,7 @@ General API:
 - Permissions listing – [`general/permissions.ts`](examples/general/permissions.ts)
 - Users listing – [`general/account-accesses.ts`](examples/general/account-accesses.ts)
 - API tokens CRUD & reset – [`general/api-tokens.ts`](examples/general/api-tokens.ts)
-- Sub-accounts (list & create) – [`sub-accounts/everything.ts`](examples/sub-accounts/everything.ts)
+- Sub-accounts (list, create & delete) – [`sub-accounts/everything.ts`](examples/sub-accounts/everything.ts)
 
 ## Contributing
 

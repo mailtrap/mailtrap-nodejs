@@ -20,6 +20,7 @@ describe("lib/api/resources/SubAccounts: ", () => {
       it("initializes with all necessary params.", () => {
         expect(subAccountsAPI).toHaveProperty("getList");
         expect(subAccountsAPI).toHaveProperty("create");
+        expect(subAccountsAPI).toHaveProperty("delete");
       });
     });
   });
@@ -99,6 +100,37 @@ describe("lib/api/resources/SubAccounts: ", () => {
 
       try {
         await subAccountsAPI.create(params);
+      } catch (error) {
+        expect(error).toBeInstanceOf(MailtrapError);
+
+        if (error instanceof MailtrapError) {
+          expect(error.message).toEqual(expectedErrorMessage);
+        }
+      }
+    });
+  });
+
+  describe("delete(): ", () => {
+    const subAccountId = 12347;
+    const endpoint = `${GENERAL_ENDPOINT}/api/organizations/${organizationId}/sub_accounts/${subAccountId}`;
+
+    it("deletes a sub account, returning nothing (204 No Content).", async () => {
+      expect.assertions(2);
+
+      mock.onDelete(endpoint).reply(204);
+      const result = await subAccountsAPI.delete(subAccountId);
+
+      expect(mock.history.delete[0].url).toEqual(endpoint);
+      expect(result).toBeUndefined();
+    });
+
+    it("fails with error.", async () => {
+      const expectedErrorMessage = "Request failed with status code 404";
+
+      expect.assertions(2);
+
+      try {
+        await subAccountsAPI.delete(subAccountId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
