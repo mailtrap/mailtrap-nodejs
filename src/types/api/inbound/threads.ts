@@ -1,7 +1,21 @@
+import { ForwardOutcome } from "./forward-rules";
 import { AttachmentWithDownloadUrl } from "./messages";
 
 export type MessageVisibilityStatus = "available" | "placeholder";
 export type MessageDirection = "inbound" | "outbound";
+
+export type ThreadMessageDeliveryStatus =
+  | "delivered"
+  | "not_delivered"
+  | "enqueued"
+  | "opted_out";
+
+export interface ThreadMessageDelivery {
+  to: string;
+  status: ThreadMessageDeliveryStatus;
+  delivered_at: string | null;
+  bounced_at: string | null;
+}
 
 export interface ThreadSummary {
   id: string;
@@ -20,8 +34,7 @@ export interface ThreadSummary {
 
 /**
  * A message inside a thread. Only `visibility_status` and `direction` are
- * guaranteed; `placeholder` entries omit the rest. `available` outbound
- * entries additionally carry the delivery lifecycle fields.
+ * guaranteed; `placeholder` entries omit the rest.
  */
 export interface ThreadMessage {
   visibility_status: MessageVisibilityStatus;
@@ -42,9 +55,8 @@ export interface ThreadMessage {
   text_body?: string | null;
   html_body?: string | null;
   attachments?: AttachmentWithDownloadUrl[];
-  delivery_status?: string | null;
-  delivered_at?: string | null;
-  bounced_at?: string | null;
+  delivery?: ThreadMessageDelivery;
+  forwards?: ForwardOutcome[];
 }
 
 export interface Thread extends ThreadSummary {
@@ -59,4 +71,5 @@ export interface ThreadsListResponse {
 
 export interface ThreadsListParams {
   last_id?: string;
+  search?: string;
 }
