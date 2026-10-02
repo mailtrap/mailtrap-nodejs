@@ -24,11 +24,31 @@ async function threadsFlow() {
       );
     }
 
-    if (list.data.length > 0) {
+    const search = "acme";
+    const filtered = await threadsClient.getList(INBOX_ID, { search });
+    console.log("Threads matching search:", filtered);
+
+    if (filtered.last_id) {
       console.log(
-        "First thread:",
-        await threadsClient.get(INBOX_ID, list.data[0].id)
+        "Next filtered page:",
+        await threadsClient.getList(INBOX_ID, {
+          search,
+          last_id: filtered.last_id,
+        })
       );
+    }
+
+    if (list.data.length > 0) {
+      const thread = await threadsClient.get(INBOX_ID, list.data[0].id);
+      console.log("First thread:", thread);
+
+      thread.messages.forEach((message) => {
+        if (message.direction === "outbound") {
+          console.log("Delivery:", message.delivery);
+        } else {
+          console.log("Forwards:", message.forwards);
+        }
+      });
     }
 
     if (!THREAD_ID) {

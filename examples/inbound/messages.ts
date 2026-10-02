@@ -25,6 +25,8 @@ async function messagesFlow() {
     }
 
     if (list.data.length > 0) {
+      console.log("Forward outcomes:", list.data[0].forwards);
+
       console.log(
         "First message:",
         await messagesClient.get(INBOX_ID, list.data[0].id)

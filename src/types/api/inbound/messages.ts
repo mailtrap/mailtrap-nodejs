@@ -1,3 +1,5 @@
+import { ForwardOutcome } from "./forward-rules";
+
 export type ContentDisposition = "attachment" | "inline";
 
 export interface Attachment {
@@ -36,6 +38,7 @@ export interface Message {
   /** ID of the thread this message belongs to, if any. */
   thread_id: string | null;
   attachments: Attachment[];
+  forwards: ForwardOutcome[];
 }
 
 export interface MessageDetails extends Omit<Message, "attachments"> {
