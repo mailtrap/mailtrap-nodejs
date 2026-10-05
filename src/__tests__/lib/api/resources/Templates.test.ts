@@ -5,9 +5,10 @@ import TemplatesApi from "../../../../lib/api/resources/Templates";
 import handleSendingError from "../../../../lib/axios-logger";
 import MailtrapError from "../../../../lib/MailtrapError";
 import {
+  CreateTemplateParams,
+  ListTemplatesResponse,
   Template,
-  TemplateCreateParams,
-  TemplateUpdateParams,
+  UpdateTemplateParams,
 } from "../../../../types/api/templates";
 
 import CONFIG from "../../../../config";
@@ -20,7 +21,7 @@ describe("lib/api/resources/Templates: ", () => {
   const accountId = 100;
   const templatesAPI = new TemplatesApi(axios, accountId);
 
-  const createTemplateRequest: TemplateCreateParams = {
+  const createTemplateRequest: CreateTemplateParams = {
     name: "Welcome Email",
     subject: "Welcome to Our Service!",
     category: "Promotional",
@@ -40,7 +41,7 @@ describe("lib/api/resources/Templates: ", () => {
     updated_at: "2023-01-01T00:00:00Z",
   };
 
-  const updateTemplateRequest: TemplateUpdateParams = {
+  const updateTemplateRequest: UpdateTemplateParams = {
     name: "Updated Welcome Email",
     subject: "Welcome to Our Amazing Service!",
     body_html:
@@ -85,9 +86,9 @@ describe("lib/api/resources/Templates: ", () => {
   });
 
   describe("getList(): ", () => {
-    it("successfully gets all templates.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates`;
-      const expectedResponseData: Template[] = [
+    const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates`;
+    const expectedResponseData: ListTemplatesResponse = {
+      data: [
         {
           id: 1,
           uuid: "813e39db-c74a-4830-b037-0e6ba8b1fe88",
@@ -112,27 +113,50 @@ describe("lib/api/resources/Templates: ", () => {
           created_at: "2023-01-01T00:00:00Z",
           updated_at: "2023-01-01T00:00:00Z",
         },
-      ];
+      ],
+      pagination: {
+        token: 1,
+        prev_token: null,
+        next_token: 2,
+        first_url: `${endpoint}?per_page=50&token=1`,
+        prev_url: null,
+        current_url: `${endpoint}?per_page=50&token=1`,
+        next_url: `${endpoint}?per_page=50&token=2`,
+      },
+    };
 
-      expect.assertions(2);
+    it("successfully gets a page of templates.", async () => {
+      expect.assertions(3);
 
       mock.onGet(endpoint).reply(200, expectedResponseData);
       const result = await templatesAPI.getList();
 
       expect(mock.history.get[0].url).toEqual(endpoint);
+      expect(mock.history.get[0].params).toEqual({});
+      expect(result).toEqual(expectedResponseData);
+    });
+
+    it("serializes per_page and token as query params.", async () => {
+      const params = { per_page: 25, token: 2 };
+
+      expect.assertions(2);
+
+      mock.onGet(endpoint, { params }).reply(200, expectedResponseData);
+      const result = await templatesAPI.getList(params);
+
+      expect(mock.history.get[0].params).toEqual(params);
       expect(result).toEqual(expectedResponseData);
     });
 
     it("fails with error.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates`;
-      const expectedErrorMessage = "Request failed with status code 400";
+      const expectedErrorMessage = "token is out of range";
 
       expect.assertions(2);
 
-      mock.onGet(endpoint).reply(400, { error: expectedErrorMessage });
+      mock.onGet(endpoint).reply(422, { errors: expectedErrorMessage });
 
       try {
-        await templatesAPI.getList();
+        await templatesAPI.getList({ token: 99 });
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
         if (error instanceof MailtrapError) {
@@ -145,18 +169,8 @@ describe("lib/api/resources/Templates: ", () => {
   describe("get(): ", () => {
     it("successfully gets a template by ID.", async () => {
       const templateId = 1;
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates/${templateId}`;
-      const expectedResponseData: Template = {
-        id: templateId,
-        uuid: "813e39db-c74a-4830-b037-0e6ba8b1fe88",
-        name: "Welcome Email",
-        subject: "Welcome to Our Service!",
-        category: "Promotional",
-        body_html: "<h1>Welcome!</h1><p>Thank you for joining our service.</p>",
-        body_text: "Welcome! Thank you for joining our service.",
-        created_at: "2023-01-01T00:00:00Z",
-        updated_at: "2023-01-01T00:00:00Z",
-      };
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates/${templateId}`;
+      const expectedResponseData = { data: createTemplateResponse };
 
       expect.assertions(2);
 
@@ -169,7 +183,7 @@ describe("lib/api/resources/Templates: ", () => {
 
     it("fails with error when getting a template.", async () => {
       const templateId = 999;
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates/${templateId}`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates/${templateId}`;
       const expectedErrorMessage = "Template not found";
 
       expect.assertions(2);
@@ -188,23 +202,26 @@ describe("lib/api/resources/Templates: ", () => {
   });
 
   describe("create(): ", () => {
-    it("successfully creates a template.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates`;
-      const expectedResponseData = createTemplateResponse;
+    it("successfully creates a template with a flat request body.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates`;
+      const expectedResponseData = { data: createTemplateResponse };
 
-      expect.assertions(2);
+      expect.assertions(3);
 
       mock
-        .onPost(endpoint, { email_template: createTemplateRequest })
-        .reply(200, expectedResponseData);
+        .onPost(endpoint, createTemplateRequest)
+        .reply(201, expectedResponseData);
       const result = await templatesAPI.create(createTemplateRequest);
 
       expect(mock.history.post[0].url).toEqual(endpoint);
+      expect(JSON.parse(mock.history.post[0].data)).toEqual(
+        createTemplateRequest
+      );
       expect(result).toEqual(expectedResponseData);
     });
 
     it("fails with error.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates`;
       const expectedErrorMessage = "Request failed with status code 400";
 
       expect.assertions(2);
@@ -225,14 +242,14 @@ describe("lib/api/resources/Templates: ", () => {
   describe("update(): ", () => {
     const templateId = 1;
 
-    it("successfully updates a template.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates/${templateId}`;
-      const expectedResponseData = updateTemplateResponse;
+    it("successfully updates a template with a flat request body.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates/${templateId}`;
+      const expectedResponseData = { data: updateTemplateResponse };
 
-      expect.assertions(2);
+      expect.assertions(3);
 
       mock
-        .onPatch(endpoint, { email_template: updateTemplateRequest })
+        .onPatch(endpoint, updateTemplateRequest)
         .reply(200, expectedResponseData);
       const result = await templatesAPI.update(
         templateId,
@@ -240,11 +257,14 @@ describe("lib/api/resources/Templates: ", () => {
       );
 
       expect(mock.history.patch[0].url).toEqual(endpoint);
+      expect(JSON.parse(mock.history.patch[0].data)).toEqual(
+        updateTemplateRequest
+      );
       expect(result).toEqual(expectedResponseData);
     });
 
     it("fails with error.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates/${templateId}`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates/${templateId}`;
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
@@ -266,7 +286,7 @@ describe("lib/api/resources/Templates: ", () => {
     const templateId = 1;
 
     it("successfully deletes a template.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates/${templateId}`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates/${templateId}`;
 
       expect.assertions(1);
 
@@ -277,7 +297,7 @@ describe("lib/api/resources/Templates: ", () => {
     });
 
     it("fails with error.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates/${templateId}`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates/${templateId}`;
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
