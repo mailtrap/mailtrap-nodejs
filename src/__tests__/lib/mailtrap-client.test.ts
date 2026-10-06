@@ -13,6 +13,7 @@ import ContactLists from "../../lib/api/ContactLists";
 import Contacts from "../../lib/api/Contacts";
 import ContactExportsBaseAPI from "../../lib/api/ContactExports";
 import TemplatesBaseAPI from "../../lib/api/Templates";
+import PaginatedTemplatesBaseAPI from "../../lib/api/PaginatedTemplates";
 import SuppressionsBaseAPI from "../../lib/api/Suppressions";
 import SendingDomainsBaseAPI from "../../lib/api/SendingDomains";
 import EmailLogsBaseAPI from "../../lib/api/EmailLogs";
@@ -875,6 +876,34 @@ describe("lib/mailtrap-client: ", () => {
 
         const templatesClient = client.templates;
         expect(templatesClient).toBeInstanceOf(TemplatesBaseAPI);
+      });
+    });
+
+    describe("get paginatedTemplates(): ", () => {
+      it("rejects with Mailtrap error, when `accountId` is missing.", () => {
+        const client = new MailtrapClient({
+          token: "MY_API_TOKEN",
+        });
+        expect.assertions(1);
+
+        try {
+          client.paginatedTemplates;
+        } catch (error) {
+          expect(error).toEqual(new MailtrapError(ACCOUNT_ID_MISSING));
+        }
+      });
+
+      it("returns paginated templates API object when accountId is provided.", () => {
+        const client = new MailtrapClient({
+          token: "MY_API_TOKEN",
+          accountId: 10,
+        });
+        expect.assertions(1);
+
+        const paginatedTemplatesClient = client.paginatedTemplates;
+        expect(paginatedTemplatesClient).toBeInstanceOf(
+          PaginatedTemplatesBaseAPI
+        );
       });
     });
 

@@ -24,6 +24,7 @@ import SuppressionsBaseAPI from "./api/Suppressions";
 import TrackingOptOutsBaseAPI from "./api/TrackingOptOuts";
 import OrganizationsBaseAPI from "./api/Organizations";
 import TemplatesBaseAPI from "./api/Templates";
+import PaginatedTemplatesBaseAPI from "./api/PaginatedTemplates";
 import TestingAPI from "./api/Testing";
 import WebhooksBaseAPI from "./api/Webhooks";
 
@@ -212,6 +213,16 @@ export default class MailtrapClient {
   get templates() {
     const accountId = this.validateAccountIdPresence();
     return new TemplatesBaseAPI(this.axios, accountId);
+  }
+
+  /**
+   * Getter for the paginated Templates API (`/api/templates`). The endpoints
+   * are experimental: their request and response shapes may change before
+   * general availability.
+   */
+  get paginatedTemplates() {
+    const accountId = this.validateAccountIdPresence();
+    return new PaginatedTemplatesBaseAPI(this.axios, accountId);
   }
 
   /**
