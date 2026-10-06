@@ -273,8 +273,8 @@ Email Marketing:
 
 General API:
 
-- Templates CRUD – [`templates/everything.ts`](examples/templates/everything.ts)
-- Paginated templates CRUD (experimental, `/api/templates`) – [`templates/paginated.ts`](examples/templates/paginated.ts)
+- Templates CRUD, paginated (experimental) – [`templates/everything.ts`](examples/templates/everything.ts)
+- Email templates CRUD (`/api/email_templates`) – [`templates/email-templates.ts`](examples/templates/email-templates.ts)
 - Suppressions (create, find & delete) – [`sending/suppressions.ts`](examples/sending/suppressions.ts)
 - Tracking Opt-outs (list, create & delete) – [`sending/tracking-opt-outs.ts`](examples/sending/tracking-opt-outs.ts)
 - Billing info – [`general/billing.ts`](examples/general/billing.ts)
@@ -300,3 +300,12 @@ Everyone interacting in the Mailtrap project's codebases, issue trackers, chat r
 
 Versions of this package up to 2.0.2 were an [unofficial client](https://github.com/vchin/mailtrap-client) developed by [@vchin](https://github.com/vchin). Package version 3 is a completely new package. 
 
+### Upgrading to 5.0
+
+`client.templates` now calls the paginated `/api/templates` endpoints instead of `/api/email_templates`:
+
+- `getList()` takes optional `{ token, per_page }` and resolves `{ data, pagination }` instead of a bare array. Pages hold at most 100 templates; pass `pagination.next_token` with the same `per_page` for the rest.
+- `get`, `create` and `update` resolve `{ data }` instead of the bare template. `body_html` and `body_text` are `null` when the template has no such body.
+- `create` and `update` send the fields as a flat body, so `category` is required on `create` while `body_html` and `body_text` are optional.
+
+The `/api/templates` endpoints are experimental, and their shapes may change in a minor release before general availability. To keep the 4.x behavior, rename `client.templates` to `client.emailTemplates`: it calls the stable `/api/email_templates` endpoints with the same methods and shapes.

@@ -1,5 +1,8 @@
 import { MailtrapClient } from "mailtrap";
 
+// The /api/templates endpoints are experimental: their request and response
+// shapes may change before general availability.
+
 const TOKEN = "<YOUR-TOKEN-HERE>";
 const ACCOUNT_ID = "<YOUR-ACCOUNT-ID-HERE>";
 
@@ -17,26 +20,30 @@ async function templatesFlow() {
     body_html: "<h1>Welcome!</h1><p>Thank you for joining our service.</p>",
     body_text: "Welcome! Thank you for joining our service."
   });
-  console.log("Created template:", newTemplate);
+  console.log("Created template:", newTemplate.data);
 
-  // Get all templates
-  const allTemplates = await client.templates.getList();
-  console.log("All templates:", allTemplates);
+  // List every template, one page at a time (page-token pagination)
+  let token: number | null = 1;
+  while (token !== null) {
+    const page = await client.templates.getList({ per_page: 50, token });
+    console.log("Templates:", page.data);
+    token = page.pagination.next_token;
+  }
 
   // Get a specific template
-  const template = await client.templates.get(newTemplate.id);
-  console.log("Template details:", template);
+  const template = await client.templates.get(newTemplate.data.id);
+  console.log("Template details:", template.data);
 
   // Update the template
-  const updatedTemplate = await client.templates.update(newTemplate.id, {
+  const updatedTemplate = await client.templates.update(newTemplate.data.id, {
     name: "Updated Welcome Email",
     subject: "Welcome to Our Amazing Service!",
     body_html: "<h1>Welcome!</h1><p>Thank you for joining our amazing service.</p>"
   });
-  console.log("Updated template:", updatedTemplate);
+  console.log("Updated template:", updatedTemplate.data);
 
   // Delete the template
-  await client.templates.delete(newTemplate.id);
+  await client.templates.delete(newTemplate.data.id);
   console.log("Template deleted successfully");
 }
 

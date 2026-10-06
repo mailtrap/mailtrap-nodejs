@@ -2,14 +2,24 @@ import { AxiosInstance } from "axios";
 
 import CONFIG from "../../../config";
 import {
-  Template,
-  TemplateCreateParams,
-  TemplateUpdateParams,
+  CreateTemplateParams,
+  CreateTemplateResponse,
+  DeleteTemplateResponse,
+  GetTemplateResponse,
+  ListTemplatesParams,
+  ListTemplatesResponse,
+  UpdateTemplateParams,
+  UpdateTemplateResponse,
 } from "../../../types/api/templates";
 
 const { CLIENT_SETTINGS } = CONFIG;
 const { GENERAL_ENDPOINT } = CLIENT_SETTINGS;
 
+/**
+ * Templates API. The `/api/templates` endpoints are experimental: their request
+ * and response shapes may change in a minor release before general availability.
+ * For the stable `/api/email_templates` endpoints, use `EmailTemplatesApi`.
+ */
 export default class TemplatesApi {
   private client: AxiosInstance;
 
@@ -17,16 +27,23 @@ export default class TemplatesApi {
 
   constructor(client: AxiosInstance, accountId: number) {
     this.client = client;
-    this.templatesURL = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_templates`;
+    this.templatesURL = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/templates`;
   }
 
   /**
-   * Get a list of all templates.
+   * Lists the account's templates. The result is wrapped in a
+   * `{ data, pagination }` envelope; pagination is page-token based.
    */
-  public async getList() {
+  public async getList(params?: ListTemplatesParams) {
     const url = this.templatesURL;
+    const query = {
+      ...(params?.per_page != null && { per_page: params.per_page }),
+      ...(params?.token != null && { token: params.token }),
+    };
 
-    return this.client.get<Template[], Template[]>(url);
+    return this.client.get<ListTemplatesResponse, ListTemplatesResponse>(url, {
+      params: query,
+    });
   }
 
   /**
@@ -35,27 +52,31 @@ export default class TemplatesApi {
   public async get(templateId: number) {
     const url = `${this.templatesURL}/${templateId}`;
 
-    return this.client.get<Template, Template>(url);
+    return this.client.get<GetTemplateResponse, GetTemplateResponse>(url);
   }
 
   /**
    * Create a new template.
    */
-  public async create(params: TemplateCreateParams) {
+  public async create(params: CreateTemplateParams) {
     const url = this.templatesURL;
-    const data = { email_template: params };
 
-    return this.client.post<Template, Template>(url, data);
+    return this.client.post<CreateTemplateResponse, CreateTemplateResponse>(
+      url,
+      params
+    );
   }
 
   /**
    * Update an existing template.
    */
-  public async update(templateId: number, params: TemplateUpdateParams) {
+  public async update(templateId: number, params: UpdateTemplateParams) {
     const url = `${this.templatesURL}/${templateId}`;
-    const data = { email_template: params };
 
-    return this.client.patch<Template, Template>(url, data);
+    return this.client.patch<UpdateTemplateResponse, UpdateTemplateResponse>(
+      url,
+      params
+    );
   }
 
   /**
@@ -64,6 +85,8 @@ export default class TemplatesApi {
   public async delete(templateId: number) {
     const url = `${this.templatesURL}/${templateId}`;
 
-    return this.client.delete(url);
+    return this.client.delete<DeleteTemplateResponse, DeleteTemplateResponse>(
+      url
+    );
   }
 }
