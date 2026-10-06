@@ -15,6 +15,10 @@ import {
 const { CLIENT_SETTINGS } = CONFIG;
 const { GENERAL_ENDPOINT } = CLIENT_SETTINGS;
 
+/**
+ * Templates API. The `/api/templates` endpoints are experimental: their request
+ * and response shapes may change before general availability.
+ */
 export default class TemplatesApi {
   private client: AxiosInstance;
 

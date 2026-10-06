@@ -149,14 +149,14 @@ describe("lib/api/resources/Templates: ", () => {
     });
 
     it("fails with error.", async () => {
-      const expectedErrorMessage = "token is out of range";
+      const expectedErrorMessage = "Request failed with status code 400";
 
       expect.assertions(2);
 
-      mock.onGet(endpoint).reply(422, { errors: expectedErrorMessage });
+      mock.onGet(endpoint).reply(400, { error: expectedErrorMessage });
 
       try {
-        await templatesAPI.getList({ token: 99 });
+        await templatesAPI.getList();
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
         if (error instanceof MailtrapError) {
