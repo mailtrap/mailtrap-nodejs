@@ -24,6 +24,7 @@ import SuppressionsBaseAPI from "./api/Suppressions";
 import TrackingOptOutsBaseAPI from "./api/TrackingOptOuts";
 import OrganizationsBaseAPI from "./api/Organizations";
 import TemplatesBaseAPI from "./api/Templates";
+import EmailTemplatesBaseAPI from "./api/EmailTemplates";
 import TestingAPI from "./api/Testing";
 import WebhooksBaseAPI from "./api/Webhooks";
 
@@ -207,11 +208,22 @@ export default class MailtrapClient {
   }
 
   /**
-   * Getter for Templates API.
+   * Getter for Templates API (`/api/templates`). The endpoints are
+   * experimental: their request and response shapes may change in a minor
+   * release before general availability.
    */
   get templates() {
     const accountId = this.validateAccountIdPresence();
     return new TemplatesBaseAPI(this.axios, accountId);
+  }
+
+  /**
+   * Getter for Email Templates API (`/api/email_templates`), the stable
+   * templates API with the 4.x shapes. For the paginated API, see `templates`.
+   */
+  get emailTemplates() {
+    const accountId = this.validateAccountIdPresence();
+    return new EmailTemplatesBaseAPI(this.axios, accountId);
   }
 
   /**
