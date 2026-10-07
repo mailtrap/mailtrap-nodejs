@@ -34,7 +34,7 @@
     "typescript": "^5.0.3"
   },
   "engines": {
-    "node": ">=16.20.1",
+    "node": ">=22",
     "yarn": ">=1.22.17"
   },
   "files": [
