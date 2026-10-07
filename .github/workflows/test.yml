@@ -48,3 +48,53 @@ jobs:
       # Also builds dist/ through the "prepare" script.
       - run: yarn install --frozen-lockfile
       - run: yarn test
+
+  # Checks every nodemailer major allowed by peerDependencies, from the sources
+  # and from a consumer project using the packed build.
+  nodemailer:
+    name: nodemailer ${{ matrix.nodemailer }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - nodemailer: 9
+            types: '@types/nodemailer@^6'
+          - nodemailer: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .tool-versions
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn add --dev "nodemailer@^${{ matrix.nodemailer }}"
+      - run: yarn tsc -p tsconfig.build.json --noEmit
+      - run: yarn test
+      - name: Set up consumer project
+        run: |
+          yarn pack --filename "$RUNNER_TEMP/mailtrap.tgz"
+          mkdir "$RUNNER_TEMP/consumer"
+          cd "$RUNNER_TEMP/consumer"
+          echo '{ "private": true }' > package.json
+          yarn add "$RUNNER_TEMP/mailtrap.tgz" "nodemailer@^${{ matrix.nodemailer }}" ${{ matrix.types }} typescript@^5 @types/node@^22
+          cat > index.ts <<'EOF'
+          import { createTransport } from "nodemailer";
+          import { MailtrapClient, MailtrapTransport } from "mailtrap";
+
+          const client = new MailtrapClient({ token: "token" });
+          const transport = createTransport(MailtrapTransport({ token: "token" }));
+
+          transport.sendMail({ from: "a@example.com", to: "b@example.com", subject: "s", text: "t", category: "c" });
+          client.send({ from: { email: "a@example.com" }, to: [{ email: "b@example.com" }], subject: "s", text: "t" });
+          EOF
+          cp index.ts index.mts
+      - name: Type-check a CommonJS consumer without esModuleInterop
+        working-directory: ${{ runner.temp }}/consumer
+        run: yarn tsc --noEmit --strict --skipLibCheck --module commonjs --moduleResolution node10 --types node index.ts
+      - name: Type-check a native ESM consumer
+        working-directory: ${{ runner.temp }}/consumer
+        run: yarn tsc --noEmit --strict --skipLibCheck --module nodenext --moduleResolution nodenext --types node index.mts
