@@ -5,15 +5,54 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  # The job name is the required status check on main, keep it unchanged.
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
         with:
-          node-version: 20.20.2
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .tool-versions
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - run: yarn lint
+      - run: yarn test
+
+  test:
+    name: test (Node.js ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22, 24, 26]
+        include:
+          # Lowest versions allowed by "engines" in package.json. The library runs
+          # on them, but some dev dependencies (nodemailer 10, node-releases) require a
+          # newer Node.js, so their engine checks are skipped.
+          - node-version: 16
+            install-flags: --ignore-engines
+          - node-version: 18
+            install-flags: --ignore-engines
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      # Also builds dist/ through the "prepare" script.
+      - run: yarn install --frozen-lockfile ${{ matrix.install-flags }}
       - run: yarn test
