@@ -1,3 +1,21 @@
+## [5.0.0] - 2026-10-07
+
+## What's Changed
+* build(deps): bump qs from 6.15.2 to 6.16.0 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/157
+* build(deps): bump browserslist from 4.21.4 to 4.28.8 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/158
+* build(deps-dev): bump nodemailer from 9.0.1 to 9.1.1 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/160
+* Nodemailer 10 support by @thoda-dev in https://github.com/mailtrap/mailtrap-nodejs/pull/161
+* mention #149 in the 4.10.0 changelog by @oshchyhol in https://github.com/mailtrap/mailtrap-nodejs/pull/156
+* run CI on pull requests by @oshchyhol in https://github.com/mailtrap/mailtrap-nodejs/pull/162
+* build(deps): bump axios from 1.18.0 to 1.20.0 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/164
+* Move client.templates to /api/templates and keep the old API as client.emailTemplates by @izikaj in https://github.com/mailtrap/mailtrap-nodejs/pull/165
+
+## New Contributors
+* @thoda-dev made their first contribution in https://github.com/mailtrap/mailtrap-nodejs/pull/161
+* @izikaj made their first contribution in https://github.com/mailtrap/mailtrap-nodejs/pull/165
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v4.10.0...v5.0.0
+
 ## [4.10.0] - 2026-08-28
 
 ## What's Changed
