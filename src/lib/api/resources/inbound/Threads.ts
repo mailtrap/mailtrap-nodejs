@@ -25,17 +25,19 @@ export default class ThreadsApi {
   }
 
   /**
-   * List threads in an inbox (paginated). Pass `last_id` from the previous
-   * response to fetch the next page.
+   * List threads in an inbox (paginated), optionally filtered by `search`.
+   * Pass `last_id` from the previous response to fetch the next page.
    */
-  public async getList(inboxId: number, params?: ThreadsListParams) {
-    const url = params?.last_id
-      ? `${this.threadsURL(inboxId)}?last_id=${encodeURIComponent(
-          params.last_id
-        )}`
-      : this.threadsURL(inboxId);
+  public async getList(inboxId: number, options?: ThreadsListParams) {
+    const params = {
+      ...(options?.last_id && { last_id: options.last_id }),
+      ...(options?.search && { search: options.search }),
+    };
 
-    return this.client.get<ThreadsListResponse, ThreadsListResponse>(url);
+    return this.client.get<ThreadsListResponse, ThreadsListResponse>(
+      this.threadsURL(inboxId),
+      { params }
+    );
   }
 
   /**
