@@ -14,6 +14,14 @@ describe("lib/api/Inbound: ", () => {
       expect(inbound.folders).toHaveProperty("delete");
     });
 
+    it("exposes forward rules with CRUD methods.", () => {
+      expect(inbound.forwardRules).toHaveProperty("getList");
+      expect(inbound.forwardRules).toHaveProperty("get");
+      expect(inbound.forwardRules).toHaveProperty("create");
+      expect(inbound.forwardRules).toHaveProperty("update");
+      expect(inbound.forwardRules).toHaveProperty("delete");
+    });
+
     it("exposes inboxes with CRUD methods.", () => {
       expect(inbound.inboxes).toHaveProperty("getList");
       expect(inbound.inboxes).toHaveProperty("get");

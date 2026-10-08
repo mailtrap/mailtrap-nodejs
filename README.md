@@ -257,9 +257,10 @@ Email Sandbox (Testing):
 Inbound Email:
 
 - Folders CRUD – [`inbound/folders.ts`](examples/inbound/folders.ts)
+- Forward rules CRUD – [`inbound/forward-rules.ts`](examples/inbound/forward-rules.ts)
 - Inboxes CRUD (hosted & custom-domain) – [`inbound/inboxes.ts`](examples/inbound/inboxes.ts)
 - Messages (list, get, delete, reply, reply-all, forward) – [`inbound/messages.ts`](examples/inbound/messages.ts)
-- Threads (list, get, delete) – [`inbound/threads.ts`](examples/inbound/threads.ts)
+- Threads (list with search, get, delete) – [`inbound/threads.ts`](examples/inbound/threads.ts)
 
 Contact management:
 

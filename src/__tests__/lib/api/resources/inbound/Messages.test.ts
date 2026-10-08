@@ -45,6 +45,46 @@ describe("lib/api/resources/inbound/Messages: ", () => {
 
       expect(result).toEqual(listResponse);
     });
+
+    it("returns forward outcomes on each message.", async () => {
+      const response = {
+        data: [
+          {
+            id: "1700000000000123",
+            forwards: [
+              {
+                rule_id: 7,
+                rule_name: "Copy to support team",
+                destination: "team@example.com",
+                status: "forwarded",
+                reason: null,
+                message_id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+              },
+              {
+                rule_id: 8,
+                rule_name: null,
+                destination: "loop@example.com",
+                status: "rejected",
+                reason: "loop_prevention",
+                message_id: null,
+              },
+            ],
+          },
+        ],
+        total_count: 1,
+        last_id: null,
+      } as unknown as MessagesListResponse;
+
+      mock.onGet(messagesURL).reply(200, response);
+
+      const result = await messagesAPI.getList(42);
+
+      expect(result).toEqual(response);
+      expect(result.data[0].forwards.map((f) => f.status)).toEqual([
+        "forwarded",
+        "rejected",
+      ]);
+    });
   });
 
   describe("get(): ", () => {
