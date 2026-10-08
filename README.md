@@ -13,6 +13,8 @@ To get the most out of this official Mailtrap.io Node.js SDK:
 
 - [Verify your domain](https://mailtrap.io/sending/domains)
 
+- Use Node.js 22 or newer
+
 ## Installation
 
 You can install the package via [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/):
@@ -198,7 +200,7 @@ mailtrap
 
 ## Nodemailer Transport
 
-> NOTE: [Nodemailer](https://www.npmjs.com/package/nodemailer) is needed as a dependency. Versions 9 and 10 are supported (Nodemailer 10 requires Node.js 20 or newer).
+> NOTE: [Nodemailer](https://www.npmjs.com/package/nodemailer) is needed as a dependency. Versions 9 and 10 are supported.
 
 ```sh
 npm install nodemailer
