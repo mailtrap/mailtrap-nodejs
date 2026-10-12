@@ -3,6 +3,7 @@ import { AxiosInstance } from "axios";
 import CONFIG from "../../../config";
 import {
   CreateSubAccountParams,
+  DeleteSubAccountResponse,
   SubAccount,
 } from "../../../types/api/sub-accounts";
 
@@ -38,5 +39,21 @@ export default class SubAccountsApi {
     const data = { account: params };
 
     return this.client.post<SubAccount, SubAccount>(url, data);
+  }
+
+  /**
+   * Delete a sub account by ID. Requires sub-account management permissions
+   * for the organization. The deletion is permanent and removes all sub-account
+   * data; deleting the organization's last sub account deletes the organization
+   * as well. A repeated call for the same ID fails with `404`. Rate limited to
+   * 10 requests per minute per organization. Returns nothing (204 No Content).
+   */
+  public async delete(subAccountId: number) {
+    const url = `${this.subAccountsURL}/${subAccountId}`;
+
+    return this.client.delete<
+      DeleteSubAccountResponse,
+      DeleteSubAccountResponse
+    >(url);
   }
 }
