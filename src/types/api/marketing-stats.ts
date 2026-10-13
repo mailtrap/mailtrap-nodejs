@@ -32,6 +32,7 @@ export type MarketingStatsFilterParams = {
   sending_domain_ids?: number[];
   /** One source narrows the results to it; omit, or pass both, for all Email Marketing traffic. */
   sources?: MarketingStatsSource[];
+  /** Recipient email service providers to include, e.g. `"Google"`, `"Yahoo"`; omit for all providers. */
   email_service_providers?: string[];
 };
 
