@@ -1,0 +1,39 @@
+src/lib/api/resources/MarketingStats.ts
+  s_43a6118b4eb542::t_fb1246d2959f70 42-45
+  s_43a6118b4eb542::t_fdf514ca7986c7 1-41,46-47
+src/__tests__/lib/mailtrap-client.test.ts
+  s_43a6118b4eb542::t_2e990eca66590d 21,1012-1021
+  s_43a6118b4eb542::t_316c5c1ef0423d 1022-1023
+src/__tests__/lib/api/resources/MarketingStats.test.ts
+  s_43a6118b4eb542::t_ffbaaed6aae3c7 77,93-97,101-105,108,116,118
+  s_43a6118b4eb542::t_00345d80e709e0 1-76,78-92,98-100,106-107,109-115,117,119-123
+README.md
+  s_43a6118b4eb542::t_7e614b09da01bc 274
+src/types/api/marketing-stats.ts
+  s_43a6118b4eb542::t_c825a660b0d329 1-40
+src/__tests__/lib/api/MarketingStats.test.ts
+  s_43a6118b4eb542::t_848ecb277b38e9 1-15
+src/lib/api/MarketingStats.ts
+  s_43a6118b4eb542::t_62795ae58d1327 1-12
+src/lib/MailtrapClient.ts
+  s_43a6118b4eb542::t_0c9bc6529266ee 21,277-281
+  s_43a6118b4eb542::t_557ad84f3b2a43 282-283
+examples/marketing-stats/everything.ts
+  s_43a6118b4eb542::t_3f4d1f93241309 1-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4fffd2a227ff1e0b0b2e44c4ccd5e792689defd8",
+  "prompts": {},
+  "sessions": {
+    "s_43a6118b4eb542": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9452b77c-219e-45dd-ab16-5ffac55ee7cb",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
