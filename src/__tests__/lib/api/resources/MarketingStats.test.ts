@@ -102,6 +102,7 @@ describe("lib/api/resources/MarketingStats: ", () => {
       [400, { errors: "Invalid source: 'newsletters'" }],
       [401, { error: "Incorrect API token" }],
       [403, { errors: "Access forbidden" }],
+      [429, { errors: "Rate limit exceeded" }],
     ])("fails with error on %i.", async (statusCode, body) => {
       expect.assertions(3);
 
