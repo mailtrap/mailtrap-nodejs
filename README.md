@@ -273,6 +273,7 @@ Contact management:
 Email Marketing:
 
 - Email campaigns CRUD, lifecycle & stats – [`email-campaigns/everything.ts`](examples/email-campaigns/everything.ts)
+- Email Marketing stats (campaigns and automations, aggregated) – [`marketing-stats/everything.ts`](examples/marketing-stats/everything.ts)
 
 General API:
 
