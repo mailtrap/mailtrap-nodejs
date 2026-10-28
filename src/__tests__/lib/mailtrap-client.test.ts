@@ -18,6 +18,7 @@ import SuppressionsBaseAPI from "../../lib/api/Suppressions";
 import SendingDomainsBaseAPI from "../../lib/api/SendingDomains";
 import EmailLogsBaseAPI from "../../lib/api/EmailLogs";
 import ContactEventsBaseAPI from "../../lib/api/ContactEvents";
+import MarketingStatsBaseAPI from "../../lib/api/MarketingStats";
 
 const { ERRORS, CLIENT_SETTINGS } = CONFIG;
 const { TESTING_ENDPOINT, BULK_ENDPOINT, SENDING_ENDPOINT } = CLIENT_SETTINGS;
@@ -1006,6 +1007,18 @@ describe("lib/mailtrap-client: ", () => {
 
         const contactEventsClient = client.contactEvents;
         expect(contactEventsClient).toBeInstanceOf(ContactEventsBaseAPI);
+      });
+    });
+
+    describe("get marketingStats(): ", () => {
+      it("returns marketing stats API object without an accountId.", () => {
+        expect.assertions(1);
+
+        const client = new MailtrapClient({
+          token: "MY_API_TOKEN",
+        });
+
+        expect(client.marketingStats).toBeInstanceOf(MarketingStatsBaseAPI);
       });
     });
   });

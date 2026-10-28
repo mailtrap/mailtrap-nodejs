@@ -18,6 +18,7 @@ import EmailCampaignsBaseAPI from "./api/EmailCampaigns";
 import EmailLogsBaseAPI from "./api/EmailLogs";
 import GeneralAPI from "./api/General";
 import InboundAPI from "./api/Inbound";
+import MarketingStatsBaseAPI from "./api/MarketingStats";
 import SendingDomainsBaseAPI from "./api/SendingDomains";
 import StatsBaseAPI from "./api/Stats";
 import SuppressionsBaseAPI from "./api/Suppressions";
@@ -271,6 +272,13 @@ export default class MailtrapClient {
    */
   get emailCampaigns() {
     return new EmailCampaignsBaseAPI(this.axios);
+  }
+
+  /**
+   * Getter for Email Marketing Stats API. Scoped to the token's account, so no accountId is required.
+   */
+  get marketingStats() {
+    return new MarketingStatsBaseAPI(this.axios);
   }
 
   /**
