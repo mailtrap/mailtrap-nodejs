@@ -1,3 +1,17 @@
+## [6.0.0] - 2026-10-29
+
+## What's Changed
+* Require Node.js 22+ and update CI by @thoda-dev in https://github.com/mailtrap/mailtrap-nodejs/pull/167
+* build(deps): bump follow-redirects from 1.16.0 to 1.16.1 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/171
+* build(deps): bump brace-expansion from 1.1.11 to 1.1.21 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/174
+* build(deps): bump js-yaml from 3.14.1 to 3.15.2 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/173
+* build(deps-dev): bump nodemailer from 10.0.9 to 10.1.4 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/172
+* build(deps): bump minimatch from 3.1.2 to 3.1.5 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/175
+* Add Email Marketing stats (client.marketingStats.get) by @Rabsztok in https://github.com/mailtrap/mailtrap-nodejs/pull/170
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v5.0.0...v6.0.0
+
 ## [5.0.0] - 2026-10-07
 
 ## What's Changed
