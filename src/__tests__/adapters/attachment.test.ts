@@ -68,7 +68,7 @@ describe("adapters/attachment: ", () => {
       });
     });
 
-    it("returns adapted attachment object.", () => {
+    it("returns adapted attachment object with string content encoded to base64.", () => {
       const attachment = {
         filename: "mock-filename",
         content: "mock-content",
@@ -76,7 +76,7 @@ describe("adapters/attachment: ", () => {
 
       const expectedAttachment = {
         filename: attachment.filename,
-        content: attachment.content,
+        content: Buffer.from(attachment.content).toString("base64"),
         disposition: undefined,
         content_id: undefined,
         type: undefined,
@@ -84,6 +84,50 @@ describe("adapters/attachment: ", () => {
       const result = adaptAttachment(attachment);
 
       expect(result).toEqual(expectedAttachment);
+    });
+
+    it("keeps string content that is already base64 encoded.", () => {
+      ["base64", "BASE64"].forEach((encoding) => {
+        const result = adaptAttachment({
+          filename: "mock-filename",
+          content: "abcd",
+          encoding,
+        });
+
+        expect(result.content).toBe("abcd");
+      });
+    });
+
+    it("encodes string content as UTF-8 by default.", () => {
+      [undefined, "utf8", "UTF-8"].forEach((encoding) => {
+        const result = adaptAttachment({
+          filename: "mock-filename",
+          content: "héllo",
+          encoding,
+        });
+
+        expect(result.content).toBe(Buffer.from("héllo").toString("base64"));
+      });
+    });
+
+    it("decodes string content with its encoding before encoding to base64.", () => {
+      const result = adaptAttachment({
+        filename: "mock-filename",
+        content: "68656c6c6f",
+        encoding: "hex",
+      });
+
+      expect(result.content).toBe(Buffer.from("hello").toString("base64"));
+    });
+
+    it("throws for an unknown encoding.", () => {
+      expect(() =>
+        adaptAttachment({
+          filename: "mock-filename",
+          content: "mock-content",
+          encoding: "mock-encoding",
+        })
+      ).toThrowError("Unknown encoding: mock-encoding");
     });
   });
 });
