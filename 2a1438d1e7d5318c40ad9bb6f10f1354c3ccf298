@@ -1,0 +1,23 @@
+README.md
+  220dc5d46c078a3c 234,238
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "2a1438d1e7d5318c40ad9bb6f10f1354c3ccf298",
+  "prompts": {
+    "220dc5d46c078a3c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "cd1317a2-3f47-4e5b-a359-680c8eaa5d56",
+        "model": "default"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 27,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}

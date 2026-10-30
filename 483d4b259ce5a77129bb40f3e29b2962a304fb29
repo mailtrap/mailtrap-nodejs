@@ -1,0 +1,28 @@
+examples/inbound/messages.ts
+  s_576b7c7847dbe9::t_862b49472082b0 1-61
+examples/inbound/inboxes.ts
+  s_576b7c7847dbe9::t_e927ed9cc5a376 1-32
+README.md
+  s_576b7c7847dbe9::t_22fd44104ade5f 256-259
+  s_576b7c7847dbe9::t_c743d671d449b5 254-255,260
+examples/inbound/folders.ts
+  s_576b7c7847dbe9::t_6db8d8048da455 1-29
+examples/inbound/threads.ts
+  s_576b7c7847dbe9::t_2a5e59b7759f73 1-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "483d4b259ce5a77129bb40f3e29b2962a304fb29",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": null
+    }
+  }
+}

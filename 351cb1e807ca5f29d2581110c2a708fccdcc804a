@@ -1,0 +1,14 @@
+CHANGELOG.md
+  h_36a957dc058c42 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "351cb1e807ca5f29d2581110c2a708fccdcc804a",
+  "prompts": {},
+  "humans": {
+    "h_36a957dc058c42": {
+      "author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+src/lib/MailtrapClient.ts
+  c1123ff1812af2b9 262-263
+  s_1d139e47a09853::t_bb28c6bc56a7a8 255
+  s_1d139e47a09853::t_882ab3e3df9c62 16
+  s_1d139e47a09853::t_0af359dff24932 257-261
+  s_1d139e47a09853::t_865417f8479f5d 256
+examples/email-campaigns/everything.ts
+  s_1d139e47a09853::t_038c7d1d5b3edf 96-99
+  s_947d1ae30487e8::t_a05b9a3301b80c 1,104
+  s_1d139e47a09853::t_1835f6f3512d7d 7,10-26,28-95,100
+  s_8b9eb1b74fa672::t_0a995144a8731f 27
+  s_1d139e47a09853::t_27d45e86a409a4 2-3
+  s_8b9eb1b74fa672::t_6ad7bfa817891f 4-6
+  s_1d139e47a09853::t_30a0fa8e925e95 8-9
+  s_1d139e47a09853::t_05e4878f219311 101-103
+  s_8b9eb1b74fa672::t_9e77ac68f60a9f 105-107
+README.md
+  s_8b9eb1b74fa672::t_946d19661f8532 268
+src/__tests__/lib/api/EmailCampaigns.test.ts
+  s_8b9eb1b74fa672::t_731cbf8fb11624 1-25
+src/__tests__/lib/api/resources/EmailCampaigns.test.ts
+  s_8b9eb1b74fa672::t_6c4e930d0da79e 1-590
+src/lib/api/EmailCampaigns.ts
+  s_8b9eb1b74fa672::t_7a48d50d6d9416 1-45
+src/lib/api/resources/EmailCampaigns.ts
+  s_8b9eb1b74fa672::t_cd06c06cd86c56 1-187
+src/types/api/email-campaigns.ts
+  s_8b9eb1b74fa672::t_73b11427bbdd3e 1-204
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "317c9a347e9c82272ebaac1b4b288b9ecb8549c8",
+  "prompts": {
+    "c1123ff1812af2b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0f45b8a0-6381-4c0d-8a55-f2bd270c7393",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn",
+      "total_additions": 56,
+      "total_deletions": 1,
+      "accepted_lines": 38,
+      "overriden_lines": 0
+    }
+  },
+  "sessions": {
+    "s_1d139e47a09853": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3943c4ee-a6f3-493c-aa4d-bc291df8727e",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_8b9eb1b74fa672": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95754cb3-701a-4fef-bc0a-347aa8fd1362",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_947d1ae30487e8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a1227ab97fb9fcf4f",
+        "model": "unknown"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

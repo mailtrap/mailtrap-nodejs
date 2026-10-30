@@ -1,0 +1,14 @@
+package.json
+  h_32e79f74e8df76 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "8ed5828afacdf1c352f6f266665eb5302dcbae2c",
+  "prompts": {},
+  "humans": {
+    "h_32e79f74e8df76": {
+      "author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+src/__tests__/lib/api/resources/ApiTokens.test.ts
+  h_68ae9308e52348 133-199,293-356
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "1a21172621a0d3d78bedabcc02d0ed46be71d8bf",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

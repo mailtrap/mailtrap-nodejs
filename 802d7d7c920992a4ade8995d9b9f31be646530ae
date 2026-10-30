@@ -1,0 +1,25 @@
+package.json
+  9b22089da5a268a9 4
+CHANGELOG.md
+  9b22089da5a268a9 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "802d7d7c920992a4ade8995d9b9f31be646530ae",
+  "prompts": {
+    "9b22089da5a268a9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e2633077-fec6-47eb-8bc6-f96c40a7566d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}

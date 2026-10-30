@@ -1,0 +1,34 @@
+examples/inbound/messages.ts
+  s_576b7c7847dbe9::t_ad8639fac407fd 6-9,27-31,34-39,41-42,45,50,54,59-60
+examples/inbound/threads.ts
+  s_576b7c7847dbe9::t_24d409a2ea0fe2 6-9,27-31,34-37,39-41
+src/lib/api/resources/inbound/Messages.ts
+  s_576b7c7847dbe9::t_e5d4ae73aaa460 94
+  s_576b7c7847dbe9::t_2989643d9e23b9 9
+src/types/api/inbound/messages.ts
+  s_576b7c7847dbe9::t_d997bb1ca30d9b 90-94
+src/__tests__/lib/api/resources/inbound/Messages.test.ts
+  s_576b7c7847dbe9::t_1a93dab683dfe5 9
+  s_576b7c7847dbe9::t_309f330f6a106f 109-111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "302d6ddde66653c061731f2f179956ebbe807ae3",
+  "prompts": {},
+  "humans": {
+    "h_36a957dc058c42": {
+      "author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  },
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

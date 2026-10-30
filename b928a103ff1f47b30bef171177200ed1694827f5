@@ -1,0 +1,41 @@
+src/types/api/sending-domains.ts
+  s_a416a2bbf03afd::t_c8d5bb24c76cb1 44-85
+  s_a416a2bbf03afd::t_76c7ea3fd91bb4 26
+src/__tests__/lib/api/resources/SendingDomains.test.ts
+  s_a416a2bbf03afd::t_cbb16e96bbff25 211-228,230-263
+  s_a416a2bbf03afd::t_eaef4a84bbbc3f 229
+  s_a416a2bbf03afd::t_9c63bc217b0d9a 7
+  s_a416a2bbf03afd::t_60512bdb0c1fba 299-399
+  s_a416a2bbf03afd::t_17fa785c3dde38 31,34-36
+  s_a416a2bbf03afd::t_21b5b8550112a0 78
+  s_a416a2bbf03afd::t_c1852d827f63c2 131,183
+src/lib/api/resources/SendingDomains.ts
+  s_a416a2bbf03afd::t_515da9926f38aa 58,92-114,119-140
+  s_a416a2bbf03afd::t_ba334502a84be5 5-6,10-11
+  s_a416a2bbf03afd::t_2e20c0bde53e42 59-70
+  s_a416a2bbf03afd::t_33e5b216fc5cf2 115-118
+src/lib/api/SendingDomains.ts
+  s_a416a2bbf03afd::t_2e6eafafe4b4cf 32,36-40
+  s_a416a2bbf03afd::t_a92aa2b15f73cf 14-15,20-24
+  s_a416a2bbf03afd::t_d39fdd056b026d 25
+examples/sending-domains/everything.ts
+  s_a416a2bbf03afd::t_b45d6fe4f9ebd0 33-38,44-88
+README.md
+  s_a416a2bbf03afd::t_3c81425a7378b5 237
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "b928a103ff1f47b30bef171177200ed1694827f5",
+  "prompts": {},
+  "sessions": {
+    "s_a416a2bbf03afd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73aab1cf-cfd1-42b8-b656-f26905d319ee",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

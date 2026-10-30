@@ -1,0 +1,19 @@
+src/types/api/marketing-stats.ts
+  s_c794c6676bc249::t_76caa919bfc011 35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c9534ae42e959183adca180b8faf4ddff7e44c55",
+  "prompts": {},
+  "sessions": {
+    "s_c794c6676bc249": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "26b72f38-1df5-45ac-a7c1-a0599e20ff7d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

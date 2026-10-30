@@ -1,0 +1,29 @@
+examples/email-logs/everything.ts
+  220dc5d46c078a3c 1,21-22,25-26,29
+src/__tests__/lib/api/resources/EmailLogs.test.ts
+  220dc5d46c078a3c 128,150
+src/types/api/email-logs.ts
+  220dc5d46c078a3c 126-143,145-149,154-158,164-169,174,190,195-198,203-207,212-216,221-225
+README.md
+  220dc5d46c078a3c 234,238
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "f2600695244ed3b9d75d78b6f37c43a8c6402091",
+  "prompts": {
+    "220dc5d46c078a3c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "cd1317a2-3f47-4e5b-a359-680c8eaa5d56",
+        "model": "default"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 79,
+      "total_deletions": 56,
+      "accepted_lines": 66,
+      "overriden_lines": 0
+    }
+  }
+}
