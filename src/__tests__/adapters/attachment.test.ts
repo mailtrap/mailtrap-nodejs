@@ -68,7 +68,7 @@ describe("adapters/attachment: ", () => {
       });
     });
 
-    it("returns adapted attachment object.", () => {
+    it("returns adapted attachment object with string content encoded to base64.", () => {
       const attachment = {
         filename: "mock-filename",
         content: "mock-content",
@@ -76,7 +76,7 @@ describe("adapters/attachment: ", () => {
 
       const expectedAttachment = {
         filename: attachment.filename,
-        content: attachment.content,
+        content: Buffer.from(attachment.content).toString("base64"),
         disposition: undefined,
         content_id: undefined,
         type: undefined,
@@ -84,6 +84,32 @@ describe("adapters/attachment: ", () => {
       const result = adaptAttachment(attachment);
 
       expect(result).toEqual(expectedAttachment);
+    });
+
+    it("keeps string content that is already base64 encoded.", () => {
+      ["base64", "BASE64"].forEach((encoding) => {
+        const result = adaptAttachment({
+          filename: "mock-filename",
+          content: "abcd",
+          encoding,
+        });
+
+        expect(result.content).toBe("abcd");
+      });
+    });
+
+    it("encodes string content as UTF-8 text for text encodings.", () => {
+      [undefined, "utf8", "UTF-8", "utf_8", "ascii", "us-ascii"].forEach(
+        (encoding) => {
+          const result = adaptAttachment({
+            filename: "mock-filename",
+            content: "héllo",
+            encoding,
+          });
+
+          expect(result.content).toBe(Buffer.from("héllo").toString("base64"));
+        }
+      );
     });
   });
 });

@@ -73,7 +73,12 @@ describe("adapters/mail: ", () => {
         cc: [],
         bcc: [],
         headers: data.headers,
-        attachments: data.attachments,
+        attachments: [
+          {
+            filename: "mock-filename",
+            content: Buffer.from("mock-content").toString("base64"),
+          },
+        ],
         reply_to: adaptFirstRecipient(data.replyTo),
       };
       const result = adaptMail(data);
@@ -102,7 +107,12 @@ describe("adapters/mail: ", () => {
         cc: [],
         bcc: [],
         headers: data.headers,
-        attachments: data.attachments,
+        attachments: [
+          {
+            filename: "mock-filename",
+            content: Buffer.from("mock-content").toString("base64"),
+          },
+        ],
         custom_variables: data.customVariables,
         reply_to: adaptFirstRecipient(data.replyTo),
       };
@@ -133,7 +143,7 @@ describe("adapters/mail: ", () => {
         attachments: [
           {
             filename: data.attachments[0].filename,
-            content: data.attachments[0].content,
+            content: Buffer.from("mock-content").toString("base64"),
             disposition: undefined,
             content_id: undefined,
             type: undefined,
@@ -173,7 +183,7 @@ describe("adapters/mail: ", () => {
         attachments: [
           {
             filename: data.attachments[0].filename,
-            content: data.attachments[0].content,
+            content: Buffer.from("mock-content").toString("base64"),
             disposition: undefined,
             content_id: undefined,
             type: undefined,
