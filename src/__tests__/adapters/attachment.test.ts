@@ -98,36 +98,18 @@ describe("adapters/attachment: ", () => {
       });
     });
 
-    it("encodes string content as UTF-8 by default.", () => {
-      [undefined, "utf8", "UTF-8"].forEach((encoding) => {
-        const result = adaptAttachment({
-          filename: "mock-filename",
-          content: "héllo",
-          encoding,
-        });
+    it("encodes string content as UTF-8 text for text encodings.", () => {
+      [undefined, "utf8", "UTF-8", "utf_8", "ascii", "us-ascii"].forEach(
+        (encoding) => {
+          const result = adaptAttachment({
+            filename: "mock-filename",
+            content: "héllo",
+            encoding,
+          });
 
-        expect(result.content).toBe(Buffer.from("héllo").toString("base64"));
-      });
-    });
-
-    it("decodes string content with its encoding before encoding to base64.", () => {
-      const result = adaptAttachment({
-        filename: "mock-filename",
-        content: "68656c6c6f",
-        encoding: "hex",
-      });
-
-      expect(result.content).toBe(Buffer.from("hello").toString("base64"));
-    });
-
-    it("throws for an unknown encoding.", () => {
-      expect(() =>
-        adaptAttachment({
-          filename: "mock-filename",
-          content: "mock-content",
-          encoding: "mock-encoding",
-        })
-      ).toThrowError("Unknown encoding: mock-encoding");
+          expect(result.content).toBe(Buffer.from("héllo").toString("base64"));
+        }
+      );
     });
   });
 });

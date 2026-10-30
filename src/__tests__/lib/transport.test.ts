@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import nodemailer from "nodemailer";
@@ -90,10 +92,11 @@ describe("lib/transport: ", () => {
 
       beforeAll(() => {
         mock = new AxiosMockAdapter(axios);
-        mock.onPost(`${SENDING_ENDPOINT}/api/send`).reply(200, {
-          success: true,
-          message_ids: ["mock-message-id"],
-        });
+        mock
+          .onPost(`${SENDING_ENDPOINT}/api/send`)
+          .reply(200, { success: true, message_ids: ["mock-message-id"] })
+          .onAny()
+          .reply(404);
       });
 
       afterEach(() => {
@@ -128,6 +131,15 @@ describe("lib/transport: ", () => {
         expect(content).toBe(Buffer.from("hello").toString("base64"));
       });
 
+      it("sends string content with a text encoding as UTF-8.", async () => {
+        const content = await sendAttachment({
+          content: "héllo",
+          encoding: "us-ascii",
+        });
+
+        expect(content).toBe(Buffer.from("héllo").toString("base64"));
+      });
+
       it("sends string content with `base64` encoding as it is.", async () => {
         const content = await sendAttachment({
           content: "aGVsbG8=",
@@ -137,10 +149,25 @@ describe("lib/transport: ", () => {
         expect(content).toBe("aGVsbG8=");
       });
 
+      it("sends string content with another encoding decoded.", async () => {
+        const content = await sendAttachment({
+          content: "68656c6c6f",
+          encoding: "hex",
+        });
+
+        expect(content).toBe(Buffer.from("hello").toString("base64"));
+      });
+
       it("sends Buffer content encoded to base64.", async () => {
         const content = await sendAttachment({ content: Buffer.from("hello") });
 
         expect(content).toBe(Buffer.from("hello").toString("base64"));
+      });
+
+      it("sends file content from `path` encoded to base64.", async () => {
+        const content = await sendAttachment({ path: __filename });
+
+        expect(content).toBe(readFileSync(__filename).toString("base64"));
       });
     });
   });

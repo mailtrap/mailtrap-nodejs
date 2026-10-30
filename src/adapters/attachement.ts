@@ -10,7 +10,7 @@ const { FILENAME_REQUIRED } = ERRORS;
 
 /**
  * Returns string content in base64, as the Mailtrap API takes it.
- * Nodemailer encodes a Buffer to base64 itself but leaves a string as it is, so the string is decoded with its `encoding` first.
+ * Nodemailer decodes a string with a non-text `encoding` and marks it `base64`, so any other string is text, which it sends as UTF-8.
  */
 function encodeContent(
   content: string | Buffer,
@@ -20,9 +20,7 @@ function encodeContent(
     return content;
   }
 
-  return Buffer.from(content, (encoding || "utf8") as BufferEncoding).toString(
-    "base64"
-  );
+  return Buffer.from(content, "utf8").toString("base64");
 }
 
 /**
