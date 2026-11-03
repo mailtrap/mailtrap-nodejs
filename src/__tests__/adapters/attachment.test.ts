@@ -111,5 +111,43 @@ describe("adapters/attachment: ", () => {
         }
       );
     });
+
+    it("labels non-ASCII text/plain string content as UTF-8.", () => {
+      [
+        ["text/plain", "text/plain; charset=utf-8"],
+        ["TEXT/PLAIN", "TEXT/PLAIN; charset=utf-8"],
+        ["text/plain; charset=iso-8859-1", "text/plain; charset=utf-8"],
+        [
+          "text/plain; format=flowed",
+          "text/plain; format=flowed; charset=utf-8",
+        ],
+      ].forEach(([contentType, type]) => {
+        const result = adaptAttachment({
+          filename: "mock-filename",
+          content: "héllo",
+          contentType,
+        });
+
+        expect(result.type).toBe(type);
+      });
+    });
+
+    it("keeps the type for ASCII, base64, Buffer, or non-text/plain content.", () => {
+      [
+        { content: "hello", contentType: "text/plain" },
+        { content: "héllo", contentType: "text/csv" },
+        { content: "héllo", contentType: "text/plain-other" },
+        { content: "aMOpbGxv", contentType: "text/plain", encoding: "base64" },
+        { content: Buffer.from("héllo"), contentType: "text/plain" },
+        { content: "héllo", contentType: undefined },
+      ].forEach((attachment) => {
+        const result = adaptAttachment({
+          filename: "mock-filename",
+          ...attachment,
+        });
+
+        expect(result.type).toBe(attachment.contentType);
+      });
+    });
   });
 });

@@ -122,17 +122,17 @@ describe("lib/transport: ", () => {
 
         const [request] = mock.history.post;
 
-        return JSON.parse(request.data).attachments[0].content;
+        return JSON.parse(request.data).attachments[0];
       };
 
       it("sends string content encoded to base64.", async () => {
-        const content = await sendAttachment({ content: "hello" });
+        const { content } = await sendAttachment({ content: "hello" });
 
         expect(content).toBe(Buffer.from("hello").toString("base64"));
       });
 
       it("sends string content with a text encoding as UTF-8.", async () => {
-        const content = await sendAttachment({
+        const { content } = await sendAttachment({
           content: "héllo",
           encoding: "us-ascii",
         });
@@ -140,8 +140,14 @@ describe("lib/transport: ", () => {
         expect(content).toBe(Buffer.from("héllo").toString("base64"));
       });
 
+      it("labels non-ASCII string content with the UTF-8 charset.", async () => {
+        const { type } = await sendAttachment({ content: "héllo" });
+
+        expect(type).toBe("text/plain; charset=utf-8");
+      });
+
       it("sends string content with `base64` encoding as it is.", async () => {
-        const content = await sendAttachment({
+        const { content } = await sendAttachment({
           content: "aGVsbG8=",
           encoding: "base64",
         });
@@ -150,7 +156,7 @@ describe("lib/transport: ", () => {
       });
 
       it("sends string content with another encoding decoded.", async () => {
-        const content = await sendAttachment({
+        const { content } = await sendAttachment({
           content: "68656c6c6f",
           encoding: "hex",
         });
@@ -159,13 +165,15 @@ describe("lib/transport: ", () => {
       });
 
       it("sends Buffer content encoded to base64.", async () => {
-        const content = await sendAttachment({ content: Buffer.from("hello") });
+        const { content } = await sendAttachment({
+          content: Buffer.from("hello"),
+        });
 
         expect(content).toBe(Buffer.from("hello").toString("base64"));
       });
 
       it("sends file content from `path` encoded to base64.", async () => {
-        const content = await sendAttachment({ path: __filename });
+        const { content } = await sendAttachment({ path: __filename });
 
         expect(content).toBe(readFileSync(__filename).toString("base64"));
       });
