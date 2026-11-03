@@ -1070,6 +1070,29 @@ describe("lib/mailtrap-client: ", () => {
         ).toThrow(new MailtrapError(SANDBOX_ID_CONFLICT));
       });
 
+      it("treats null as not set, like undefined.", async () => {
+        const endpoint = `${TESTING_ENDPOINT}/api/send/100`;
+        mock.onPost(endpoint).reply(200, { success: true, message_ids: [] });
+
+        await new MailtrapClient({
+          token: "MY_API_TOKEN",
+          sandbox: true,
+          sandboxId: 100,
+          testInboxId: null as unknown as number,
+        }).send(goodMail);
+
+        expect(mock.history.post[0].url).toEqual(endpoint);
+        expect(warnDeprecated).not.toHaveBeenCalled();
+        expect(
+          () =>
+            new MailtrapClient({
+              token: "MY_API_TOKEN",
+              sandboxId: null as unknown as number,
+              testInboxId: 100,
+            })
+        ).not.toThrow();
+      });
+
       it("does not warn when only sandboxId is set.", () => {
         // eslint-disable-next-line no-new
         new MailtrapClient({ token: "MY_API_TOKEN", sandboxId: 100 });

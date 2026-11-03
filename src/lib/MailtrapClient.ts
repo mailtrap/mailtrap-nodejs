@@ -89,8 +89,9 @@ export default class MailtrapClient {
     sandbox = false,
     userAgent,
   }: MailtrapClientConfig) {
-    if (testInboxId !== undefined) {
-      if (sandboxId !== undefined && sandboxId !== testInboxId) {
+    // `!= null` matches the `??` fallback below: `null` means "not set" too.
+    if (testInboxId != null) {
+      if (sandboxId != null && sandboxId !== testInboxId) {
         throw new MailtrapError(SANDBOX_ID_CONFLICT);
       }
 

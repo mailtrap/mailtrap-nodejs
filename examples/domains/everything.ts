@@ -14,21 +14,20 @@ async function domainsFlow() {
     const all = await client.domains.getList();
     console.log("All domains:", JSON.stringify(all, null, 2));
 
-    if (!all.data || all.data.length === 0) {
+    if (all.data && all.data.length > 0) {
+      // Get a specific domain
+      const one = await client.domains.get(all.data[0].id);
+      console.log("One domain:", JSON.stringify(one, null, 2));
+
+      // Send setup instructions
+      await client.domains.sendSetupInstructions(
+        all.data[0].id,
+        "admin@example.com"
+      );
+      console.log("Setup instructions sent");
+    } else {
       console.log("No domains found for this account.");
-      return;
     }
-
-    // Get a specific domain
-    const one = await client.domains.get(all.data[0].id);
-    console.log("One domain:", JSON.stringify(one, null, 2));
-
-    // Send setup instructions
-    const setupResponse = await client.domains.sendSetupInstructions(
-      all.data[0].id,
-      "admin@example.com"
-    );
-    console.log("Setup instructions sent");
 
     // Create a new domain
     const created = await client.domains.create({

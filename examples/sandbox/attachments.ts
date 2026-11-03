@@ -1,10 +1,9 @@
 import { MailtrapClient } from "mailtrap"
 
 const TOKEN = "<YOUR-TOKEN-HERE>";
-const SANDBOX_ID = "<YOUR-SANDBOX-ID-HERE>"
 const ACCOUNT_ID = "<YOUR-ACCOUNT-ID-HERE>"
 
-const client = new MailtrapClient({ token: TOKEN, sandboxId: SANDBOX_ID, accountId: ACCOUNT_ID });
+const client = new MailtrapClient({ token: TOKEN, accountId: ACCOUNT_ID });
 
 const sandboxesClient = client.sandbox.sandboxes
 const messagesClient = client.sandbox.messages
