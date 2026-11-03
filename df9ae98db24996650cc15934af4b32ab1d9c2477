@@ -1,0 +1,38 @@
+src/__tests__/lib/transport.test.ts
+  s_0e7861fd28158b::t_c6f76b40f6dbfc 125,129,135,150,159,168
+  s_0e7861fd28158b::t_5b140ac53ed789 143-148
+  s_0e7861fd28158b::t_596c36372060d3 169-170,176
+src/__tests__/adapters/attachment.test.ts
+  s_14540d3b8eb212::t_61344cb22c730d 114-121,123-134,136-151
+  s_0e7861fd28158b::t_f944f13ccfeb1f 135
+  s_14540d3b8eb212::t_1b1feb9412f2fb 122
+src/adapters/attachement.ts
+  s_0e7861fd28158b::t_20bab42f30450a 45
+  s_0e7861fd28158b::t_2ea6a8be3e0383 42-44
+  s_0e7861fd28158b::t_8fa451f31015c3 46-48
+  s_0e7861fd28158b::t_97e9f22e71ba3d 11-17,26,33-41,49-52,66-68,71,74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "df9ae98db24996650cc15934af4b32ab1d9c2477",
+  "prompts": {},
+  "sessions": {
+    "s_0e7861fd28158b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9b405bc3-a96c-41cb-bcba-616eb9aeb45e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    },
+    "s_14540d3b8eb212": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ad5a4ecb-be8c-4d1b-bd95-69147fbd40ef",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}
