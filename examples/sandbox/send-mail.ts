@@ -9,11 +9,11 @@ import { MailtrapClient } from "mailtrap"
 
 
 const TOKEN = "<YOUR-TOKEN-HERE>";
-const TEST_INBOX_ID = "<YOUR-TEST-INBOX-ID-HERE>"
+const SANDBOX_ID = "<YOUR-SANDBOX-ID-HERE>"
 const SENDER_EMAIL = "<SENDER@YOURDOMAIN.COM>";
 const RECIPIENT_EMAIL = "<RECIPIENT@EMAIL.COM>";
 
-const client = new MailtrapClient({ token: TOKEN, sandbox: true, testInboxId: TEST_INBOX_ID });
+const client = new MailtrapClient({ token: TOKEN, sandbox: true, sandboxId: SANDBOX_ID });
 
 client.send({
   from: { name: "Mailtrap Test", email: SENDER_EMAIL },

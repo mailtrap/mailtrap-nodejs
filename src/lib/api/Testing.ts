@@ -1,23 +1,22 @@
 import { AxiosInstance } from "axios";
 
-import ProjectsApi from "./resources/Projects";
+import SandboxAPI from "./Sandbox";
 import InboxesApi from "./resources/Inboxes";
-import MessagesApi from "./resources/Messages";
-import AttachmentsApi from "./resources/Attachments";
+import warnDeprecated from "../deprecation";
 
-export default class TestingAPI {
-  public projects: ProjectsApi;
-
-  public inboxes: InboxesApi;
-
-  public messages: MessagesApi;
-
-  public attachments: AttachmentsApi;
+/** @deprecated Use `SandboxAPI` (`client.sandbox`) instead. */
+export default class TestingAPI extends SandboxAPI {
+  private inboxesApi: InboxesApi;
 
   constructor(client: AxiosInstance, accountId: number) {
-    this.projects = new ProjectsApi(client, accountId);
-    this.inboxes = new InboxesApi(client, accountId);
-    this.messages = new MessagesApi(client, accountId);
-    this.attachments = new AttachmentsApi(client, accountId);
+    super(client, accountId);
+    this.inboxesApi = new InboxesApi(client, accountId);
+  }
+
+  /** @deprecated Use `client.sandbox.sandboxes` instead. */
+  get inboxes() {
+    warnDeprecated("client.testing.inboxes", "client.sandbox.sandboxes");
+
+    return this.inboxesApi;
   }
 }

@@ -1,4 +1,4 @@
-import { Inbox } from "./inboxes";
+import { Sandbox } from "./sandboxes";
 
 type ShareLinks = {
   admin: string;
@@ -16,6 +16,6 @@ export type Project = {
   id: number;
   name: string;
   share_links: ShareLinks;
-  inboxes: Inbox[];
+  inboxes: Sandbox[];
   permissions: Permissions;
 };

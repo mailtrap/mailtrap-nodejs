@@ -21,9 +21,9 @@ export default class CompanyInfoApi {
   }
 
   /**
-   * Get the company info associated with a sending domain.
-   * @param domainId Sending domain ID
-   * @returns Returns the company info of the sending domain
+   * Get the company info associated with a domain.
+   * @param domainId Domain ID
+   * @returns Returns the company info of the domain
    */
   public async get(domainId: number) {
     const url = this.companyInfoURL(domainId);
@@ -32,9 +32,9 @@ export default class CompanyInfoApi {
   }
 
   /**
-   * Create the company info for a sending domain. Company info is required for
+   * Create the company info for a domain. Company info is required for
    * domain compliance verification.
-   * @param domainId Sending domain ID
+   * @param domainId Domain ID
    * @param params Company info attributes
    * @returns Returns the created company info
    */
@@ -49,9 +49,9 @@ export default class CompanyInfoApi {
   }
 
   /**
-   * Update the company info for a sending domain. Only the fields provided are
+   * Update the company info for a domain. Only the fields provided are
    * updated.
-   * @param domainId Sending domain ID
+   * @param domainId Domain ID
    * @param params Company info attributes to update
    * @returns Returns the updated company info
    */

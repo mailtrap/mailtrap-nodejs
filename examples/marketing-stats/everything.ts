@@ -30,7 +30,7 @@ async function marketingStatsFlow() {
     console.log("Campaigns only:", JSON.stringify(campaigns.data, null, 2));
 
     // Narrow further by recipient email service provider; add
-    // `sending_domain_ids` (from the Sending Domains endpoints) to pick domains.
+    // `sending_domain_ids` (from `client.domains`) to pick domains.
     const automationsAtGoogle = await client.marketingStats.get({
       ...dateRange,
       sources: ["automations"],

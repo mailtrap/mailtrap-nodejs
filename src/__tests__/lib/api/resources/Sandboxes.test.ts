@@ -1,19 +1,24 @@
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
-import Inboxes from "../../../../lib/api/resources/Inboxes";
+import Sandboxes from "../../../../lib/api/resources/Sandboxes";
+import InboxesApi from "../../../../lib/api/resources/Inboxes";
+import warnDeprecated from "../../../../lib/deprecation";
 import handleSendingError from "../../../../lib/axios-logger";
 import MailtrapError from "../../../../lib/MailtrapError";
 
 import CONFIG from "../../../../config";
+import { Inbox } from "../../../../types/api/inboxes";
+
+jest.mock("../../../../lib/deprecation");
 
 const { CLIENT_SETTINGS } = CONFIG;
 const { GENERAL_ENDPOINT } = CLIENT_SETTINGS;
 
-describe("lib/api/resources/Inboxes: ", () => {
+describe("lib/api/resources/Sandboxes: ", () => {
   let mock: AxiosMockAdapter;
   const accountId = 100;
-  const inboxesAPI = new Inboxes(axios, accountId);
+  const sandboxesAPI = new Sandboxes(axios, accountId);
   const responseData = {
     id: 10,
     name: "mock-name",
@@ -40,19 +45,19 @@ describe("lib/api/resources/Inboxes: ", () => {
     permissions: [],
   };
 
-  describe("class Inboxes(): ", () => {
+  describe("class Sandboxes(): ", () => {
     describe("init: ", () => {
       it("initializes with all necessary params.", () => {
-        expect(inboxesAPI).toHaveProperty("cleanInbox");
-        expect(inboxesAPI).toHaveProperty("create");
-        expect(inboxesAPI).toHaveProperty("delete");
-        expect(inboxesAPI).toHaveProperty("enableEmailAddress");
-        expect(inboxesAPI).toHaveProperty("getInboxAttributes");
-        expect(inboxesAPI).toHaveProperty("getList");
-        expect(inboxesAPI).toHaveProperty("markAsRead");
-        expect(inboxesAPI).toHaveProperty("resetCredentials");
-        expect(inboxesAPI).toHaveProperty("resetEmailAddress");
-        expect(inboxesAPI).toHaveProperty("updateInbox");
+        expect(sandboxesAPI).toHaveProperty("cleanSandbox");
+        expect(sandboxesAPI).toHaveProperty("create");
+        expect(sandboxesAPI).toHaveProperty("delete");
+        expect(sandboxesAPI).toHaveProperty("enableEmailAddress");
+        expect(sandboxesAPI).toHaveProperty("getSandboxAttributes");
+        expect(sandboxesAPI).toHaveProperty("getList");
+        expect(sandboxesAPI).toHaveProperty("markAsRead");
+        expect(sandboxesAPI).toHaveProperty("resetCredentials");
+        expect(sandboxesAPI).toHaveProperty("resetEmailAddress");
+        expect(sandboxesAPI).toHaveProperty("updateSandbox");
       });
     });
   });
@@ -78,10 +83,10 @@ describe("lib/api/resources/Inboxes: ", () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/projects/${projectId}/inboxes`;
 
       mock.onPost(endpoint).reply(200, responseData);
-      const inboxName = "mock-inboxName";
-      const result = await inboxesAPI.create(projectId, inboxName);
+      const sandboxName = "mock-sandboxName";
+      const result = await sandboxesAPI.create(projectId, sandboxName);
 
-      const sentData = { inbox: { name: inboxName } };
+      const sentData = { inbox: { name: sandboxName } };
 
       expect(mock.history.post[0].url).toEqual(endpoint);
       expect(mock.history.post[0].data).toEqual(JSON.stringify(sentData));
@@ -90,13 +95,13 @@ describe("lib/api/resources/Inboxes: ", () => {
 
     it("fails with error.", async () => {
       const projectId = 1;
-      const inboxName = "mock-inboxName";
+      const sandboxName = "mock-sandboxName";
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
 
       try {
-        await inboxesAPI.create(projectId, inboxName);
+        await sandboxesAPI.create(projectId, sandboxName);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -106,15 +111,15 @@ describe("lib/api/resources/Inboxes: ", () => {
       }
     });
 
-    describe("updateInbox(): ", () => {
-      it("succesfully updates inbox.", async () => {
-        const inboxId = 1;
-        const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}`;
+    describe("updateSandbox(): ", () => {
+      it("succesfully updates sandbox.", async () => {
+        const sandboxId = 1;
+        const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}`;
 
         mock.onPatch(endpoint).reply(200, responseData);
-        const name = "mock-inboxName";
+        const name = "mock-sandboxName";
         const emailUsername = "mock@email.com";
-        const result = await inboxesAPI.updateInbox(inboxId, {
+        const result = await sandboxesAPI.updateSandbox(sandboxId, {
           name,
           emailUsername,
         });
@@ -132,16 +137,16 @@ describe("lib/api/resources/Inboxes: ", () => {
       });
 
       it("fails with error", async () => {
-        const inboxId = 1;
+        const sandboxId = 1;
         const expectedErrorMessage = "Request failed with status code 404";
 
-        const name = "mock-inboxName";
+        const name = "mock-sandboxName";
         const emailUsername = "mock@email.com";
 
         expect.assertions(2);
 
         try {
-          await inboxesAPI.updateInbox(inboxId, {
+          await sandboxesAPI.updateSandbox(sandboxId, {
             name,
             emailUsername,
           });
@@ -155,27 +160,27 @@ describe("lib/api/resources/Inboxes: ", () => {
       });
     });
 
-    describe("getInboxAttributes(): ", () => {
-      it("succesfully gets inbox attributes.", async () => {
-        const inboxId = 1;
-        const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}`;
+    describe("getSandboxAttributes(): ", () => {
+      it("succesfully gets sandbox attributes.", async () => {
+        const sandboxId = 1;
+        const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}`;
 
         mock.onGet(endpoint).reply(200, responseData);
 
-        const result = await inboxesAPI.getInboxAttributes(inboxId);
+        const result = await sandboxesAPI.getSandboxAttributes(sandboxId);
 
         expect(mock.history.get[0].url).toEqual(endpoint);
         expect(result).toEqual(responseData);
       });
 
       it("fails with error", async () => {
-        const inboxId = 1;
+        const sandboxId = 1;
         const expectedErrorMessage = "Request failed with status code 404";
 
         expect.assertions(2);
 
         try {
-          await inboxesAPI.getInboxAttributes(inboxId);
+          await sandboxesAPI.getSandboxAttributes(sandboxId);
         } catch (error) {
           expect(error).toBeInstanceOf(MailtrapError);
 
@@ -188,26 +193,26 @@ describe("lib/api/resources/Inboxes: ", () => {
   });
 
   describe("delete(): ", () => {
-    it("succesfully deletes inbox.", async () => {
-      const inboxId = 1;
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}`;
+    it("succesfully deletes sandbox.", async () => {
+      const sandboxId = 1;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}`;
 
       mock.onDelete(endpoint).reply(200, responseData);
 
-      const result = await inboxesAPI.delete(inboxId);
+      const result = await sandboxesAPI.delete(sandboxId);
 
       expect(mock.history.delete[0].url).toEqual(endpoint);
       expect(result).toEqual(responseData);
     });
 
     it("fails with error", async () => {
-      const inboxId = 1;
+      const sandboxId = 1;
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
 
       try {
-        await inboxesAPI.delete(inboxId);
+        await sandboxesAPI.delete(sandboxId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -218,14 +223,14 @@ describe("lib/api/resources/Inboxes: ", () => {
     });
   });
 
-  describe("cleanInbox(): ", () => {
-    it("succesfully cleans inbox.", async () => {
-      const inboxId = 1;
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/clean`;
+  describe("cleanSandbox(): ", () => {
+    it("succesfully cleans sandbox.", async () => {
+      const sandboxId = 1;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/clean`;
 
       mock.onPatch(endpoint).reply(200, responseData);
 
-      const result = await inboxesAPI.cleanInbox(inboxId);
+      const result = await sandboxesAPI.cleanSandbox(sandboxId);
 
       expect(mock.history.patch[0].url).toEqual(endpoint);
       expect(mock.history.patch[0].data).toBeUndefined();
@@ -233,13 +238,13 @@ describe("lib/api/resources/Inboxes: ", () => {
     });
 
     it("fails with error", async () => {
-      const inboxId = 1;
+      const sandboxId = 1;
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
 
       try {
-        await inboxesAPI.cleanInbox(inboxId);
+        await sandboxesAPI.cleanSandbox(sandboxId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -251,13 +256,13 @@ describe("lib/api/resources/Inboxes: ", () => {
   });
 
   describe("markAsRead(): ", () => {
-    it("succesfully marks inbox as read.", async () => {
-      const inboxId = 1;
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/all_read`;
+    it("succesfully marks sandbox as read.", async () => {
+      const sandboxId = 1;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/all_read`;
 
       mock.onPatch(endpoint).reply(200, responseData);
 
-      const result = await inboxesAPI.markAsRead(inboxId);
+      const result = await sandboxesAPI.markAsRead(sandboxId);
 
       expect(mock.history.patch[0].url).toEqual(endpoint);
       expect(mock.history.patch[0].data).toBeUndefined();
@@ -265,13 +270,13 @@ describe("lib/api/resources/Inboxes: ", () => {
     });
 
     it("fails with error", async () => {
-      const inboxId = 1;
+      const sandboxId = 1;
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
 
       try {
-        await inboxesAPI.markAsRead(inboxId);
+        await sandboxesAPI.markAsRead(sandboxId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -284,12 +289,12 @@ describe("lib/api/resources/Inboxes: ", () => {
 
   describe("resetCredentials(): ", () => {
     it("succesfully resets credentials.", async () => {
-      const inboxId = 1;
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/reset_credentials`;
+      const sandboxId = 1;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/reset_credentials`;
 
       mock.onPatch(endpoint).reply(200, responseData);
 
-      const result = await inboxesAPI.resetCredentials(inboxId);
+      const result = await sandboxesAPI.resetCredentials(sandboxId);
 
       expect(mock.history.patch[0].url).toEqual(endpoint);
       expect(mock.history.patch[0].data).toBeUndefined();
@@ -297,13 +302,13 @@ describe("lib/api/resources/Inboxes: ", () => {
     });
 
     it("fails with error", async () => {
-      const inboxId = 1;
+      const sandboxId = 1;
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
 
       try {
-        await inboxesAPI.resetCredentials(inboxId);
+        await sandboxesAPI.resetCredentials(sandboxId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -316,12 +321,12 @@ describe("lib/api/resources/Inboxes: ", () => {
 
   describe("enableEmailAddress(): ", () => {
     it("succesfully toggles email availability.", async () => {
-      const inboxId = 1;
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/toggle_email_username`;
+      const sandboxId = 1;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/toggle_email_username`;
 
       mock.onPatch(endpoint).reply(200, responseData);
 
-      const result = await inboxesAPI.enableEmailAddress(inboxId);
+      const result = await sandboxesAPI.enableEmailAddress(sandboxId);
 
       expect(mock.history.patch[0].url).toEqual(endpoint);
       expect(mock.history.patch[0].data).toBeUndefined();
@@ -329,13 +334,13 @@ describe("lib/api/resources/Inboxes: ", () => {
     });
 
     it("fails with error", async () => {
-      const inboxId = 1;
+      const sandboxId = 1;
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
 
       try {
-        await inboxesAPI.enableEmailAddress(inboxId);
+        await sandboxesAPI.enableEmailAddress(sandboxId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -348,12 +353,12 @@ describe("lib/api/resources/Inboxes: ", () => {
 
   describe("resetEmailAddress(): ", () => {
     it("succesfully resets email address.", async () => {
-      const inboxId = 1;
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/reset_email_username`;
+      const sandboxId = 1;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/reset_email_username`;
 
       mock.onPatch(endpoint).reply(200, responseData);
 
-      const result = await inboxesAPI.resetEmailAddress(inboxId);
+      const result = await sandboxesAPI.resetEmailAddress(sandboxId);
 
       expect(mock.history.patch[0].url).toEqual(endpoint);
       expect(mock.history.patch[0].data).toBeUndefined();
@@ -361,13 +366,13 @@ describe("lib/api/resources/Inboxes: ", () => {
     });
 
     it("fails with error", async () => {
-      const inboxId = 1;
+      const sandboxId = 1;
       const expectedErrorMessage = "Request failed with status code 404";
 
       expect.assertions(2);
 
       try {
-        await inboxesAPI.resetEmailAddress(inboxId);
+        await sandboxesAPI.resetEmailAddress(sandboxId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -379,14 +384,14 @@ describe("lib/api/resources/Inboxes: ", () => {
   });
 
   describe("getList(): ", () => {
-    it("succesfully gets inbox list.", async () => {
+    it("succesfully gets sandbox list.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes`;
 
       const expectedResponseData = [responseData];
 
       mock.onGet(endpoint).reply(200, expectedResponseData);
 
-      const result = await inboxesAPI.getList();
+      const result = await sandboxesAPI.getList();
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(expectedResponseData);
@@ -398,7 +403,7 @@ describe("lib/api/resources/Inboxes: ", () => {
       expect.assertions(2);
 
       try {
-        await inboxesAPI.getList();
+        await sandboxesAPI.getList();
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -406,6 +411,61 @@ describe("lib/api/resources/Inboxes: ", () => {
           expect(error.message).toEqual(expectedErrorMessage);
         }
       }
+    });
+  });
+
+  describe("class InboxesApi() (deprecated): ", () => {
+    const inboxesAPI = new InboxesApi(axios, accountId);
+    const sandboxId = 1;
+    const sandboxURL = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}`;
+
+    it("keeps the SandboxesApi methods.", () => {
+      expect(inboxesAPI).toBeInstanceOf(Sandboxes);
+    });
+
+    it("getInboxAttributes() delegates to getSandboxAttributes() and warns.", async () => {
+      mock.onGet(sandboxURL).reply(200, responseData);
+
+      const result: Inbox = await inboxesAPI.getInboxAttributes(sandboxId);
+
+      expect(mock.history.get[0].url).toEqual(sandboxURL);
+      expect(result).toEqual(responseData);
+      expect(warnDeprecated).toHaveBeenCalledWith(
+        "client.testing.inboxes.getInboxAttributes",
+        "client.sandbox.sandboxes.getSandboxAttributes"
+      );
+    });
+
+    it("updateInbox() delegates to updateSandbox() and warns.", async () => {
+      mock.onPatch(sandboxURL).reply(200, responseData);
+
+      const result = await inboxesAPI.updateInbox(sandboxId, {
+        name: "mock-sandboxName",
+        emailUsername: "mock",
+      });
+
+      expect(mock.history.patch[0].data).toEqual(
+        JSON.stringify({
+          inbox: { name: "mock-sandboxName", email_username: "mock" },
+        })
+      );
+      expect(result).toEqual(responseData);
+      expect(warnDeprecated).toHaveBeenCalledWith(
+        "client.testing.inboxes.updateInbox",
+        "client.sandbox.sandboxes.updateSandbox"
+      );
+    });
+
+    it("cleanInbox() delegates to cleanSandbox() and warns.", async () => {
+      mock.onPatch(`${sandboxURL}/clean`).reply(200, responseData);
+
+      const result = await inboxesAPI.cleanInbox(sandboxId);
+
+      expect(result).toEqual(responseData);
+      expect(warnDeprecated).toHaveBeenCalledWith(
+        "client.testing.inboxes.cleanInbox",
+        "client.sandbox.sandboxes.cleanSandbox"
+      );
     });
   });
 });

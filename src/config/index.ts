@@ -6,7 +6,9 @@ export default {
     FROM_REQUIRED: "From is required.",
     SENDING_FAILED: "Sending failed.",
     NO_DATA_ERROR: "No Data.",
-    TEST_INBOX_ID_MISSING: "testInboxId is missing, testing API will not work.",
+    SANDBOX_ID_MISSING: "sandboxId is missing, sandbox sending will not work.",
+    SANDBOX_ID_CONFLICT:
+      "sandboxId and testInboxId are set to different values; set only sandboxId.",
     ACCOUNT_ID_MISSING:
       "accountId is missing, please provide a valid accountId.",
     ORGANIZATION_ID_MISSING:

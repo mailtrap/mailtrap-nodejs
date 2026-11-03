@@ -42,7 +42,7 @@ export default class TrackingOptOutsApi {
   }
 
   /**
-   * Add an email address to the tracking opt-out list for a sending domain.
+   * Add an email address to the tracking opt-out list for a domain.
    */
   public async create(params: CreateTrackingOptOutParams) {
     return this.client.post<

@@ -19,6 +19,7 @@ import EmailLogsBaseAPI from "./api/EmailLogs";
 import GeneralAPI from "./api/General";
 import InboundAPI from "./api/Inbound";
 import MarketingStatsBaseAPI from "./api/MarketingStats";
+import DomainsBaseAPI from "./api/Domains";
 import SendingDomainsBaseAPI from "./api/SendingDomains";
 import StatsBaseAPI from "./api/Stats";
 import SuppressionsBaseAPI from "./api/Suppressions";
@@ -26,8 +27,11 @@ import TrackingOptOutsBaseAPI from "./api/TrackingOptOuts";
 import OrganizationsBaseAPI from "./api/Organizations";
 import TemplatesBaseAPI from "./api/Templates";
 import EmailTemplatesBaseAPI from "./api/EmailTemplates";
+import SandboxAPI from "./api/Sandbox";
 import TestingAPI from "./api/Testing";
 import WebhooksBaseAPI from "./api/Webhooks";
+
+import warnDeprecated from "./deprecation";
 
 import CONFIG from "../config";
 
@@ -52,7 +56,8 @@ const {
   ACCOUNT_ID_MISSING,
   BULK_SANDBOX_INCOMPATIBLE,
   ORGANIZATION_ID_MISSING,
-  TEST_INBOX_ID_MISSING,
+  SANDBOX_ID_CONFLICT,
+  SANDBOX_ID_MISSING,
 } = ERRORS;
 
 /**
@@ -61,7 +66,7 @@ const {
 export default class MailtrapClient {
   private axios: AxiosInstance;
 
-  private testInboxId?: number;
+  private sandboxId?: number;
 
   private accountId?: number;
 
@@ -69,13 +74,14 @@ export default class MailtrapClient {
 
   private bulk: boolean;
 
-  private sandbox: boolean;
+  private sandboxMode: boolean;
 
   /**
    * Initalizes axios instance with Mailtrap params.
    */
   constructor({
     token,
+    sandboxId,
     testInboxId,
     accountId,
     organizationId,
@@ -83,6 +89,14 @@ export default class MailtrapClient {
     sandbox = false,
     userAgent,
   }: MailtrapClientConfig) {
+    if (testInboxId !== undefined) {
+      if (sandboxId !== undefined && sandboxId !== testInboxId) {
+        throw new MailtrapError(SANDBOX_ID_CONFLICT);
+      }
+
+      warnDeprecated("testInboxId", "sandboxId");
+    }
+
     this.axios = axios.create({
       httpAgent: new http.Agent({ keepAlive: true }),
       httpsAgent: new https.Agent({ keepAlive: true }),
@@ -101,11 +115,11 @@ export default class MailtrapClient {
       handleSendingError
     );
 
-    this.testInboxId = testInboxId;
+    this.sandboxId = sandboxId ?? testInboxId;
     this.accountId = accountId;
     this.organizationId = organizationId;
     this.bulk = bulk;
-    this.sandbox = sandbox;
+    this.sandboxMode = sandbox;
   }
 
   /**
@@ -129,18 +143,27 @@ export default class MailtrapClient {
   }
 
   /**
-   * Validates that test inbox ID is present, throws MailtrapError if missing.
+   * Validates that sandbox ID is present, throws MailtrapError if missing.
    */
-  private validateTestInboxIdPresence(): void {
-    if (this.sandbox && !this.testInboxId) {
-      throw new MailtrapError(TEST_INBOX_ID_MISSING);
+  private validateSandboxIdPresence(): void {
+    if (this.sandboxMode && !this.sandboxId) {
+      throw new MailtrapError(SANDBOX_ID_MISSING);
     }
   }
 
   /**
-   * Getter for Testing API. Warns if some of the required keys are missing.
+   * Getter for Email Sandbox API: projects, sandboxes, messages and attachments.
+   */
+  get sandbox() {
+    const accountId = this.validateAccountIdPresence();
+    return new SandboxAPI(this.axios, accountId);
+  }
+
+  /**
+   * @deprecated Use `client.sandbox` instead.
    */
   get testing() {
+    warnDeprecated("client.testing", "client.sandbox");
     const accountId = this.validateAccountIdPresence();
     return new TestingAPI(this.axios, accountId);
   }
@@ -244,9 +267,18 @@ export default class MailtrapClient {
   }
 
   /**
-   * Getter for Sending Domains API.
+   * Getter for Domains API.
+   */
+  get domains() {
+    const accountId = this.validateAccountIdPresence();
+    return new DomainsBaseAPI(this.axios, accountId);
+  }
+
+  /**
+   * @deprecated Use `client.domains` instead.
    */
   get sendingDomains() {
+    warnDeprecated("client.sendingDomains", "client.domains");
     const accountId = this.validateAccountIdPresence();
     return new SendingDomainsBaseAPI(this.axios, accountId);
   }
@@ -311,9 +343,9 @@ export default class MailtrapClient {
   private determineHost() {
     let host;
 
-    if (this.bulk && this.sandbox) {
+    if (this.bulk && this.sandboxMode) {
       throw new MailtrapError(BULK_SANDBOX_INCOMPATIBLE);
-    } else if (this.sandbox) {
+    } else if (this.sandboxMode) {
       host = TESTING_ENDPOINT;
     } else if (this.bulk) {
       host = BULK_ENDPOINT;
@@ -329,10 +361,10 @@ export default class MailtrapClient {
    */
   public async send(mail: Mail): Promise<SendResponse> {
     const host = this.determineHost();
-    this.validateTestInboxIdPresence();
+    this.validateSandboxIdPresence();
 
     const url = `${host}/api/send${
-      this.sandbox && this.testInboxId ? `/${this.testInboxId}` : ""
+      this.sandboxMode && this.sandboxId ? `/${this.sandboxId}` : ""
     }`;
 
     const preparedMail = encodeMailBuffers(mail);
@@ -350,10 +382,10 @@ export default class MailtrapClient {
     const { requests, base } = request;
     const host = this.determineHost();
 
-    this.validateTestInboxIdPresence();
+    this.validateSandboxIdPresence();
 
     const sandbox =
-      this.sandbox && this.testInboxId ? `/${this.testInboxId}` : "";
+      this.sandboxMode && this.sandboxId ? `/${this.sandboxId}` : "";
 
     const url = `${host}/api/batch${sandbox}`;
 

@@ -61,7 +61,7 @@ Example `.env` variables (or export in shell):
 ```bash
 MAILTRAP_API_KEY=your_api_token # https://mailtrap.io/api-tokens
 MAILTRAP_USE_SANDBOX=true       # true/false toggle
-MAILTRAP_INBOX_ID=123456        # Only needed for sandbox
+MAILTRAP_SANDBOX_ID=123456      # Only needed for sandbox
 ```
 
 Bootstrap logic:
@@ -71,12 +71,12 @@ import { MailtrapClient } from "mailtrap";
 
 const apiKey = process.env.MAILTRAP_API_KEY;
 const isSandbox = process.env.MAILTRAP_USE_SANDBOX === "true";
-const inboxId = isSandbox ? Number(process.env.MAILTRAP_INBOX_ID) : undefined; // required only for sandbox
+const sandboxId = isSandbox ? Number(process.env.MAILTRAP_SANDBOX_ID) : undefined; // required only for sandbox
 
 const client = new MailtrapClient({
   token: apiKey,
   sandbox: isSandbox,
-  testInboxId: inboxId, // undefined is ignored for production
+  sandboxId, // undefined is ignored for production
 });
 
 client
@@ -119,7 +119,7 @@ const mailtrap = new MailtrapClient({
   token: process.env.MAILTRAP_API_KEY, // your API token
   bulk: false, // set to true for bulk email sending (false by default)
   sandbox: false, // set to true for sandbox mode (false by default)
-  testInboxId: undefined, // optional, only for sandbox mode
+  sandboxId: undefined, // optional, only for sandbox mode
 });
 
 const welcomeImage = fs.readFileSync(path.join(__dirname, "welcome.png"));
@@ -236,23 +236,23 @@ Email API:
 - Batch send (Bulk) – [`batch/bulk.ts`](examples/bulk/bulk.ts)
 - Batch send with Template (Transactional) – [`batch/template.ts`](examples/batch/template.ts)
 - Batch send with Template (Bulk) – [`batch/template.ts`](examples/batch/template.ts)
-- Sending domain management CRUD and settings – [`sending-domains/everything.ts`](examples/sending-domains/everything.ts)
-- Sending domain company info – [`company-info/everything.ts`](examples/company-info/everything.ts)
+- Domain management CRUD and settings – [`domains/everything.ts`](examples/domains/everything.ts)
+- Domain company info – [`company-info/everything.ts`](examples/company-info/everything.ts)
 - Sending stats (aggregated and by domain, category, ESP, date) – [`stats/everything.ts`](examples/stats/everything.ts)
 - Email logs (list with filters, get by message ID) – [`email-logs/everything.ts`](examples/email-logs/everything.ts)
 - Webhooks CRUD – [`webhooks/everything.ts`](examples/webhooks/everything.ts)
 - Verifying webhook signatures – [`webhooks/verify-signature.ts`](examples/webhooks/verify-signature.ts)
 
-Email Sandbox (Testing):
+Email Sandbox:
 
-- Send an email (Sandbox) – [`testing/send-mail.ts`](examples/testing/send-mail.ts)
-- Send an email with a Template (Sandbox) – [`testing/template.ts`](examples/testing/template.ts)
+- Send an email (Sandbox) – [`sandbox/send-mail.ts`](examples/sandbox/send-mail.ts)
+- Send an email with a Template (Sandbox) – [`sandbox/template.ts`](examples/sandbox/template.ts)
 - Batch send (Sandbox) – [`batch/sandbox.ts`](examples/batch/sandbox.ts)
 - Batch send with Template (Sandbox) – [`batch/sandbox.ts`](examples/batch/sandbox.ts)
-- Message management CRUD – [`testing/messages.ts`](examples/testing/messages.ts)
-- Inbox management CRUD – [`testing/inboxes.ts`](examples/testing/inboxes.ts)
-- Project management CRUD – [`testing/projects.ts`](examples/testing/projects.ts)
-- Attachments operations – [`testing/attachments.ts`](examples/testing/attachments.ts)
+- Message management CRUD – [`sandbox/messages.ts`](examples/sandbox/messages.ts)
+- Sandbox management CRUD – [`sandbox/sandboxes.ts`](examples/sandbox/sandboxes.ts)
+- Project management CRUD – [`sandbox/projects.ts`](examples/sandbox/projects.ts)
+- Attachments operations – [`sandbox/attachments.ts`](examples/sandbox/attachments.ts)
 
 Inbound Email:
 
@@ -303,6 +303,26 @@ Everyone interacting in the Mailtrap project's codebases, issue trackers, chat r
 ## Compatibility with previous releases
 
 Versions of this package up to 2.0.2 were an [unofficial client](https://github.com/vchin/mailtrap-client) developed by [@vchin](https://github.com/vchin). Package version 3 is a completely new package. 
+
+### Renamed APIs
+
+The SDK now uses the product's names: Email Sandbox inboxes are **sandboxes** and sending domains are **domains**. The old names still work, call the same endpoints, and will be removed in a future major release. Each old option, getter and method emits a `DeprecationWarning` the first time it is used, and the old types are marked `@deprecated`.
+
+| Old name | New name |
+|---|---|
+| `testInboxId` config option | `sandboxId` |
+| `client.testing` | `client.sandbox` |
+| `client.testing.inboxes` | `client.sandbox.sandboxes` |
+| `inboxes.getInboxAttributes()` | `sandboxes.getSandboxAttributes()` |
+| `inboxes.updateInbox()` | `sandboxes.updateSandbox()` |
+| `inboxes.cleanInbox()` | `sandboxes.cleanSandbox()` |
+| `client.sendingDomains` | `client.domains` |
+| `Inbox`, `UpdateInboxParams` types | `Sandbox`, `UpdateSandboxParams` |
+| `SendingDomain`, `SendingDomainPermissions`, `CreateSendingDomainParams`, `UpdateSendingDomainParams`, `SendingDomainsResponse` types | `Domain`, `DomainPermissions`, `CreateDomainParams`, `UpdateDomainParams`, `DomainsResponse` |
+
+The other methods of `client.testing` and `client.sendingDomains` keep their names. Fields that mirror the API, such as `inbox_id` on messages or `sending_domain_id` on email logs, keep their names too. Passing both `sandboxId` and `testInboxId` with different values throws a `MailtrapError`.
+
+The warnings carry the code `MAILTRAP_DEPRECATED_NAME`. `node --no-deprecation` silences them, along with every other deprecation warning.
 
 ### Upgrading to 5.0
 
