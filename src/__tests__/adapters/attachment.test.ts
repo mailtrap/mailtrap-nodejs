@@ -68,7 +68,7 @@ describe("adapters/attachment: ", () => {
       });
     });
 
-    it("returns adapted attachment object.", () => {
+    it("returns adapted attachment object with string content encoded to base64.", () => {
       const attachment = {
         filename: "mock-filename",
         content: "mock-content",
@@ -76,7 +76,7 @@ describe("adapters/attachment: ", () => {
 
       const expectedAttachment = {
         filename: attachment.filename,
-        content: attachment.content,
+        content: Buffer.from(attachment.content).toString("base64"),
         disposition: undefined,
         content_id: undefined,
         type: undefined,
@@ -84,6 +84,70 @@ describe("adapters/attachment: ", () => {
       const result = adaptAttachment(attachment);
 
       expect(result).toEqual(expectedAttachment);
+    });
+
+    it("keeps string content that is already base64 encoded.", () => {
+      ["base64", "BASE64"].forEach((encoding) => {
+        const result = adaptAttachment({
+          filename: "mock-filename",
+          content: "abcd",
+          encoding,
+        });
+
+        expect(result.content).toBe("abcd");
+      });
+    });
+
+    it("encodes string content as UTF-8 text for text encodings.", () => {
+      [undefined, "utf8", "UTF-8", "utf_8", "ascii", "us-ascii"].forEach(
+        (encoding) => {
+          const result = adaptAttachment({
+            filename: "mock-filename",
+            content: "héllo",
+            encoding,
+          });
+
+          expect(result.content).toBe(Buffer.from("héllo").toString("base64"));
+        }
+      );
+    });
+
+    it("labels non-ASCII text/plain string content as UTF-8.", () => {
+      [
+        ["text/plain", "text/plain; charset=utf-8"],
+        ["TEXT/PLAIN", "TEXT/PLAIN; charset=utf-8"],
+        ["text/plain; charset=iso-8859-1", "text/plain; charset=utf-8"],
+        [
+          "text/plain; format=flowed",
+          "text/plain; format=flowed; charset=utf-8",
+        ],
+      ].forEach(([contentType, type]) => {
+        const result = adaptAttachment({
+          filename: "mock-filename",
+          content: "héllo",
+          contentType,
+        });
+
+        expect(result.type).toBe(type);
+      });
+    });
+
+    it("keeps the type for ASCII, base64, Buffer, or non-text/plain content.", () => {
+      [
+        { content: "hello", contentType: "text/plain" },
+        { content: "héllo", contentType: "text/csv" },
+        { content: "héllo", contentType: "text/plain-other" },
+        { content: "aMOpbGxv", contentType: "text/plain", encoding: "base64" },
+        { content: Buffer.from("héllo"), contentType: "text/plain" },
+        { content: "héllo", contentType: undefined },
+      ].forEach((attachment) => {
+        const result = adaptAttachment({
+          filename: "mock-filename",
+          ...attachment,
+        });
+
+        expect(result.type).toBe(attachment.contentType);
+      });
     });
   });
 });
