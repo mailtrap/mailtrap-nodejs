@@ -26,6 +26,7 @@ async function subAccountsFlow() {
     // Delete the sub account created above. Permanent – removes all of its
     // data; deleting the organization's last sub account deletes the
     // organization as well.
+    // Requires organization admin permissions on the token.
     await subAccountsClient.delete(created.id);
     console.log("Deleted sub account:", created.id);
   } catch (error) {
