@@ -14,7 +14,7 @@ const RECIPIENT_EMAIL = "<RECIPIENT@EMAIL.COM>";
 const client = new MailtrapClient({ 
   token: TOKEN,
   sandbox: true,
-  sandboxId: SANDBOX_ID
+  sandboxId: Number(SANDBOX_ID)
 });
 
 client.batchSend({

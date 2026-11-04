@@ -13,7 +13,7 @@ const SANDBOX_ID = "<YOUR-SANDBOX-ID-HERE>"
 const SENDER_EMAIL = "<SENDER@YOURDOMAIN.COM>";
 const RECIPIENT_EMAIL = "<RECIPIENT@EMAIL.COM>";
 
-const client = new MailtrapClient({ token: TOKEN, sandbox: true, sandboxId: SANDBOX_ID });
+const client = new MailtrapClient({ token: TOKEN, sandbox: true, sandboxId: Number(SANDBOX_ID) });
 
 client.send({
   from: { name: "Mailtrap Test", email: SENDER_EMAIL },

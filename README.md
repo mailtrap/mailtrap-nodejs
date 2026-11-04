@@ -306,7 +306,7 @@ Versions of this package up to 2.0.2 were an [unofficial client](https://github.
 
 ### Renamed APIs
 
-The SDK now uses the product's names: Email Sandbox inboxes are **sandboxes** and sending domains are **domains**. The old names still work, call the same endpoints, and will be removed in a future major release. Each old option, getter and method emits a `DeprecationWarning` the first time it is used, and the old types are marked `@deprecated`.
+The SDK now uses the product's names: Email Sandbox inboxes are **sandboxes** and sending domains are **domains**. The old names still work, call the same endpoints, and will be removed in a future major release. Each old option, getter and method emits a `DeprecationWarning` the first time it is used.
 
 | Old name | New name |
 |---|---|
@@ -317,8 +317,6 @@ The SDK now uses the product's names: Email Sandbox inboxes are **sandboxes** an
 | `inboxes.updateInbox()` | `sandboxes.updateSandbox()` |
 | `inboxes.cleanInbox()` | `sandboxes.cleanSandbox()` |
 | `client.sendingDomains` | `client.domains` |
-| `Inbox`, `UpdateInboxParams` types | `Sandbox`, `UpdateSandboxParams` |
-| `SendingDomain`, `SendingDomainPermissions`, `CreateSendingDomainParams`, `UpdateSendingDomainParams`, `SendingDomainsResponse` types | `Domain`, `DomainPermissions`, `CreateDomainParams`, `UpdateDomainParams`, `DomainsResponse` |
 
 The other methods of `client.testing` and `client.sendingDomains` keep their names. Fields that mirror the API, such as `inbox_id` on messages or `sending_domain_id` on email logs, keep their names too. Passing both `sandboxId` and `testInboxId` with different values throws a `MailtrapError`.
 
