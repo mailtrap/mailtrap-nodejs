@@ -51,7 +51,7 @@ export default class SubAccountsApi {
   public async delete(subAccountId: number) {
     const url = `${this.subAccountsURL}/${subAccountId}`;
 
-    return this.client.delete<
+    await this.client.delete<
       DeleteSubAccountResponse,
       DeleteSubAccountResponse
     >(url);

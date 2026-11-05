@@ -117,7 +117,7 @@ describe("lib/api/resources/SubAccounts: ", () => {
     it("deletes a sub account, returning nothing (204 No Content).", async () => {
       expect.assertions(2);
 
-      mock.onDelete(endpoint).reply(204);
+      mock.onDelete(endpoint).reply(204, "");
       const result = await subAccountsAPI.delete(subAccountId);
 
       expect(mock.history.delete[0].url).toEqual(endpoint);
