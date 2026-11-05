@@ -149,7 +149,7 @@ export default class MailtrapClient {
    * Getter for General API. `accounts` works without accountId; other resources require it.
    */
   get general() {
-    return new GeneralAPI(this.axios, this.accountId);
+    return new GeneralAPI(this.axios, this.accountId || undefined);
   }
 
   /**

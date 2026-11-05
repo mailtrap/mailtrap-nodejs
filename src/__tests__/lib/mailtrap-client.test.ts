@@ -759,18 +759,28 @@ describe("lib/mailtrap-client: ", () => {
           .onGet(`${GENERAL_ENDPOINT}/api/accounts`)
           .reply(200, accounts);
 
-        const client = new MailtrapClient({
+        try {
+          const { general } = new MailtrapClient({ token: "MY_API_TOKEN" });
+
+          expect(general).toBeInstanceOf(GeneralAPI);
+          await expect(general.accounts.getAllAccounts()).resolves.toEqual(
+            accounts
+          );
+          expect(() => general.billing).toThrow(MailtrapError);
+          expect(() => general.billing).toThrow(ACCOUNT_ID_MISSING);
+        } finally {
+          accountsMock.restore();
+        }
+      });
+
+      it("rejects account-scoped resources, when `accountId` is 0.", () => {
+        const { general } = new MailtrapClient({
           token: "MY_API_TOKEN",
+          accountId: 0,
         });
 
-        expect(client.general).toBeInstanceOf(GeneralAPI);
-        await expect(client.general.accounts.getAllAccounts()).resolves.toEqual(
-          accounts
-        );
-        expect(() => client.general.billing).toThrow(MailtrapError);
-        expect(() => client.general.billing).toThrow(ACCOUNT_ID_MISSING);
-
-        accountsMock.restore();
+        expect(() => general.billing).toThrow(MailtrapError);
+        expect(() => general.billing).toThrow(ACCOUNT_ID_MISSING);
       });
 
       it("returns general API object when accountId is provided.", () => {
