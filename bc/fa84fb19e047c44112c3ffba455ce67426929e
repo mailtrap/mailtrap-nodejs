@@ -1,0 +1,21 @@
+src/lib/MailtrapClient.ts
+  s_717833a42a193f::t_6aebef96ce5ff3 152
+src/__tests__/lib/mailtrap-client.test.ts
+  s_717833a42a193f::t_be212b4e662268 762-777,779,782-783
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bcfa84fb19e047c44112c3ffba455ce67426929e",
+  "prompts": {},
+  "sessions": {
+    "s_717833a42a193f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07ca2e7b-6b92-4d4c-87f3-5f2238f18a28",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}

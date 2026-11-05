@@ -1,0 +1,35 @@
+examples/general/billing.ts
+  s_b72bedce3ce1a7::t_b44a24899387e6 6
+examples/sandbox/transport.ts
+  s_b72bedce3ce1a7::t_b44a24899387e6 18
+examples/general/account-accesses.ts
+  s_b72bedce3ce1a7::t_b44a24899387e6 6
+examples/sandbox/send-mail.ts
+  s_b72bedce3ce1a7::t_b44a24899387e6 16
+examples/batch/sandbox.ts
+  s_b72bedce3ce1a7::t_b44a24899387e6 17
+examples/general/accounts.ts
+  s_b72bedce3ce1a7::t_b44a24899387e6 6
+examples/general/permissions.ts
+  s_b72bedce3ce1a7::t_b44a24899387e6 6
+README.md
+  s_b72bedce3ce1a7::t_b44a24899387e6 309
+examples/sandbox/template.ts
+  s_b72bedce3ce1a7::t_b44a24899387e6 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "959cea06dac5c1db7785cef65c54663485ac63ad",
+  "prompts": {},
+  "sessions": {
+    "s_b72bedce3ce1a7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6364969f-2aa5-4d68-95cd-6d547db6bd5e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
