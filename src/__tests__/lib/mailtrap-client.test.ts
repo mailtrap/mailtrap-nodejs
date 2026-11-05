@@ -21,7 +21,8 @@ import ContactEventsBaseAPI from "../../lib/api/ContactEvents";
 import MarketingStatsBaseAPI from "../../lib/api/MarketingStats";
 
 const { ERRORS, CLIENT_SETTINGS } = CONFIG;
-const { TESTING_ENDPOINT, BULK_ENDPOINT, SENDING_ENDPOINT } = CLIENT_SETTINGS;
+const { TESTING_ENDPOINT, BULK_ENDPOINT, SENDING_ENDPOINT, GENERAL_ENDPOINT } =
+  CLIENT_SETTINGS;
 const { ACCOUNT_ID_MISSING, BULK_SANDBOX_INCOMPATIBLE, TEST_INBOX_ID_MISSING } =
   ERRORS;
 
@@ -751,17 +752,26 @@ describe("lib/mailtrap-client: ", () => {
     });
 
     describe("get general(): ", () => {
-      it("rejects with Mailtrap error, when `accountId` is missing.", () => {
+      it("returns general API object with accounts, but rejects account-scoped resources, when `accountId` is missing.", async () => {
+        const accountsMock = new AxiosMockAdapter(axios);
+        const accounts = [{ id: 1, name: "Account", access_levels: [1000] }];
+        accountsMock
+          .onGet(`${GENERAL_ENDPOINT}/api/accounts`)
+          .reply(200, accounts);
+
         const client = new MailtrapClient({
           token: "MY_API_TOKEN",
         });
-        expect.assertions(1);
 
-        try {
-          client.general;
-        } catch (error) {
-          expect(error).toEqual(new MailtrapError(ACCOUNT_ID_MISSING));
-        }
+        expect(client.general).toBeInstanceOf(GeneralAPI);
+        await expect(client.general.accounts.getAllAccounts()).resolves.toEqual(
+          accounts
+        );
+        expect(() => client.general.billing).toThrow(
+          new MailtrapError(ACCOUNT_ID_MISSING)
+        );
+
+        accountsMock.restore();
       });
 
       it("returns general API object when accountId is provided.", () => {

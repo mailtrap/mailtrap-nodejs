@@ -1,6 +1,11 @@
 import axios from "axios";
 
 import General from "../../../lib/api/General";
+import MailtrapError from "../../../lib/MailtrapError";
+
+import CONFIG from "../../../config";
+
+const { ACCOUNT_ID_MISSING } = CONFIG.ERRORS;
 
 describe("lib/api/General: ", () => {
   const testAccountId = 100;
@@ -47,36 +52,28 @@ describe("lib/api/General: ", () => {
         expect(() => {
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           generalAPI.accountAccesses;
-        }).toThrow(
-          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-        );
+        }).toThrow(new MailtrapError(ACCOUNT_ID_MISSING));
       });
 
       it("throws error when accessing permissions without accountId.", () => {
         expect(() => {
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           generalAPI.permissions;
-        }).toThrow(
-          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-        );
+        }).toThrow(new MailtrapError(ACCOUNT_ID_MISSING));
       });
 
       it("throws error when accessing billing without accountId.", () => {
         expect(() => {
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           generalAPI.billing;
-        }).toThrow(
-          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-        );
+        }).toThrow(new MailtrapError(ACCOUNT_ID_MISSING));
       });
 
       it("throws error when accessing apiTokens without accountId.", () => {
         expect(() => {
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           generalAPI.apiTokens;
-        }).toThrow(
-          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-        );
+        }).toThrow(new MailtrapError(ACCOUNT_ID_MISSING));
       });
     });
 

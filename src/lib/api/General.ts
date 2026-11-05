@@ -1,10 +1,14 @@
 import { AxiosInstance } from "axios";
 
+import CONFIG from "../../config";
+import MailtrapError from "../MailtrapError";
 import AccountAccessesApi from "./resources/AccountAccesses";
 import AccountsApi from "./resources/Accounts";
 import ApiTokensApi from "./resources/ApiTokens";
 import BillingApi from "./resources/Billing";
 import PermissionsApi from "./resources/Permissions";
+
+const { ACCOUNT_ID_MISSING } = CONFIG.ERRORS;
 
 export default class GeneralAPI {
   public accounts: AccountsApi;
@@ -41,9 +45,7 @@ export default class GeneralAPI {
    */
   private checkAccountIdPresence(): number {
     if (this.accountId === null) {
-      throw new Error(
-        "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-      );
+      throw new MailtrapError(ACCOUNT_ID_MISSING);
     }
     return this.accountId;
   }
