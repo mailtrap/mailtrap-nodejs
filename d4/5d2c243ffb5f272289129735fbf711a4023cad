@@ -1,0 +1,31 @@
+src/lib/MailtrapClient.ts
+  s_d08a448a16d6c4::t_55f4725293dd45 149,152
+src/__tests__/lib/api/General.test.ts
+  s_d08a448a16d6c4::t_f0790e27185def 55,62,69,76
+  s_d08a448a16d6c4::t_f579823e7f7fc1 4-8
+examples/general/accounts.ts
+  s_d08a448a16d6c4::t_dbc1a49c4bea8f 5-6
+src/__tests__/lib/mailtrap-client.test.ts
+  s_d08a448a16d6c4::t_5ff26cb40e6eb8 755-761,766-774
+  s_d08a448a16d6c4::t_ff14458a5a6ef2 24-25
+src/lib/api/General.ts
+  s_d08a448a16d6c4::t_684f2e36920fcf 3-4,11
+  s_d08a448a16d6c4::t_189cbaf498e9ba 48
+  s_d08a448a16d6c4::t_d178701fd01b11 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d45d2c243ffb5f272289129735fbf711a4023cad",
+  "prompts": {},
+  "sessions": {
+    "s_d08a448a16d6c4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a660d8f0-a293-4466-8726-60305339b5d1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}
