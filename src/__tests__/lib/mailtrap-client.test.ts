@@ -767,9 +767,8 @@ describe("lib/mailtrap-client: ", () => {
         await expect(client.general.accounts.getAllAccounts()).resolves.toEqual(
           accounts
         );
-        expect(() => client.general.billing).toThrow(
-          new MailtrapError(ACCOUNT_ID_MISSING)
-        );
+        expect(() => client.general.billing).toThrow(MailtrapError);
+        expect(() => client.general.billing).toThrow(ACCOUNT_ID_MISSING);
 
         accountsMock.restore();
       });
@@ -779,10 +778,11 @@ describe("lib/mailtrap-client: ", () => {
           token: "MY_API_TOKEN",
           accountId: 10,
         });
-        expect.assertions(1);
+        expect.assertions(2);
 
         const generalClient = client.general;
         expect(generalClient).toBeInstanceOf(GeneralAPI);
+        expect(() => generalClient.billing).not.toThrow();
       });
     });
 

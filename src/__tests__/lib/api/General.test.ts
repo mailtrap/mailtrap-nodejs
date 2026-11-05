@@ -49,31 +49,23 @@ describe("lib/api/General: ", () => {
       const generalAPI = new General(axios);
 
       it("throws error when accessing accountAccesses without accountId.", () => {
-        expect(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          generalAPI.accountAccesses;
-        }).toThrow(new MailtrapError(ACCOUNT_ID_MISSING));
+        expect(() => generalAPI.accountAccesses).toThrow(MailtrapError);
+        expect(() => generalAPI.accountAccesses).toThrow(ACCOUNT_ID_MISSING);
       });
 
       it("throws error when accessing permissions without accountId.", () => {
-        expect(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          generalAPI.permissions;
-        }).toThrow(new MailtrapError(ACCOUNT_ID_MISSING));
+        expect(() => generalAPI.permissions).toThrow(MailtrapError);
+        expect(() => generalAPI.permissions).toThrow(ACCOUNT_ID_MISSING);
       });
 
       it("throws error when accessing billing without accountId.", () => {
-        expect(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          generalAPI.billing;
-        }).toThrow(new MailtrapError(ACCOUNT_ID_MISSING));
+        expect(() => generalAPI.billing).toThrow(MailtrapError);
+        expect(() => generalAPI.billing).toThrow(ACCOUNT_ID_MISSING);
       });
 
       it("throws error when accessing apiTokens without accountId.", () => {
-        expect(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          generalAPI.apiTokens;
-        }).toThrow(new MailtrapError(ACCOUNT_ID_MISSING));
+        expect(() => generalAPI.apiTokens).toThrow(MailtrapError);
+        expect(() => generalAPI.apiTokens).toThrow(ACCOUNT_ID_MISSING);
       });
     });
 
