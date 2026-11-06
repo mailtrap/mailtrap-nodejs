@@ -1,3 +1,15 @@
+## [6.1.0] - 2026-11-06
+
+## What's Changed
+* build(deps): bump qs from 6.16.0 to 6.16.1 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/177
+* Encode string attachment content to base64 in MailtrapTransport by @izikaj in https://github.com/mailtrap/mailtrap-nodejs/pull/178
+* build(deps): bump follow-redirects from 1.16.1 to 1.16.2 by @dependabot[bot] in https://github.com/mailtrap/mailtrap-nodejs/pull/179
+* add sub account deletion by @oshchyhol in https://github.com/mailtrap/mailtrap-nodejs/pull/159
+* Allow client.general.accounts without an accountId by @izikaj in https://github.com/mailtrap/mailtrap-nodejs/pull/181
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v6.0.0...v6.1.0
+
 ## [6.0.0] - 2026-10-29
 
 ## What's Changed
