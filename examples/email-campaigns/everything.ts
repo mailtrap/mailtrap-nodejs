@@ -1,8 +1,8 @@
 import { MailtrapClient } from "mailtrap";
 
 const TOKEN = "<YOUR-TOKEN-HERE>";
-// ID of a verified sending domain on the account (required to create a campaign),
-// as returned by the Sending Domains endpoints.
+// ID of a verified domain on the account (required to create a campaign),
+// as returned by `client.domains`.
 const SENDING_DOMAIN_ID = "<YOUR-SENDING-DOMAIN-ID-HERE>";
 
 // The Email Campaigns API is token-scoped — no `accountId` is needed.

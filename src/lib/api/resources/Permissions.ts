@@ -47,7 +47,7 @@ export default class PermissionsApi {
   }
 
   /**
-   * Get all resources in your account (Inboxes, Projects, Domains, Billing and Account itself) to which the token has admin access.
+   * Get all resources in your account (Sandboxes, Projects, Domains, Billing and Account itself) to which the token has admin access.
    * @returns Returns the resources nested according to their hierarchy.
    */
   public async getResources() {

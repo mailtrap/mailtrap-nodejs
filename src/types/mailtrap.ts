@@ -70,6 +70,9 @@ export type SendError = {
 
 export type MailtrapClientConfig = {
   token: string;
+  /** ID of the sandbox that `sandbox: true` sends to. */
+  sandboxId?: number;
+  /** @deprecated Use `sandboxId` instead. */
   testInboxId?: number;
   accountId?: number;
   organizationId?: number;

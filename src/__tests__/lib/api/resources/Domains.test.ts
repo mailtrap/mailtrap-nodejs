@@ -1,14 +1,18 @@
 import axios, { AxiosInstance } from "axios";
 import MockAdapter from "axios-mock-adapter";
 
+import DomainsBaseAPI from "../../../../lib/api/Domains";
 import SendingDomainsBaseAPI from "../../../../lib/api/SendingDomains";
+import DomainsApi from "../../../../lib/api/resources/Domains";
+import SendingDomainsApi from "../../../../lib/api/resources/SendingDomains";
 import {
-  SendingDomain,
+  Domain,
   DnsRecord,
-  SendingDomainPermissions,
-} from "../../../../types/api/sending-domains";
+  DomainPermissions,
+} from "../../../../types/api/domains";
+import { SendingDomainsResponse } from "../../../../types/api/sending-domains";
 
-describe("lib/api/SendingDomains: ", () => {
+describe("lib/api/Domains: ", () => {
   const axiosInstance: AxiosInstance = axios.create();
   const mock = new MockAdapter(axiosInstance);
 
@@ -16,25 +20,22 @@ describe("lib/api/SendingDomains: ", () => {
   axiosInstance.interceptors.response.use((response) => response.data);
 
   const testAccountId = 100;
-  const sendingDomainsAPI = new SendingDomainsBaseAPI(
-    axiosInstance,
-    testAccountId
-  );
+  const domainsAPI = new DomainsBaseAPI(axiosInstance, testAccountId);
 
-  describe("class SendingDomainsBaseAPI(): ", () => {
+  describe("class DomainsBaseAPI(): ", () => {
     describe("init: ", () => {
       it("initializes with all necessary params.", () => {
-        expect(sendingDomainsAPI).toHaveProperty("get");
-        expect(sendingDomainsAPI).toHaveProperty("getList");
-        expect(sendingDomainsAPI).toHaveProperty("create");
-        expect(sendingDomainsAPI).toHaveProperty("update");
-        expect(sendingDomainsAPI).toHaveProperty("delete");
-        expect(sendingDomainsAPI).toHaveProperty("sendSetupInstructions");
+        expect(domainsAPI).toHaveProperty("get");
+        expect(domainsAPI).toHaveProperty("getList");
+        expect(domainsAPI).toHaveProperty("create");
+        expect(domainsAPI).toHaveProperty("update");
+        expect(domainsAPI).toHaveProperty("delete");
+        expect(domainsAPI).toHaveProperty("sendSetupInstructions");
       });
     });
 
-    describe("sendingDomains.getList(): ", () => {
-      it("should get sending domains list.", async () => {
+    describe("domains.getList(): ", () => {
+      it("should get domains list.", async () => {
         const mockDnsRecords: DnsRecord[] = [
           {
             key: "verification",
@@ -54,13 +55,13 @@ describe("lib/api/SendingDomains: ", () => {
           },
         ];
 
-        const mockPermissions: SendingDomainPermissions = {
+        const mockPermissions: DomainPermissions = {
           can_read: true,
           can_update: true,
           can_destroy: true,
         };
 
-        const mockSendingDomains: SendingDomain[] = [
+        const mockDomains: Domain[] = [
           {
             id: 435,
             domain_name: "example.com",
@@ -87,16 +88,16 @@ describe("lib/api/SendingDomains: ", () => {
           .onGet(
             `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains`
           )
-          .reply(200, { data: mockSendingDomains });
+          .reply(200, { data: mockDomains });
 
-        const result = await sendingDomainsAPI.getList();
+        const result = await domainsAPI.getList();
 
-        expect(result).toEqual({ data: mockSendingDomains });
+        expect(result).toEqual({ data: mockDomains });
       });
     });
 
-    describe("sendingDomains.get(): ", () => {
-      it("should get a single sending domain by id.", async () => {
+    describe("domains.get(): ", () => {
+      it("should get a single domain by id.", async () => {
         const mockDnsRecords: DnsRecord[] = [
           {
             key: "verification",
@@ -108,13 +109,13 @@ describe("lib/api/SendingDomains: ", () => {
           },
         ];
 
-        const mockPermissions: SendingDomainPermissions = {
+        const mockPermissions: DomainPermissions = {
           can_read: true,
           can_update: true,
           can_destroy: true,
         };
 
-        const mockSendingDomain: SendingDomain = {
+        const mockDomain: Domain = {
           id: 999,
           domain_name: "example.com",
           demo: false,
@@ -137,18 +138,18 @@ describe("lib/api/SendingDomains: ", () => {
 
         mock
           .onGet(
-            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${mockSendingDomain.id}`
+            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${mockDomain.id}`
           )
-          .reply(200, mockSendingDomain);
+          .reply(200, mockDomain);
 
-        const result = await sendingDomainsAPI.get(mockSendingDomain.id);
+        const result = await domainsAPI.get(mockDomain.id);
 
-        expect(result).toEqual(mockSendingDomain);
+        expect(result).toEqual(mockDomain);
       });
     });
 
-    describe("sendingDomains.create(): ", () => {
-      it("should create a new sending domain.", async () => {
+    describe("domains.create(): ", () => {
+      it("should create a new domain.", async () => {
         const mockDnsRecords: DnsRecord[] = [
           {
             key: "verification",
@@ -160,13 +161,13 @@ describe("lib/api/SendingDomains: ", () => {
           },
         ];
 
-        const mockPermissions: SendingDomainPermissions = {
+        const mockPermissions: DomainPermissions = {
           can_read: true,
           can_update: true,
           can_destroy: true,
         };
 
-        const mockSendingDomain: SendingDomain = {
+        const mockDomain: Domain = {
           id: 436,
           domain_name: "newdomain.com",
           demo: false,
@@ -196,23 +197,23 @@ describe("lib/api/SendingDomains: ", () => {
             `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains`,
             { sending_domain: createParams }
           )
-          .reply(201, mockSendingDomain);
+          .reply(201, mockDomain);
 
-        const result = await sendingDomainsAPI.create(createParams);
+        const result = await domainsAPI.create(createParams);
 
-        expect(result).toEqual(mockSendingDomain);
+        expect(result).toEqual(mockDomain);
       });
     });
 
-    describe("sendingDomains.update(): ", () => {
-      it("should update a sending domain.", async () => {
-        const mockPermissions: SendingDomainPermissions = {
+    describe("domains.update(): ", () => {
+      it("should update a domain.", async () => {
+        const mockPermissions: DomainPermissions = {
           can_read: true,
           can_update: true,
           can_destroy: true,
         };
 
-        const mockSendingDomain: SendingDomain = {
+        const mockDomain: Domain = {
           id: 435,
           domain_name: "example.com",
           demo: false,
@@ -243,54 +244,73 @@ describe("lib/api/SendingDomains: ", () => {
 
         mock
           .onPatch(
-            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${mockSendingDomain.id}`,
+            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${mockDomain.id}`,
             { sending_domain: updateParams }
           )
-          .reply(200, mockSendingDomain);
+          .reply(200, mockDomain);
 
-        const result = await sendingDomainsAPI.update(
-          mockSendingDomain.id,
-          updateParams
-        );
+        const result = await domainsAPI.update(mockDomain.id, updateParams);
 
-        expect(result).toEqual(mockSendingDomain);
+        expect(result).toEqual(mockDomain);
       });
     });
 
-    describe("sendingDomains.delete(): ", () => {
-      it("should delete a sending domain by id.", async () => {
-        const sendingDomainId = 999;
+    describe("domains.delete(): ", () => {
+      it("should delete a domain by id.", async () => {
+        const domainId = 999;
 
         mock
           .onDelete(
-            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${sendingDomainId}`
+            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${domainId}`
           )
           .reply(204);
 
-        const result = await sendingDomainsAPI.delete(sendingDomainId);
+        const result = await domainsAPI.delete(domainId);
 
         expect(result).toBeUndefined();
       });
     });
 
-    describe("sendingDomains.sendSetupInstructions(): ", () => {
-      it("should send setup instructions for a sending domain.", async () => {
-        const sendingDomainId = 999;
+    describe("domains.sendSetupInstructions(): ", () => {
+      it("should send setup instructions for a domain.", async () => {
+        const domainId = 999;
         const email = "admin@example.com";
 
         mock
           .onPost(
-            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${sendingDomainId}/send_setup_instructions`
+            `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains/${domainId}/send_setup_instructions`
           )
           .reply(204);
 
-        const result = await sendingDomainsAPI.sendSetupInstructions(
-          sendingDomainId,
-          email
-        );
+        const result = await domainsAPI.sendSetupInstructions(domainId, email);
 
         expect(result).toBeUndefined();
       });
+    });
+  });
+
+  describe("deprecated SendingDomains names: ", () => {
+    it("SendingDomainsBaseAPI is a DomainsBaseAPI calling the same endpoints.", async () => {
+      const sendingDomainsAPI = new SendingDomainsBaseAPI(
+        axiosInstance,
+        testAccountId
+      );
+      mock
+        .onGet(
+          `https://mailtrap.io/api/accounts/${testAccountId}/sending_domains`
+        )
+        .reply(200, { data: [] });
+
+      const result: SendingDomainsResponse = await sendingDomainsAPI.getList();
+
+      expect(sendingDomainsAPI).toBeInstanceOf(DomainsBaseAPI);
+      expect(result).toEqual({ data: [] });
+    });
+
+    it("SendingDomainsApi is a DomainsApi.", () => {
+      expect(
+        new SendingDomainsApi(axiosInstance, testAccountId)
+      ).toBeInstanceOf(DomainsApi);
     });
   });
 });

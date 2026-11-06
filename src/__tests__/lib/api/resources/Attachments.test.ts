@@ -28,7 +28,7 @@ describe("lib/api/resources/Attachments: ", () => {
     attachment_human_size: "mock-attachment_human_size",
     download_path: "mock-download_path",
   };
-  const inboxId = 1;
+  const sandboxId = 1;
   const messageId = 1;
   const attachmentId = 100;
 
@@ -58,11 +58,11 @@ describe("lib/api/resources/Attachments: ", () => {
 
   describe("getList(): ", () => {
     it("successfully gets list of attachments.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/attachments`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/attachments`;
       const expectedResponseData = [responseData];
 
       mock.onGet(endpoint).reply(200, expectedResponseData);
-      const result = await attachmentsAPI.getList(inboxId, messageId);
+      const result = await attachmentsAPI.getList(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(expectedResponseData);
@@ -74,7 +74,7 @@ describe("lib/api/resources/Attachments: ", () => {
       expect.assertions(2);
 
       try {
-        await attachmentsAPI.getList(inboxId, messageId);
+        await attachmentsAPI.getList(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -87,10 +87,14 @@ describe("lib/api/resources/Attachments: ", () => {
 
   describe("get(): ", () => {
     it("successfully gets single attachment.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/attachments/${attachmentId}`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/attachments/${attachmentId}`;
 
       mock.onGet(endpoint).reply(200, responseData);
-      const result = await attachmentsAPI.get(inboxId, messageId, attachmentId);
+      const result = await attachmentsAPI.get(
+        sandboxId,
+        messageId,
+        attachmentId
+      );
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(responseData);
@@ -102,7 +106,7 @@ describe("lib/api/resources/Attachments: ", () => {
       expect.assertions(2);
 
       try {
-        await attachmentsAPI.get(inboxId, messageId, attachmentId);
+        await attachmentsAPI.get(sandboxId, messageId, attachmentId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 

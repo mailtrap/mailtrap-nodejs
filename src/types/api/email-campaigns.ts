@@ -91,7 +91,7 @@ export type CampaignTemplate = {
 
 export type EmailCampaign = {
   id: number;
-  /** ID of the sending domain, as returned by the Sending Domains endpoints. */
+  /** ID of the domain, as returned by `client.domains`. */
   domain_id: number;
   domain_name: string;
   name: string;
@@ -125,7 +125,7 @@ export type ListEmailCampaignsParams = {
 
 export type CreateEmailCampaignParams = {
   name: string;
-  /** ID of the verified sending domain, as returned by the Sending Domains endpoints. */
+  /** ID of the verified domain, as returned by `client.domains`. */
   domain_id: number;
   from_local_part: string;
   from_display_name?: string;
@@ -139,7 +139,7 @@ export type CreateEmailCampaignParams = {
 
 export type UpdateEmailCampaignParams = {
   name?: string;
-  /** ID of the verified sending domain, as returned by the Sending Domains endpoints. */
+  /** ID of the verified domain, as returned by `client.domains`. */
   domain_id?: number;
   from_local_part?: string;
   from_display_name?: string;

@@ -51,7 +51,7 @@ export default class EmailCampaignsApi {
 
   /**
    * Create a new email campaign in the `draft` state. The campaign must
-   * reference an existing sending domain via `domain_id` and include
+   * reference an existing domain via `domain_id` and include
    * a template `subject` within `template_attributes`.
    */
   public async create(params: CreateEmailCampaignParams) {

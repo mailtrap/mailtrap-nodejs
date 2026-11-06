@@ -7,14 +7,14 @@ import { MailtrapClient } from "mailtrap";
  */
 
 const TOKEN = "<YOUR-TOKEN-HERE>";
-const TEST_INBOX_ID = "<YOUR-TEST-INBOX-ID-HERE>";
+const SANDBOX_ID = "<YOUR-SANDBOX-ID-HERE>";
 const SENDER_EMAIL = "<SENDER@YOURDOMAIN.COM>";
 const RECIPIENT_EMAIL = "<RECIPIENT@EMAIL.COM>";
 
 const client = new MailtrapClient({ 
   token: TOKEN,
   sandbox: true,
-  testInboxId: TEST_INBOX_ID
+  sandboxId: Number(SANDBOX_ID)
 });
 
 client.batchSend({
