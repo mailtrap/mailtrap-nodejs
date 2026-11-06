@@ -1,6 +1,11 @@
 import axios from "axios";
 
 import General from "../../../lib/api/General";
+import MailtrapError from "../../../lib/MailtrapError";
+
+import CONFIG from "../../../config";
+
+const { ACCOUNT_ID_MISSING } = CONFIG.ERRORS;
 
 describe("lib/api/General: ", () => {
   const testAccountId = 100;
@@ -44,39 +49,23 @@ describe("lib/api/General: ", () => {
       const generalAPI = new General(axios);
 
       it("throws error when accessing accountAccesses without accountId.", () => {
-        expect(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          generalAPI.accountAccesses;
-        }).toThrow(
-          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-        );
+        expect(() => generalAPI.accountAccesses).toThrow(MailtrapError);
+        expect(() => generalAPI.accountAccesses).toThrow(ACCOUNT_ID_MISSING);
       });
 
       it("throws error when accessing permissions without accountId.", () => {
-        expect(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          generalAPI.permissions;
-        }).toThrow(
-          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-        );
+        expect(() => generalAPI.permissions).toThrow(MailtrapError);
+        expect(() => generalAPI.permissions).toThrow(ACCOUNT_ID_MISSING);
       });
 
       it("throws error when accessing billing without accountId.", () => {
-        expect(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          generalAPI.billing;
-        }).toThrow(
-          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-        );
+        expect(() => generalAPI.billing).toThrow(MailtrapError);
+        expect(() => generalAPI.billing).toThrow(ACCOUNT_ID_MISSING);
       });
 
       it("throws error when accessing apiTokens without accountId.", () => {
-        expect(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          generalAPI.apiTokens;
-        }).toThrow(
-          "Account ID is required for this operation. Please provide accountId when creating GeneralAPI instance."
-        );
+        expect(() => generalAPI.apiTokens).toThrow(MailtrapError);
+        expect(() => generalAPI.apiTokens).toThrow(ACCOUNT_ID_MISSING);
       });
     });
 

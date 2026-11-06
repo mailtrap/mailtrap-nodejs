@@ -750,28 +750,57 @@ describe("lib/mailtrap-client: ", () => {
     });
 
     describe("get general(): ", () => {
-      it("rejects with Mailtrap error, when `accountId` is missing.", () => {
-        const client = new MailtrapClient({
-          token: "MY_API_TOKEN",
-        });
-        expect.assertions(1);
+      it("returns general API object with accounts, but rejects account-scoped resources, when `accountId` is missing.", async () => {
+        const accountsMock = new AxiosMockAdapter(axios);
+        const accounts = [{ id: 1, name: "Account", access_levels: [1000] }];
+        accountsMock
+          .onGet(`${GENERAL_ENDPOINT}/api/accounts`)
+          .reply(200, accounts);
 
         try {
-          client.general;
-        } catch (error) {
-          expect(error).toEqual(new MailtrapError(ACCOUNT_ID_MISSING));
+          const { general } = new MailtrapClient({ token: "MY_API_TOKEN" });
+
+          expect(general).toBeInstanceOf(GeneralAPI);
+          await expect(general.accounts.getAllAccounts()).resolves.toEqual(
+            accounts
+          );
+          expect(() => general.billing).toThrow(MailtrapError);
+          expect(() => general.billing).toThrow(ACCOUNT_ID_MISSING);
+        } finally {
+          accountsMock.restore();
         }
       });
 
-      it("returns general API object when accountId is provided.", () => {
-        const client = new MailtrapClient({
+      it("rejects account-scoped resources, when `accountId` is 0.", () => {
+        const { general } = new MailtrapClient({
           token: "MY_API_TOKEN",
-          accountId: 10,
+          accountId: 0,
         });
-        expect.assertions(1);
 
-        const generalClient = client.general;
-        expect(generalClient).toBeInstanceOf(GeneralAPI);
+        expect(() => general.billing).toThrow(MailtrapError);
+        expect(() => general.billing).toThrow(ACCOUNT_ID_MISSING);
+      });
+
+      it("returns general API object scoped to the provided accountId.", async () => {
+        const billingMock = new AxiosMockAdapter(axios);
+        const usage = { billing: { cycle_start: "2026-11-01" } };
+        billingMock
+          .onGet(`${GENERAL_ENDPOINT}/api/accounts/10/billing/usage`)
+          .reply(200, usage);
+
+        try {
+          const { general } = new MailtrapClient({
+            token: "MY_API_TOKEN",
+            accountId: 10,
+          });
+
+          expect(general).toBeInstanceOf(GeneralAPI);
+          await expect(
+            general.billing.getCurrentBillingCycleUsage()
+          ).resolves.toEqual(usage);
+        } finally {
+          billingMock.restore();
+        }
       });
     });
 
