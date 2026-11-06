@@ -146,11 +146,10 @@ export default class MailtrapClient {
   }
 
   /**
-   * Getter for General API.
+   * Getter for General API. `accounts` works without accountId; other resources require it.
    */
   get general() {
-    const accountId = this.validateAccountIdPresence();
-    return new GeneralAPI(this.axios, accountId);
+    return new GeneralAPI(this.axios, this.accountId || undefined);
   }
 
   /**

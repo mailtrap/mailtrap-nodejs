@@ -1,10 +1,9 @@
 import { MailtrapClient } from "mailtrap"
 
 const TOKEN = "<YOUR-TOKEN-HERE>";
-const TEST_INBOX_ID = "<YOUR-TEST-INBOX-ID-HERE>"
-const ACCOUNT_ID = "<YOUR-ACCOUNT-ID-HERE>"
 
-const client = new MailtrapClient({ token: TOKEN, testInboxId: TEST_INBOX_ID, accountId: ACCOUNT_ID });
+// Listing accounts does not need an accountId, so you can use it to find yours.
+const client = new MailtrapClient({ token: TOKEN });
 
 const accountsClient = client.general.accounts
 
