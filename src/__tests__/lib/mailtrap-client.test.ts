@@ -783,16 +783,26 @@ describe("lib/mailtrap-client: ", () => {
         expect(() => general.billing).toThrow(ACCOUNT_ID_MISSING);
       });
 
-      it("returns general API object when accountId is provided.", () => {
-        const client = new MailtrapClient({
-          token: "MY_API_TOKEN",
-          accountId: 10,
-        });
-        expect.assertions(2);
+      it("returns general API object scoped to the provided accountId.", async () => {
+        const billingMock = new AxiosMockAdapter(axios);
+        const usage = { billing: { cycle_start: "2026-11-01" } };
+        billingMock
+          .onGet(`${GENERAL_ENDPOINT}/api/accounts/10/billing/usage`)
+          .reply(200, usage);
 
-        const generalClient = client.general;
-        expect(generalClient).toBeInstanceOf(GeneralAPI);
-        expect(() => generalClient.billing).not.toThrow();
+        try {
+          const { general } = new MailtrapClient({
+            token: "MY_API_TOKEN",
+            accountId: 10,
+          });
+
+          expect(general).toBeInstanceOf(GeneralAPI);
+          await expect(
+            general.billing.getCurrentBillingCycleUsage()
+          ).resolves.toEqual(usage);
+        } finally {
+          billingMock.restore();
+        }
       });
     });
 
