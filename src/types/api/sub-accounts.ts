@@ -6,3 +6,6 @@ export type SubAccount = {
 export type CreateSubAccountParams = {
   name: string;
 };
+
+/** Delete returns `204 No Content` – there is no response body. */
+export type DeleteSubAccountResponse = void;
