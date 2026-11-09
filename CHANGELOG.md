@@ -1,3 +1,11 @@
+## [6.2.0] - 2026-11-09
+
+## What's Changed
+* Add Sandbox and Domain names; deprecate Testing, Inbox and SendingDomain by @Rabsztok in https://github.com/mailtrap/mailtrap-nodejs/pull/180
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v6.1.0...v6.2.0
+
 ## [6.1.0] - 2026-11-06
 
 ## What's Changed
