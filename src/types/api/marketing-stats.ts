@@ -28,7 +28,7 @@ export type MarketingStatsFilterParams = {
   start_date: string;
   /** End of the period (inclusive), `YYYY-MM-DD`. */
   end_date: string;
-  /** IDs of the sending domains to include, as returned by the Sending Domains endpoints. */
+  /** IDs of the domains to include, as returned by `client.domains`. */
   sending_domain_ids?: number[];
   /** One source narrows the results to it; omit, or pass both, for all Email Marketing traffic. */
   sources?: MarketingStatsSource[];

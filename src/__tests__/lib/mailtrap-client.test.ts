@@ -8,6 +8,7 @@ import MailtrapError from "../../lib/MailtrapError";
 
 import CONFIG from "../../config";
 import GeneralAPI from "../../lib/api/General";
+import SandboxAPI from "../../lib/api/Sandbox";
 import TestingAPI from "../../lib/api/Testing";
 import ContactLists from "../../lib/api/ContactLists";
 import Contacts from "../../lib/api/Contacts";
@@ -15,16 +16,24 @@ import ContactExportsBaseAPI from "../../lib/api/ContactExports";
 import TemplatesBaseAPI from "../../lib/api/Templates";
 import EmailTemplatesBaseAPI from "../../lib/api/EmailTemplates";
 import SuppressionsBaseAPI from "../../lib/api/Suppressions";
+import DomainsBaseAPI from "../../lib/api/Domains";
 import SendingDomainsBaseAPI from "../../lib/api/SendingDomains";
 import EmailLogsBaseAPI from "../../lib/api/EmailLogs";
 import ContactEventsBaseAPI from "../../lib/api/ContactEvents";
 import MarketingStatsBaseAPI from "../../lib/api/MarketingStats";
+import warnDeprecated from "../../lib/deprecation";
+
+jest.mock("../../lib/deprecation");
 
 const { ERRORS, CLIENT_SETTINGS } = CONFIG;
 const { TESTING_ENDPOINT, BULK_ENDPOINT, SENDING_ENDPOINT, GENERAL_ENDPOINT } =
   CLIENT_SETTINGS;
-const { ACCOUNT_ID_MISSING, BULK_SANDBOX_INCOMPATIBLE, TEST_INBOX_ID_MISSING } =
-  ERRORS;
+const {
+  ACCOUNT_ID_MISSING,
+  BULK_SANDBOX_INCOMPATIBLE,
+  SANDBOX_ID_CONFLICT,
+  SANDBOX_ID_MISSING,
+} = ERRORS;
 
 describe("lib/mailtrap-client: ", () => {
   let mock: AxiosMockAdapter;
@@ -65,15 +74,15 @@ describe("lib/mailtrap-client: ", () => {
         expect(error).toEqual(new MailtrapError(BULK_SANDBOX_INCOMPATIBLE));
       }
     });
-    const testInboxId = 100;
+    const sandboxId = 100;
 
-    it("successfully sends testing email.", async () => {
-      const testingClient = new MailtrapClient({
+    it("successfully sends sandbox email.", async () => {
+      const sandboxClient = new MailtrapClient({
         token: "MY_API_TOKEN",
         sandbox: true,
-        testInboxId,
+        sandboxId,
       });
-      const endpoint = `${TESTING_ENDPOINT}/api/send/${testInboxId}`;
+      const endpoint = `${TESTING_ENDPOINT}/api/send/${sandboxId}`;
       const expectedResponseData = {
         success: true,
         message_ids: ["0c7fd939-02cf-11ed-88c2-0a58a9feac02"],
@@ -96,7 +105,7 @@ describe("lib/mailtrap-client: ", () => {
         html: "<div>Mock text</div>",
       };
 
-      const result = await testingClient.send(emailData);
+      const result = await sandboxClient.send(emailData);
 
       expect(mock.history.post[0].url).toEqual(endpoint);
       expect(mock.history.post[0].data).toEqual(JSON.stringify(emailData));
@@ -139,17 +148,17 @@ describe("lib/mailtrap-client: ", () => {
     });
 
     it("handles an API error.", async () => {
-      const testingClient = new MailtrapClient({
+      const sandboxClient = new MailtrapClient({
         token: "MY_API_TOKEN",
         sandbox: true,
-        testInboxId,
+        sandboxId,
       });
       const responseData = {
         success: false,
         errors: ["mock-error-1", "mock-error-2"],
       };
 
-      const endpoint = `${TESTING_ENDPOINT}/api/send/${testInboxId}`;
+      const endpoint = `${TESTING_ENDPOINT}/api/send/${sandboxId}`;
 
       mock.onPost(endpoint).reply(400, responseData);
 
@@ -174,7 +183,7 @@ describe("lib/mailtrap-client: ", () => {
       expect.assertions(3);
 
       try {
-        await testingClient.send(emailData);
+        await sandboxClient.send(emailData);
       } catch (error) {
         expect(mock.history.post[0].url).toEqual(endpoint);
         expect(mock.history.post[0].data).toEqual(JSON.stringify(emailData));
@@ -186,10 +195,10 @@ describe("lib/mailtrap-client: ", () => {
     });
 
     it("handles an HTTP transport error.", async () => {
-      const testingClient = new MailtrapClient({
+      const sandboxClient = new MailtrapClient({
         token: "MY_API_TOKEN",
         sandbox: true,
-        testInboxId,
+        sandboxId,
       });
       const emailData = {
         from: {
@@ -212,7 +221,7 @@ describe("lib/mailtrap-client: ", () => {
       expect.assertions(2);
 
       try {
-        await testingClient.send(emailData);
+        await sandboxClient.send(emailData);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -339,7 +348,7 @@ describe("lib/mailtrap-client: ", () => {
       }
     });
 
-    it("throws MailtrapError(TEST_INBOX_ID_MISSING) when sending in sandbox mode without testInboxId", async () => {
+    it("throws MailtrapError(SANDBOX_ID_MISSING) when sending in sandbox mode without sandboxId", async () => {
       const client = new MailtrapClient({
         token: "MY_API_TOKEN",
         sandbox: true,
@@ -353,11 +362,11 @@ describe("lib/mailtrap-client: ", () => {
           subject: "Test",
           text: "Body",
         })
-      ).rejects.toEqual(new MailtrapError(TEST_INBOX_ID_MISSING));
+      ).rejects.toEqual(new MailtrapError(SANDBOX_ID_MISSING));
     });
 
     describe("batch sending:", () => {
-      it("throws MailtrapError(TEST_INBOX_ID_MISSING) when batch sending in sandbox mode without testInboxId", async () => {
+      it("throws MailtrapError(SANDBOX_ID_MISSING) when batch sending in sandbox mode without sandboxId", async () => {
         const client = new MailtrapClient({
           token: "MY_API_TOKEN",
           sandbox: true,
@@ -378,7 +387,7 @@ describe("lib/mailtrap-client: ", () => {
         };
 
         await expect(client.batchSend(batchData)).rejects.toEqual(
-          new MailtrapError(TEST_INBOX_ID_MISSING)
+          new MailtrapError(SANDBOX_ID_MISSING)
         );
       });
 
@@ -488,7 +497,7 @@ describe("lib/mailtrap-client: ", () => {
         const batchClient = new MailtrapClient({
           token: "MY_API_TOKEN",
           sandbox: true,
-          testInboxId: 100,
+          sandboxId: 100,
         });
         const endpoint = `${TESTING_ENDPOINT}/api/batch/100`;
         const expectedBatchResponseData = {
@@ -713,7 +722,7 @@ describe("lib/mailtrap-client: ", () => {
     });
   });
 
-  describe("get testing(): ", () => {
+  describe("get sandbox(): ", () => {
     it("rejects with Mailtrap error, when `accountId` is missing.", () => {
       const client = new MailtrapClient({
         token: "MY_API_TOKEN",
@@ -722,33 +731,22 @@ describe("lib/mailtrap-client: ", () => {
       expect.assertions(1);
 
       try {
-        client.testing;
+        client.sandbox;
       } catch (error) {
         expect(error).toEqual(new MailtrapError(ACCOUNT_ID_MISSING));
       }
     });
 
-    it("returns testing API object when accountId is provided, even without testInboxId", () => {
+    it("returns sandbox API object when accountId is provided, even without sandboxId", () => {
       const client = new MailtrapClient({
         token: "MY_API_TOKEN",
         accountId: 123,
-        // testInboxId is intentionally omitted
+        // sandboxId is intentionally omitted
       });
       expect.assertions(1);
 
-      const testingClient = client.testing;
-      expect(testingClient).toBeInstanceOf(TestingAPI);
-    });
-
-    it("returns testing API object, console warn is called twice.", () => {
-      const client = new MailtrapClient({
-        token: "MY_API_TOKEN",
-        accountId: 10,
-      });
-      expect.assertions(1);
-
-      const testingClient = client.testing;
-      expect(testingClient).toBeInstanceOf(TestingAPI);
+      const sandboxClient = client.sandbox;
+      expect(sandboxClient).toBeInstanceOf(SandboxAPI);
     });
 
     describe("get general(): ", () => {
@@ -962,7 +960,7 @@ describe("lib/mailtrap-client: ", () => {
       });
     });
 
-    describe("get sendingDomains(): ", () => {
+    describe("get domains(): ", () => {
       it("rejects with Mailtrap error, when `accountId` is missing.", () => {
         expect.assertions(1);
 
@@ -970,12 +968,12 @@ describe("lib/mailtrap-client: ", () => {
           token: "test-token",
         });
 
-        expect(() => client.sendingDomains).toThrow(
+        expect(() => client.domains).toThrow(
           "accountId is missing, please provide a valid accountId."
         );
       });
 
-      it("returns sending domains API object when accountId is provided.", () => {
+      it("returns domains API object when accountId is provided.", () => {
         expect.assertions(1);
 
         const client = new MailtrapClient({
@@ -983,8 +981,8 @@ describe("lib/mailtrap-client: ", () => {
           accountId: 123,
         });
 
-        const sendingDomainsClient = client.sendingDomains;
-        expect(sendingDomainsClient).toBeInstanceOf(SendingDomainsBaseAPI);
+        const domainsClient = client.domains;
+        expect(domainsClient).toBeInstanceOf(DomainsBaseAPI);
       });
     });
 
@@ -1049,6 +1047,138 @@ describe("lib/mailtrap-client: ", () => {
         });
 
         expect(client.marketingStats).toBeInstanceOf(MarketingStatsBaseAPI);
+      });
+    });
+  });
+
+  describe("deprecated names: ", () => {
+    const accountId = 123;
+
+    beforeAll(() => {
+      mock = new AxiosMockAdapter(axios);
+    });
+
+    afterEach(() => {
+      mock.reset();
+    });
+
+    describe("testInboxId config option: ", () => {
+      it("still sets the sandbox to send to and warns.", async () => {
+        const endpoint = `${TESTING_ENDPOINT}/api/send/100`;
+        mock.onPost(endpoint).reply(200, { success: true, message_ids: [] });
+
+        await new MailtrapClient({
+          token: "MY_API_TOKEN",
+          sandbox: true,
+          testInboxId: 100,
+        }).send(goodMail);
+
+        expect(mock.history.post[0].url).toEqual(endpoint);
+        expect(warnDeprecated).toHaveBeenCalledWith("testInboxId", "sandboxId");
+      });
+
+      it("accepts the same value as sandboxId.", () => {
+        expect(
+          () =>
+            new MailtrapClient({
+              token: "MY_API_TOKEN",
+              sandboxId: 100,
+              testInboxId: 100,
+            })
+        ).not.toThrow();
+      });
+
+      it("throws MailtrapError(SANDBOX_ID_CONFLICT) when it differs from sandboxId.", () => {
+        expect(
+          () =>
+            new MailtrapClient({
+              token: "MY_API_TOKEN",
+              sandboxId: 100,
+              testInboxId: 200,
+            })
+        ).toThrow(new MailtrapError(SANDBOX_ID_CONFLICT));
+      });
+
+      it("treats null as not set, like undefined.", async () => {
+        const endpoint = `${TESTING_ENDPOINT}/api/send/100`;
+        mock.onPost(endpoint).reply(200, { success: true, message_ids: [] });
+
+        await new MailtrapClient({
+          token: "MY_API_TOKEN",
+          sandbox: true,
+          sandboxId: 100,
+          testInboxId: null as unknown as number,
+        }).send(goodMail);
+
+        expect(mock.history.post[0].url).toEqual(endpoint);
+        expect(warnDeprecated).not.toHaveBeenCalled();
+        expect(
+          () =>
+            new MailtrapClient({
+              token: "MY_API_TOKEN",
+              sandboxId: null as unknown as number,
+              testInboxId: 100,
+            })
+        ).not.toThrow();
+      });
+
+      it("does not warn when only sandboxId is set.", () => {
+        // eslint-disable-next-line no-new
+        new MailtrapClient({ token: "MY_API_TOKEN", sandboxId: 100 });
+
+        expect(warnDeprecated).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("get testing(): ", () => {
+      it("rejects with Mailtrap error, when `accountId` is missing.", () => {
+        const client = new MailtrapClient({ token: "MY_API_TOKEN" });
+
+        expect(() => client.testing).toThrow(
+          new MailtrapError(ACCOUNT_ID_MISSING)
+        );
+      });
+
+      it("client.testing.inboxes.getList() still resolves and warns.", async () => {
+        const client = new MailtrapClient({ token: "MY_API_TOKEN", accountId });
+        const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes`;
+        mock.onGet(endpoint).reply(200, [{ id: 1 }]);
+
+        const result = await client.testing.inboxes.getList();
+
+        expect(client.testing).toBeInstanceOf(TestingAPI);
+        expect(result).toEqual([{ id: 1 }]);
+        expect(mock.history.get[0].url).toEqual(endpoint);
+        expect(warnDeprecated).toHaveBeenCalledWith(
+          "client.testing",
+          "client.sandbox"
+        );
+      });
+    });
+
+    describe("get sendingDomains(): ", () => {
+      it("rejects with Mailtrap error, when `accountId` is missing.", () => {
+        const client = new MailtrapClient({ token: "MY_API_TOKEN" });
+
+        expect(() => client.sendingDomains).toThrow(
+          new MailtrapError(ACCOUNT_ID_MISSING)
+        );
+      });
+
+      it("client.sendingDomains.getList() still resolves and warns.", async () => {
+        const client = new MailtrapClient({ token: "MY_API_TOKEN", accountId });
+        const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/sending_domains`;
+        mock.onGet(endpoint).reply(200, { data: [] });
+
+        const result = await client.sendingDomains.getList();
+
+        expect(client.sendingDomains).toBeInstanceOf(SendingDomainsBaseAPI);
+        expect(result).toEqual({ data: [] });
+        expect(mock.history.get[0].url).toEqual(endpoint);
+        expect(warnDeprecated).toHaveBeenCalledWith(
+          "client.sendingDomains",
+          "client.domains"
+        );
       });
     });
   });

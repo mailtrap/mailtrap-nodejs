@@ -27,14 +27,14 @@ export default class ProjectsApi {
   }
 
   /**
-   * Lists projects and their inboxes to which the API token has access.
+   * Lists projects and their sandboxes to which the API token has access.
    */
   public async getList() {
     return this.client.get<Project[], Project[]>(this.projectsURL);
   }
 
   /**
-   * Gets the project and it's inboxes.
+   * Gets the project and its sandboxes.
    */
   public async getById(projectId: number) {
     const url = `${this.projectsURL}/${projectId}`;

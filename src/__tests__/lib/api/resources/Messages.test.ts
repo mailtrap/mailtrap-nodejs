@@ -14,7 +14,7 @@ describe("lib/api/resources/Messages: ", () => {
   let mock: AxiosMockAdapter;
   const accountId = 100;
   const messagesAPI = new Messages(axios, accountId);
-  const inboxId = 1;
+  const sandboxId = 1;
   const messageId = 1;
   const responseData = {
     id: 1,
@@ -80,11 +80,11 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("showEmailMessage(): ", () => {
     it("successfully deletes message.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}`;
 
       mock.onGet(endpoint).reply(200, responseData);
 
-      const result = await messagesAPI.showEmailMessage(inboxId, messageId);
+      const result = await messagesAPI.showEmailMessage(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(responseData);
@@ -96,7 +96,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.showEmailMessage(inboxId, messageId);
+        await messagesAPI.showEmailMessage(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -109,11 +109,11 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("updateMessage(): ", () => {
     it("successfully updates message.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}`;
 
       mock.onPatch(endpoint).reply(200, responseData);
 
-      const result = await messagesAPI.updateMessage(inboxId, messageId, {
+      const result = await messagesAPI.updateMessage(sandboxId, messageId, {
         isRead: true,
       });
 
@@ -129,7 +129,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.updateMessage(inboxId, messageId, {
+        await messagesAPI.updateMessage(sandboxId, messageId, {
           isRead: true,
         });
       } catch (error) {
@@ -144,11 +144,11 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("deleteMessage(): ", () => {
     it("successfully deletes message.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}`;
 
       mock.onDelete(endpoint).reply(200, responseData);
 
-      const result = await messagesAPI.deleteMessage(inboxId, messageId);
+      const result = await messagesAPI.deleteMessage(sandboxId, messageId);
 
       expect(mock.history.delete[0].url).toEqual(endpoint);
       expect(mock.history.delete[0].data).toBeUndefined();
@@ -161,7 +161,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.deleteMessage(inboxId, messageId);
+        await messagesAPI.deleteMessage(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -174,19 +174,19 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("get(): ", () => {
     it("successfully gets all messages.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages`;
       const expectedResponseData = [responseData];
 
       mock.onGet(endpoint).reply(200, expectedResponseData);
 
-      const result = await messagesAPI.get(inboxId);
+      const result = await messagesAPI.get(sandboxId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(expectedResponseData);
     });
 
     it("successfully gets messages with last_id parameter.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages`;
       const lastId = 100;
       const expectedResponseData = [responseData];
 
@@ -194,7 +194,7 @@ describe("lib/api/resources/Messages: ", () => {
         .onGet(endpoint, { params: { last_id: lastId } })
         .reply(200, expectedResponseData);
 
-      const result = await messagesAPI.get(inboxId, { last_id: lastId });
+      const result = await messagesAPI.get(sandboxId, { last_id: lastId });
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(mock.history.get[0].params).toEqual({ last_id: lastId });
@@ -202,7 +202,7 @@ describe("lib/api/resources/Messages: ", () => {
     });
 
     it("successfully gets messages with page parameter.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages`;
       const page = 2;
       const expectedResponseData = [responseData];
 
@@ -210,7 +210,7 @@ describe("lib/api/resources/Messages: ", () => {
         .onGet(endpoint, { params: { page } })
         .reply(200, expectedResponseData);
 
-      const result = await messagesAPI.get(inboxId, { page });
+      const result = await messagesAPI.get(sandboxId, { page });
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(mock.history.get[0].params).toEqual({ page });
@@ -218,7 +218,7 @@ describe("lib/api/resources/Messages: ", () => {
     });
 
     it("successfully gets messages with search parameter.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages`;
       const search = "test query";
       const expectedResponseData = [responseData];
 
@@ -226,7 +226,7 @@ describe("lib/api/resources/Messages: ", () => {
         .onGet(endpoint, { params: { search } })
         .reply(200, expectedResponseData);
 
-      const result = await messagesAPI.get(inboxId, { search });
+      const result = await messagesAPI.get(sandboxId, { search });
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(mock.history.get[0].params).toEqual({ search });
@@ -234,7 +234,7 @@ describe("lib/api/resources/Messages: ", () => {
     });
 
     it("successfully gets messages with all query parameters.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages`;
       const options = { last_id: 100, page: 2, search: "test query" };
       const expectedResponseData = [responseData];
 
@@ -242,7 +242,7 @@ describe("lib/api/resources/Messages: ", () => {
         .onGet(endpoint, { params: options })
         .reply(200, expectedResponseData);
 
-      const result = await messagesAPI.get(inboxId, options);
+      const result = await messagesAPI.get(sandboxId, options);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(mock.history.get[0].params).toEqual(options);
@@ -255,7 +255,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.get(inboxId);
+        await messagesAPI.get(sandboxId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -270,12 +270,12 @@ describe("lib/api/resources/Messages: ", () => {
     const emailToForward = "mock@emailtoforward.com";
 
     it("successfully forwards message.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/forward`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/forward`;
 
       mock.onPost(endpoint).reply(200, responseData);
 
       const result = await messagesAPI.forward(
-        inboxId,
+        sandboxId,
         messageId,
         emailToForward
       );
@@ -293,7 +293,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.forward(inboxId, messageId, emailToForward);
+        await messagesAPI.forward(sandboxId, messageId, emailToForward);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -316,11 +316,11 @@ describe("lib/api/resources/Messages: ", () => {
     };
 
     it("successfully gets message spam score.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/spam_report`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/spam_report`;
 
       mock.onGet(endpoint).reply(200, spamReportData);
 
-      const result = await messagesAPI.getSpamScore(inboxId, messageId);
+      const result = await messagesAPI.getSpamScore(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(spamReportData);
@@ -332,7 +332,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.getSpamScore(inboxId, messageId);
+        await messagesAPI.getSpamScore(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -350,11 +350,11 @@ describe("lib/api/resources/Messages: ", () => {
     };
 
     it("successfully gets html analysis.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/analyze`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/analyze`;
 
       mock.onGet(endpoint).reply(200, htmlReportData);
 
-      const result = await messagesAPI.getHtmlAnalysis(inboxId, messageId);
+      const result = await messagesAPI.getHtmlAnalysis(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(htmlReportData);
@@ -366,7 +366,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.getHtmlAnalysis(inboxId, messageId);
+        await messagesAPI.getHtmlAnalysis(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -379,11 +379,11 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("getTextMessage(): ", () => {
     it("successfully gets text message.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/body.txt`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.txt`;
       const message = "mock-message";
       mock.onGet(endpoint).reply(200, message);
 
-      const result = await messagesAPI.getTextMessage(inboxId, messageId);
+      const result = await messagesAPI.getTextMessage(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(message);
@@ -395,7 +395,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.getTextMessage(inboxId, messageId);
+        await messagesAPI.getTextMessage(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -408,11 +408,11 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("getRawMessage(): ", () => {
     it("successfully gets raw message.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/body.raw`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.raw`;
       const message = "mock-message";
       mock.onGet(endpoint).reply(200, message);
 
-      const result = await messagesAPI.getRawMessage(inboxId, messageId);
+      const result = await messagesAPI.getRawMessage(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(message);
@@ -424,7 +424,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.getRawMessage(inboxId, messageId);
+        await messagesAPI.getRawMessage(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -437,11 +437,14 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("getMessageHtmlSource(): ", () => {
     it("successfully gets html source.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/body.htmlsource`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.htmlsource`;
       const htmlSource = "mock-htmlSource";
       mock.onGet(endpoint).reply(200, htmlSource);
 
-      const result = await messagesAPI.getMessageHtmlSource(inboxId, messageId);
+      const result = await messagesAPI.getMessageHtmlSource(
+        sandboxId,
+        messageId
+      );
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(htmlSource);
@@ -453,7 +456,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.getMessageHtmlSource(inboxId, messageId);
+        await messagesAPI.getMessageHtmlSource(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -466,11 +469,11 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("getHtmlMessage(): ", () => {
     it("successfully gets html message.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/body.html`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.html`;
       const html = "<div>interesting mock</div>";
       mock.onGet(endpoint).reply(200, html);
 
-      const result = await messagesAPI.getHtmlMessage(inboxId, messageId);
+      const result = await messagesAPI.getHtmlMessage(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(html);
@@ -482,7 +485,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.getHtmlMessage(inboxId, messageId);
+        await messagesAPI.getHtmlMessage(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -495,11 +498,11 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("getMessageAsEml(): ", () => {
     it("successfully gets mail headers.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/body.eml`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.eml`;
       const eml = "mock-eml";
       mock.onGet(endpoint).reply(200, eml);
 
-      const result = await messagesAPI.getMessageAsEml(inboxId, messageId);
+      const result = await messagesAPI.getMessageAsEml(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(eml);
@@ -511,7 +514,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.getMessageAsEml(inboxId, messageId);
+        await messagesAPI.getMessageAsEml(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 
@@ -524,11 +527,11 @@ describe("lib/api/resources/Messages: ", () => {
 
   describe("getMailHeaders(): ", () => {
     it("successfully gets message html source.", async () => {
-      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${inboxId}/messages/${messageId}/mail_headers`;
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/mail_headers`;
       const eml = "mock-eml";
       mock.onGet(endpoint).reply(200, eml);
 
-      const result = await messagesAPI.getMailHeaders(inboxId, messageId);
+      const result = await messagesAPI.getMailHeaders(sandboxId, messageId);
 
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(eml);
@@ -540,7 +543,7 @@ describe("lib/api/resources/Messages: ", () => {
       expect.assertions(2);
 
       try {
-        await messagesAPI.getMailHeaders(inboxId, messageId);
+        await messagesAPI.getMailHeaders(sandboxId, messageId);
       } catch (error) {
         expect(error).toBeInstanceOf(MailtrapError);
 

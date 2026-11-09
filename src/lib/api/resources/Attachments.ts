@@ -10,27 +10,27 @@ const { GENERAL_ENDPOINT } = CLIENT_SETTINGS;
 export default class AttachmentsApi {
   private client: AxiosInstance;
 
-  private inboxesURL: string;
+  private sandboxesURL: string;
 
   constructor(client: AxiosInstance, accountId: number) {
     this.client = client;
-    this.inboxesURL = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes`;
+    this.sandboxesURL = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes`;
   }
 
   /**
-   * Get message attachments by `inboxId` and `messageId`.
+   * Get message attachments by `sandboxId` and `messageId`.
    */
-  public async getList(inboxId: number, messageId: number) {
-    const url = `${this.inboxesURL}/${inboxId}/messages/${messageId}/attachments`;
+  public async getList(sandboxId: number, messageId: number) {
+    const url = `${this.sandboxesURL}/${sandboxId}/messages/${messageId}/attachments`;
 
     return this.client.get<Attachment[], Attachment[]>(url);
   }
 
   /**
-   * Get message attachments by `inboxId`.`messageId` and `attachmentId`.
+   * Get message attachments by `sandboxId`.`messageId` and `attachmentId`.
    */
-  public async get(inboxId: number, messageId: number, attachmentId: number) {
-    const url = `${this.inboxesURL}/${inboxId}/messages/${messageId}/attachments/${attachmentId}`;
+  public async get(sandboxId: number, messageId: number, attachmentId: number) {
+    const url = `${this.sandboxesURL}/${sandboxId}/messages/${messageId}/attachments/${attachmentId}`;
 
     return this.client.get<Attachment, Attachment>(url);
   }

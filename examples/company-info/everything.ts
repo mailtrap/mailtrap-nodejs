@@ -22,7 +22,7 @@ async function companyInfoFlow() {
     });
     console.log("Created company info:", JSON.stringify(created, null, 2));
 
-    // Get the company info of a sending domain
+    // Get the company info of a domain
     const companyInfo = await client.companyInfo.get(DOMAIN_ID);
     console.log("Company info:", JSON.stringify(companyInfo, null, 2));
 
