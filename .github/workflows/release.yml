@@ -33,10 +33,10 @@ jobs:
     steps:
       - name: Refuse to release from a non-default branch
         env:
-          REF: ${{ github.ref_name }}
+          REF: ${{ github.ref }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
-          if [ "$REF" != "$DEFAULT_BRANCH" ]; then
+          if [ "$REF" != "refs/heads/$DEFAULT_BRANCH" ]; then
             echo "::error::Releases must run from $DEFAULT_BRANCH, got $REF"
             exit 1
           fi
