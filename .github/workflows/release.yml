@@ -50,7 +50,8 @@ jobs:
         uses: railsware/github-actions/resolve-pending-release@master
 
       # push: skip quietly when nothing is pending (an ordinary CHANGELOG edit).
-      # dispatch: a real run needs a pending draft; a dry run doesn't.
+      # dispatch: a real run needs an unreleased version; a dry run doesn't. detect can't see drafts
+      # (read-only token), so the publish job confirms the draft after approval.
       - name: Decide
         id: decide
         env:
@@ -61,7 +62,7 @@ jobs:
           if [ "$PENDING" = "true" ] || [ "$DRY_RUN" = "true" ]; then
             echo "go=true" >> "$GITHUB_OUTPUT"
           elif [ "$EVENT" = "workflow_dispatch" ]; then
-            echo "::error::No draft release for the top CHANGELOG.md version; run Draft Node.js Release first"
+            echo "::error::The top CHANGELOG.md version is already released; run Draft Node.js Release first"
             exit 1
           else
             echo "Nothing to release"
