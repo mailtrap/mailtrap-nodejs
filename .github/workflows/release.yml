@@ -59,6 +59,10 @@ jobs:
           PENDING: ${{ steps.pending.outputs.pending }}
           DRY_RUN: ${{ inputs.dry_run }}
         run: |
+          echo "pending=$PENDING dry_run=$DRY_RUN"
+          if [ "$DRY_RUN" = "true" ] && [ "$PENDING" != "true" ]; then
+            echo "::warning::The top CHANGELOG.md version is already released, so this dry run doesn't exercise detection"
+          fi
           if [ "$PENDING" = "true" ] || [ "$DRY_RUN" = "true" ]; then
             echo "go=true" >> "$GITHUB_OUTPUT"
           elif [ "$EVENT" = "workflow_dispatch" ]; then
