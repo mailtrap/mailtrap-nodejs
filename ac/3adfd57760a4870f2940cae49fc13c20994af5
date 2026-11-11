@@ -1,0 +1,21 @@
+examples/email-campaigns/everything.ts
+  s_1d139e47a09853::t_30a0fa8e925e95 7-8
+src/lib/MailtrapClient.ts
+  s_1d139e47a09853::t_865417f8479f5d 256
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "ac3adfd57760a4870f2940cae49fc13c20994af5",
+  "prompts": {},
+  "sessions": {
+    "s_1d139e47a09853": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3943c4ee-a6f3-493c-aa4d-bc291df8727e",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

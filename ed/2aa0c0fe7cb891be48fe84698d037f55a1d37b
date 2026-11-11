@@ -1,0 +1,19 @@
+examples/general/api-tokens.ts
+  s_6d5b7a3e18d0f8::t_5c549e64952761 25-26,29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "ed2aa0c0fe7cb891be48fe84698d037f55a1d37b",
+  "prompts": {},
+  "sessions": {
+    "s_6d5b7a3e18d0f8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de44b397-41f6-4f18-888d-dd58b4272328",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+src/__tests__/lib/api/resources/Permissions.test.ts
+  s_35e942bf87a8d1::t_5586be185480e4 66,70,79-92,110,119-124
+src/lib/api/resources/Permissions.ts
+  s_35e942bf87a8d1::t_2a6568798151cc 40-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "0f86d809409723ce0dc94217efb2ad7c937b6598",
+  "prompts": {},
+  "sessions": {
+    "s_35e942bf87a8d1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe0c4ad9-a5e3-40ee-b534-5305c3091a31",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+src/lib/api/resources/inbound/Threads.ts
+  s_ea02f2a89792e1::t_771c52f5b1c18e 29
+  s_ea02f2a89792e1::t_b522cebed99cb7 28
+  s_ea02f2a89792e1::t_83c8cd7b0c37c2 31-40
+src/types/api/inbound/threads.ts
+  s_ea02f2a89792e1::t_cbebd644a612a4 37
+  s_ea02f2a89792e1::t_fe09fdb9e54607 1,7-19,58-59,74
+src/lib/api/resources/inbound/ForwardRules.ts
+  s_ea02f2a89792e1::t_443a575026f3cb 1-80
+README.md
+  s_ea02f2a89792e1::t_9c86f3829efa1d 258,261
+src/__tests__/lib/api/Inbound.test.ts
+  s_ea02f2a89792e1::t_99478a6ab5a307 15-22
+src/__tests__/lib/api/resources/inbound/ForwardRules.test.ts
+  s_ea02f2a89792e1::t_edb6b49df3d918 1-205
+src/__tests__/lib/api/resources/inbound/Messages.test.ts
+  s_ea02f2a89792e1::t_7d4526d27c09fa 48-87
+src/lib/api/Inbound.ts
+  s_ea02f2a89792e1::t_da8a928e07d39f 4,12-13,22
+examples/inbound/messages.ts
+  s_ea02f2a89792e1::t_bfb14e5ed4bca0 28-29
+examples/inbound/threads.ts
+  s_ea02f2a89792e1::t_e9931b35f18231 27-31,33-37,41-53
+src/__tests__/lib/api/resources/inbound/Threads.test.ts
+  s_fde7b47371f884::t_f4af4976040fb7 36,38-40,42-66,84-130
+src/types/api/inbound/forward-rules.ts
+  s_ea02f2a89792e1::t_e925695f5e3ad9 1-68
+src/types/api/inbound/messages.ts
+  s_ea02f2a89792e1::t_1d67d2f8445171 1-2,41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7e2b510c41bc243572c49d8b20079f4f6ad11027",
+  "prompts": {},
+  "sessions": {
+    "s_ea02f2a89792e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87ceb478-60a1-47fe-84f9-1458c02d71bf",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    },
+    "s_fde7b47371f884": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a7527f78f617293db",
+        "model": "unknown"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

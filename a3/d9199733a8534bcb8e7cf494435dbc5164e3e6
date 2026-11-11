@@ -1,0 +1,25 @@
+examples/sandbox/sandboxes.ts
+  s_0bd831182f7284::t_8ad7971fc7cc07 6
+examples/sandbox/projects.ts
+  s_0bd831182f7284::t_8ad7971fc7cc07 6
+examples/sandbox/messages.ts
+  s_0bd831182f7284::t_8ad7971fc7cc07 6
+examples/sandbox/attachments.ts
+  s_0bd831182f7284::t_8ad7971fc7cc07 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a3d9199733a8534bcb8e7cf494435dbc5164e3e6",
+  "prompts": {},
+  "sessions": {
+    "s_0bd831182f7284": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f557798-fdcc-49ed-ab07-608b43fa400b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

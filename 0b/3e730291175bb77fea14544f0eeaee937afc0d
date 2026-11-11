@@ -1,0 +1,52 @@
+src/types/api/sub-accounts.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 9-11
+src/adapters/attachement.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 11-52,66-68,71,74
+examples/general/accounts.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 5-6
+examples/sub-accounts/everything.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 25-31
+README.md
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 289
+src/__tests__/lib/api/Organizations.test.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 15
+src/__tests__/lib/api/resources/SubAccounts.test.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 23,112-133,141
+  s_9c2f65a8a78a26::t_29a09b813a133b 134-140,142
+src/__tests__/adapters/mail.test.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 76-81,110-115,146,186
+src/lib/MailtrapClient.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 173,176
+src/__tests__/lib/api/General.test.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 4-8,52-53,57-58,62-63,67-68
+src/lib/api/General.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 3-4,11-12,48
+src/__tests__/adapters/attachment.test.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 71,79,88-151
+src/__tests__/lib/transport.test.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 1-6,13-14,89-179
+  s_9c2f65a8a78a26::t_91b1bc226282cb 180
+src/lib/api/resources/SubAccounts.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 6,43-57
+  s_9c2f65a8a78a26::t_18550e38497a1a 58
+src/__tests__/lib/mailtrap-client.test.ts
+  s_9c2f65a8a78a26::t_a7b469eaa123e2 753-758,761-770,774-775,777,780-803
+yarn.lock
+  s_9c2f65a8a78a26::t_f04b4c685dda5b 2731-2733
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0b3e730291175bb77fea14544f0eeaee937afc0d",
+  "prompts": {},
+  "sessions": {
+    "s_9c2f65a8a78a26": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3c0b66d1-86a0-41df-b687-81932245e269",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}

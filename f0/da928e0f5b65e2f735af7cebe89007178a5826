@@ -1,0 +1,25 @@
+src/__tests__/lib/api/Organizations.test.ts
+  s_84c25ad63d8c76::t_5d5d330c5413b0 15
+src/__tests__/lib/api/resources/SubAccounts.test.ts
+  s_84c25ad63d8c76::t_ddf433e811f9ba 23,112-142
+src/lib/api/resources/SubAccounts.ts
+  s_84c25ad63d8c76::t_8a2e61c00ba0f8 6,43-58
+src/types/api/sub-accounts.ts
+  s_84c25ad63d8c76::t_70252d8f097c11 9-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "f0da928e0f5b65e2f735af7cebe89007178a5826",
+  "prompts": {},
+  "sessions": {
+    "s_84c25ad63d8c76": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1fbe9c4a-85b3-45c0-922e-f12aed1c5674",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

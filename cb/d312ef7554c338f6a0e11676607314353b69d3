@@ -1,0 +1,21 @@
+examples/email-campaigns/everything.ts
+  s_8b9eb1b74fa672::t_0f51ebed04f53a 13-14
+  s_8b9eb1b74fa672::t_875a833549f4d7 67
+  s_8b9eb1b74fa672::t_afd03570cf2c51 88-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "cbd312ef7554c338f6a0e11676607314353b69d3",
+  "prompts": {},
+  "sessions": {
+    "s_8b9eb1b74fa672": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95754cb3-701a-4fef-bc0a-347aa8fd1362",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

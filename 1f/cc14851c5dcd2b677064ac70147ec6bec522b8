@@ -1,0 +1,14 @@
+CHANGELOG.md
+  h_68ae9308e52348 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "1fcc14851c5dcd2b677064ac70147ec6bec522b8",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

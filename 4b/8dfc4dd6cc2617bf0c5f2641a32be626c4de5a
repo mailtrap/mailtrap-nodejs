@@ -1,0 +1,26 @@
+src/lib/api/resources/Webhooks.ts
+  s_d017c7c861edef::t_ba7eada165f5d5 62-64
+src/types/api/webhooks.ts
+  s_d017c7c861edef::t_90cba07e4bd7f0 1-5
+  s_d017c7c861edef::t_6926f1d6898d56 30
+  s_d017c7c861edef::t_5363c4155ab023 66
+  s_d017c7c861edef::t_f594d752222f73 50
+src/__tests__/lib/api/resources/Webhooks.test.ts
+  s_d017c7c861edef::t_6e3448afc339d1 150-180
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "4b8dfc4dd6cc2617bf0c5f2641a32be626c4de5a",
+  "prompts": {},
+  "sessions": {
+    "s_d017c7c861edef": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41b52286-f8fc-4af0-941c-d030ffa8c5ac",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}
