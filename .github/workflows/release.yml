@@ -29,6 +29,7 @@ jobs:
     outputs:
       version: ${{ steps.pending.outputs.version }}
       tag: ${{ steps.pending.outputs.tag }}
+      pending: ${{ steps.pending.outputs.pending }}
       go: ${{ steps.decide.outputs.go }}
     steps:
       - name: Refuse to release from a non-default branch
@@ -106,6 +107,12 @@ jobs:
           mkdir dist-pack
           npm pack --pack-destination dist-pack
 
+      # Exercises the publish job's `npm publish` argument before anyone approves it. Skipped on a
+      # dry run of an already released version: npm 11 refuses a version the registry already has.
+      - name: Check the tarball publishes
+        if: needs.detect.outputs.pending == 'true'
+        run: npm publish --dry-run ./dist-pack/*.tgz
+
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package
@@ -146,7 +153,7 @@ jobs:
 
       # Publishing a tarball runs no package scripts, so nothing from the dependency tree runs here.
       - name: Publish to npm
-        run: npm publish dist-pack/*.tgz
+        run: npm publish ./dist-pack/*.tgz
 
       - name: Publish GitHub release
         uses: railsware/github-actions/publish-github-release@master
