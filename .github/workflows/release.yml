@@ -1,7 +1,7 @@
 # Publishes the release drafted by draft-release.yml. Runs when the release PR lands on main
-# (or manually, as a fallback / dry run): detects the pending draft from CHANGELOG.md, tests and
-# packs the tarball without any publishing rights, then publishes that tarball to npm from the
-# `release` environment and un-drafts the GitHub Release, which creates the tag.
+# (or manually, as a fallback / dry run): detects the newest unreleased CHANGELOG.md version,
+# tests and packs the tarball without any publishing rights, then publishes that tarball to npm
+# from the `release` environment and un-drafts the GitHub Release, which creates the tag.
 name: Release
 on:
   push:
@@ -26,6 +26,7 @@ jobs:
   detect:
     name: Detect pending release
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     outputs:
       version: ${{ steps.pending.outputs.version }}
       tag: ${{ steps.pending.outputs.tag }}
@@ -79,6 +80,7 @@ jobs:
     needs: detect
     if: needs.detect.outputs.go == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -124,6 +126,7 @@ jobs:
     needs: [detect, build]
     if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment: release
     permissions:
       contents: write # edit and un-draft the release
