@@ -1,3 +1,11 @@
+## [6.2.1] - 2026-11-13
+
+## What's Changed
+* Add release workflow by @IgorDobryn in https://github.com/mailtrap/mailtrap-nodejs/pull/184
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-nodejs/compare/v6.2.0...v6.2.1
+
 ## [6.2.0] - 2026-11-09
 
 ## What's Changed
