@@ -1,0 +1,165 @@
+# Publishes the release drafted by draft-release.yml. Runs when the release PR lands on main
+# (or manually, as a fallback / dry run): detects the newest unreleased CHANGELOG.md version,
+# tests and packs the tarball without any publishing rights, then publishes that tarball to npm
+# from the `release` environment and un-drafts the GitHub Release, which creates the tag.
+name: Release
+on:
+  push:
+    branches: [main]
+    paths: [CHANGELOG.md]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: detect the release, test and pack, but do not publish"
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: Detect pending release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      version: ${{ steps.pending.outputs.version }}
+      tag: ${{ steps.pending.outputs.tag }}
+      pending: ${{ steps.pending.outputs.pending }}
+      go: ${{ steps.decide.outputs.go }}
+    steps:
+      - name: Refuse to release from a non-default branch
+        env:
+          REF: ${{ github.ref }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          if [ "$REF" != "refs/heads/$DEFAULT_BRANCH" ]; then
+            echo "::error::Releases must run from $DEFAULT_BRANCH, got $REF"
+            exit 1
+          fi
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Resolve pending release
+        id: pending
+        uses: railsware/github-actions/resolve-pending-release@master
+
+      # push: skip quietly when nothing is pending (an ordinary CHANGELOG edit).
+      # dispatch: a real run needs an unreleased version; a dry run doesn't. detect can't see drafts
+      # (read-only token), so the publish job confirms the draft after approval.
+      - name: Decide
+        id: decide
+        env:
+          EVENT: ${{ github.event_name }}
+          PENDING: ${{ steps.pending.outputs.pending }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          echo "pending=$PENDING dry_run=$DRY_RUN"
+          if [ "$DRY_RUN" = "true" ] && [ "$PENDING" != "true" ]; then
+            echo "::warning::The top CHANGELOG.md version is already released, so this dry run doesn't exercise detection"
+          fi
+          if [ "$PENDING" = "true" ] || [ "$DRY_RUN" = "true" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          elif [ "$EVENT" = "workflow_dispatch" ]; then
+            echo "::error::The top CHANGELOG.md version is already released; run Draft Node.js Release first"
+            exit 1
+          else
+            echo "Nothing to release"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    name: Test and pack
+    needs: detect
+    if: needs.detect.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .tool-versions
+          package-manager-cache: false
+
+      - name: Check version matches CHANGELOG.md
+        env:
+          EXPECTED: ${{ needs.detect.outputs.version }}
+        run: |
+          actual=$(jq -r .version package.json)
+          if [ "$actual" != "$EXPECTED" ]; then
+            echo "::error::package.json is $actual but CHANGELOG.md is $EXPECTED"
+            exit 1
+          fi
+
+      # `prepare` builds dist/ on install and again on pack.
+      - name: Install, test, pack
+        run: |
+          yarn install --frozen-lockfile
+          yarn test
+          mkdir dist-pack
+          npm pack --pack-destination dist-pack
+
+      # Exercises the publish job's `npm publish` argument before anyone approves it. Skipped on a
+      # dry run of an already released version: npm 11 refuses a version the registry already has.
+      - name: Check the tarball publishes
+        if: needs.detect.outputs.pending == 'true'
+        run: npm publish --dry-run ./dist-pack/*.tgz
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: package
+          path: dist-pack/
+          if-no-files-found: error
+
+  release:
+    name: Publish
+    needs: [detect, build]
+    if: ${{ !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: release
+    permissions:
+      contents: write # edit and un-draft the release
+      id-token: write # npm trusted publishing
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: package
+          path: dist-pack/
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24' # npm >= 11.5 for trusted publishing
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+
+      - name: Check npm release
+        uses: railsware/github-actions/check-sdk-npm-release@master
+        with:
+          package: mailtrap
+          version: ${{ needs.detect.outputs.version }}
+
+      - name: Check GitHub release
+        uses: railsware/github-actions/check-sdk-github-release@master
+        with:
+          tag: ${{ needs.detect.outputs.tag }}
+
+      # Publishing a tarball runs no package scripts, so nothing from the dependency tree runs here.
+      - name: Publish to npm
+        run: npm publish ./dist-pack/*.tgz
+
+      - name: Publish GitHub release
+        uses: railsware/github-actions/publish-github-release@master
+        with:
+          tag: ${{ needs.detect.outputs.tag }}
+          target: ${{ github.sha }}
