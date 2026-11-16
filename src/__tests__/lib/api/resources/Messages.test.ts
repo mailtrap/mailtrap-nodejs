@@ -404,6 +404,17 @@ describe("lib/api/resources/Messages: ", () => {
     });
   });
 
+  it("extracts JSON errors from text message responses", async () => {
+    const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.txt`;
+    mock.onGet(endpoint).reply(404, '{"error":"Not found"}', {
+      "Content-Type": "application/json",
+    });
+
+    await expect(
+      messagesAPI.getTextMessage(sandboxId, messageId)
+    ).rejects.toMatchObject({ message: "Not found" });
+  });
+
   describe("getTextMessage(): ", () => {
     it("successfully gets text message.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.txt`;

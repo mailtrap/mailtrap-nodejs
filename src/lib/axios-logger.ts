@@ -199,11 +199,23 @@ function extractErrorMessage(data: unknown, defaultMessage: string): string {
  * Context information (status code, URL, etc.) is available in error.cause.
  */
 function buildErrorMessage(error: AxiosError): string {
-  const primaryMessage = error.response?.data
-    ? extractErrorMessage(error.response.data, error.message)
-    : error.message;
+  let data: unknown = error.response?.data;
+  const contentType = Object.entries(error.response?.headers || {}).find(
+    ([name]) => name.toLowerCase() === "content-type"
+  )?.[1];
 
-  return primaryMessage;
+  if (
+    typeof data === "string" &&
+    /application\/(?:[\w.+-]+\+)?json\b/i.test(String(contentType))
+  ) {
+    try {
+      data = JSON.parse(data);
+    } catch {
+      // Preserve the response text if the server returns malformed JSON.
+    }
+  }
+
+  return data ? extractErrorMessage(data, error.message) : error.message;
 }
 
 /**
