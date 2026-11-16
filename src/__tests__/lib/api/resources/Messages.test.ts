@@ -377,6 +377,44 @@ describe("lib/api/resources/Messages: ", () => {
     });
   });
 
+  describe.each([
+    ["getTextMessage", "txt"],
+    ["getRawMessage", "raw"],
+    ["getMessageHtmlSource", "htmlsource"],
+    ["getHtmlMessage", "html"],
+    ["getMessageAsEml", "eml"],
+  ] as const)("%s preserves response text", (method, extension) => {
+    it.each([
+      "123",
+      "null",
+      "true",
+      '{"message":"hello"}',
+      '"hello"',
+      " 123\n",
+      "",
+    ])("returns %p unchanged", async (body) => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.${extension}`;
+      mock.onGet(endpoint).reply(200, body, {
+        "Content-Type": "text/plain",
+      });
+
+      const result = await messagesAPI[method](sandboxId, messageId);
+
+      expect(result).toBe(body);
+    });
+  });
+
+  it("extracts JSON errors from text message responses", async () => {
+    const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.txt`;
+    mock.onGet(endpoint).reply(404, '{"error":"Not found"}', {
+      "Content-Type": "application/json",
+    });
+
+    await expect(
+      messagesAPI.getTextMessage(sandboxId, messageId)
+    ).rejects.toMatchObject({ message: "Not found" });
+  });
+
   describe("getTextMessage(): ", () => {
     it("successfully gets text message.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.txt`;
