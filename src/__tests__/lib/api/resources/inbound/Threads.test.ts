@@ -110,23 +110,42 @@ describe("lib/api/resources/inbound/Threads: ", () => {
               status: "delivered",
               delivered_at: "2026-05-08T11:40:05.000Z",
               bounced_at: null,
+              rejected_at: null,
             },
           },
           { visibility_status: "placeholder", direction: "inbound" },
+          {
+            visibility_status: "available",
+            direction: "outbound",
+            id: "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+            delivery: {
+              to: "suppressed@example.com",
+              status: "not_delivered",
+              delivered_at: null,
+              bounced_at: null,
+              rejected_at: "2026-05-08T11:40:01.000Z",
+            },
+          },
         ],
       } as unknown as Thread;
 
       mock.onGet(`${threadsURL}/1700000000000124`).reply(200, thread);
 
       const result = await threadsAPI.get(42, "1700000000000124");
-      const [received, sent, placeholder] = result.messages;
+      const [received, sent, placeholder, rejected] = result.messages;
 
       expect(result).toEqual(thread);
       expect(received.forwards?.[0].status).toEqual("forwarded");
       expect(sent.delivery?.status).toEqual("delivered");
       expect(sent.delivery?.bounced_at).toBeNull();
+      expect(sent.delivery?.rejected_at).toBeNull();
       expect(placeholder.forwards).toBeUndefined();
       expect(placeholder.delivery).toBeUndefined();
+      expect(rejected.delivery?.status).toEqual("not_delivered");
+      expect(rejected.delivery?.bounced_at).toBeNull();
+      expect(rejected.delivery?.rejected_at).toEqual(
+        "2026-05-08T11:40:01.000Z"
+      );
     });
   });
 
