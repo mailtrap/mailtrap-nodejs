@@ -1,0 +1,19 @@
+src/__tests__/lib/api/resources/SubAccounts.test.ts
+  s_ee401bd707ba8a::t_3083ec6d32e077 120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5657636da41ddd5d41915ac9f0ab520e7c4f6ca1",
+  "prompts": {},
+  "sessions": {
+    "s_ee401bd707ba8a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ddd107ff-bf79-4d92-9838-276ec51e3ce7",
+        "model": "unknown"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+src/adapters/attachement.ts
+  s_52281b2db40636::t_bf2e09ad66ebf3 12,14-16,18,20-22,26-27,43-46
+  s_52281b2db40636::t_d7c00907e24aa8 13,17,19,23-25
+  s_52281b2db40636::t_4160b6b4929951 11
+src/__tests__/adapters/attachment.test.ts
+  s_52281b2db40636::t_934076df10bec1 71,79,88-89,91-100,103-129,131
+  s_52281b2db40636::t_eda028957dbf79 130
+  s_52281b2db40636::t_d89c2fce31a0d7 90
+  s_52281b2db40636::t_075736ef68c9c2 101-102
+src/__tests__/adapters/mail.test.ts
+  s_52281b2db40636::t_934076df10bec1 76-81,110-115,146,186
+src/__tests__/lib/transport.test.ts
+  s_52281b2db40636::t_8fb7f8d2285c7a 1-4,11-12,87-144
+  s_52281b2db40636::t_92501e7c0d9209 145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e8abe7c567cec80fc9d6614d5c606638ef2a7230",
+  "prompts": {},
+  "sessions": {
+    "s_52281b2db40636": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "faca1eea-ace4-45e4-b9a0-8512fd592849",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}

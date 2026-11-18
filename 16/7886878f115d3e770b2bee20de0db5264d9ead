@@ -1,0 +1,22 @@
+src/lib/api/resources/MarketingStats.ts
+  s_9d6bbcf3df5354::t_0f2879bfdd114c 30
+  s_9d6bbcf3df5354::t_0ee2a22ed070f7 34-36
+src/__tests__/lib/api/resources/MarketingStats.test.ts
+  s_9d6bbcf3df5354::t_bc0157326f0a25 105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "167886878f115d3e770b2bee20de0db5264d9ead",
+  "prompts": {},
+  "sessions": {
+    "s_9d6bbcf3df5354": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7a7e1f6f-65c6-4bf5-a9a0-8342a6ba4a10",
+        "model": "unknown"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+examples/sandbox/messages.ts
+  s_b53b9472f05599::t_b4267e0fef2e64 6
+examples/domains/everything.ts
+  s_b53b9472f05599::t_05aecd18fcd95c 17-28
+examples/sandbox/sandboxes.ts
+  s_b53b9472f05599::t_b4267e0fef2e64 6
+  s_b53b9472f05599::t_cbc3834ca73c92 16-17,20,22-30
+examples/sandbox/projects.ts
+  s_b53b9472f05599::t_b4267e0fef2e64 6
+src/lib/MailtrapClient.ts
+  s_b53b9472f05599::t_4040907532d5b7 92-94
+src/__tests__/lib/mailtrap-client.test.ts
+  s_b53b9472f05599::t_a1afa6813ff39d 1073-1095
+examples/sandbox/attachments.ts
+  s_b53b9472f05599::t_b4267e0fef2e64 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c769b14c5a8a8c8ddbf6bba7fde721a1b6418ec8",
+  "prompts": {},
+  "sessions": {
+    "s_b53b9472f05599": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e32fbf4a-cd53-4891-8d85-cf303767562a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,158 @@
+examples/domains/everything.ts
+  s_eba85365651efe::t_b5bd9f338acc3c 1-58
+src/lib/api/resources/EmailCampaigns.ts
+  s_eba85365651efe::t_cdbd8366c69111 54
+src/lib/api/resources/Inboxes.ts
+  s_eba85365651efe::t_6f46aab5e33faa 1-2,4,6-8,10-13,15,18-23,25,28,30-33,35
+src/lib/api/resources/TrackingOptOuts.ts
+  s_eba85365651efe::t_cdbd8366c69111 45
+src/lib/MailtrapClient.ts
+  s_eba85365651efe::t_5114bcd3613939 22,30,34-35,59-60,69,77,84,92-99,118,122,146,148-150,155-163,166,270-278,281,346,348,364,367,385,388
+examples/sandbox/transport.ts
+  s_eba85365651efe::t_81d56472146eb1 1-62
+src/__tests__/lib/api/resources/Sandboxes.test.ts
+  s_eba85365651efe::t_c62e0ecf33d9f8 5,414-425,427-428,430,432,437-438,440-441,446,451-452,457-458,460-464
+  s_eba85365651efe::t_3f05cc26693f13 1-4,7-10,12,15-413,469-471
+  s_eba85365651efe::t_8772d75b0de194 6,13-14,426,431,433-436,439,442-445,447,453-456,459,465-468
+  s_eba85365651efe::t_2e36cc6cdd76da 11,429
+  s_eba85365651efe::t_cd745926d370bc 448-450
+src/types/mailtrap.ts
+  s_eba85365651efe::t_9be3eaca17e3e4 73-75
+examples/sandbox/sandboxes.ts
+  s_eba85365651efe::t_81d56472146eb1 1-35
+src/lib/api/resources/Permissions.ts
+  s_eba85365651efe::t_cdbd8366c69111 50
+examples/company-info/everything.ts
+  s_eba85365651efe::t_a25933e60cf215 25
+src/__tests__/lib/api/resources/Domains.test.ts
+  s_eba85365651efe::t_cd745926d370bc 23,252,285,311-313
+  s_eba85365651efe::t_ddc6c0257b02e3 1-4,8-12,14-22,24-251,253-284,286-288,314-316
+  s_eba85365651efe::t_2e36cc6cdd76da 5-7,13,289-310
+examples/email-campaigns/everything.ts
+  s_eba85365651efe::t_a25933e60cf215 4-5
+README.md
+  s_eba85365651efe::t_faa5786e6d19c9 64,74,79,122,239-240,246,248-249,252-255,307-308,310-322,324
+  s_eba85365651efe::t_5034f6093d6e9d 309
+  s_eba85365651efe::t_fbd6603bbd7e1f 323,325
+  s_eba85365651efe::t_e45485538a3dc2 326
+src/lib/api/Sandbox.ts
+  s_eba85365651efe::t_3f99ed4d3cb1be 4-19
+  s_9da43957910ed3::t_7c5e8613419fc8 1-3,20-23
+src/types/api/sandboxes.ts
+  s_eba85365651efe::t_24a36c7a85d025 1-13
+  s_0c0d4e5ad7c773::t_7450ac0c44ed48 14-37
+src/lib/api/resources/Projects.ts
+  s_eba85365651efe::t_9311dd68289c8a 30,37
+src/lib/api/resources/Messages.ts
+  s_eba85365651efe::t_9311dd68289c8a 30-31,40,44,51,53-54,60,62-63,78,82,91-92,100-101,109-110,118-119,127-128,136-137,145-146,154-155
+src/lib/api/Domains.ts
+  s_eba85365651efe::t_b5b85dd241aac1 3-16,20-25
+  s_eba85365651efe::t_8772d75b0de194 19
+  s_eba85365651efe::t_ca3b7a3c433405 1-2,17-18,26-27
+examples/general/accounts.ts
+  s_eba85365651efe::t_b5bd9f338acc3c 6
+src/types/api/sending-domains.ts
+  s_eba85365651efe::t_c6bbe4c70b570f 1-7,9,11-12,14-15,17-18,20-24
+src/lib/api/resources/Attachments.ts
+  s_eba85365651efe::t_9311dd68289c8a 13,17,21,23-24,30,32-33
+src/types/api/inboxes.ts
+  s_eba85365651efe::t_ba5a74d0652727 1,3-4,6-7
+src/lib/api/resources/Domains.ts
+  s_eba85365651efe::t_bacffce223c21a 5-85
+  s_0c0d4e5ad7c773::t_b9622d8ee9d331 1-4,86-89
+src/types/api/email-campaigns.ts
+  s_eba85365651efe::t_cdbd8366c69111 94,128,142
+examples/general/permissions.ts
+  s_eba85365651efe::t_b5bd9f338acc3c 6
+src/lib/api/resources/CompanyInfo.ts
+  s_eba85365651efe::t_cdbd8366c69111 24-26,35,37,52,54
+src/__tests__/lib/api/resources/Messages.test.ts
+  s_eba85365651efe::t_2e36cc6cdd76da 17,83,87,99,112,116,132,147,151,164,177,182,189,197,205,213,221,229,237,245,258,273,278,296,319,323,335,353,357,369,382,386,398,411,415,427,440,459,472,476,488,501,505,517,530,534,546
+  s_eba85365651efe::t_cd745926d370bc 444-447
+examples/general/billing.ts
+  s_eba85365651efe::t_b5bd9f338acc3c 6
+examples/sandbox/template.ts
+  s_eba85365651efe::t_81d56472146eb1 1-9,11-13,15,17-25
+  s_eba85365651efe::t_559b73171730c4 10,14,16
+examples/marketing-stats/everything.ts
+  s_eba85365651efe::t_a25933e60cf215 33
+src/lib/api/SendingDomains.ts
+  s_eba85365651efe::t_f15f37e3d839c2 1,3-4
+examples/batch/sandbox.ts
+  s_eba85365651efe::t_b5bd9f338acc3c 10,17
+src/__tests__/lib/deprecation.test.ts
+  s_eba85365651efe::t_3467ee59ad22f2 2-25,29,34-35
+  s_eba85365651efe::t_8772d75b0de194 1,26-28,30-33
+examples/sandbox/projects.ts
+  s_eba85365651efe::t_81d56472146eb1 1-22
+src/types/api/marketing-stats.ts
+  s_eba85365651efe::t_cdbd8366c69111 31
+src/config/index.ts
+  s_eba85365651efe::t_9be3eaca17e3e4 9-11
+src/lib/api/Testing.ts
+  s_eba85365651efe::t_61cf0f5a88f606 3,5,7-9,11-14,16-18,20
+examples/general/account-accesses.ts
+  s_eba85365651efe::t_b5bd9f338acc3c 6
+src/lib/api/resources/SendingDomains.ts
+  s_eba85365651efe::t_a6470eae106fa2 1,3-4
+src/__tests__/lib/api/Sandbox.test.ts
+  s_eba85365651efe::t_e5e48ac7fc4eec 3-5,10-31,34-36,40-42
+  s_eba85365651efe::t_7d0bfe252098d7 33
+  s_eba85365651efe::t_8772d75b0de194 6-9,32,37-39
+src/__tests__/lib/mailtrap-client.test.ts
+  s_eba85365651efe::t_e99483fb13c855 77,79-80,83,85,108,151,154,161,186,198,201,224,351,365,369,390,500
+  s_eba85365651efe::t_bc6a97b6dafd0b 11,19,31-36,725,734,740,744,748-749,934,942,947,955-956,1024-1036,1038-1046,1049-1076,1078-1089,1091,1093-1096,1098,1104-1115,1117,1119-1124,1130-1131
+  s_eba85365651efe::t_133ef554cc1309 24-26,29-30,1037,1047-1048,1077,1090,1092,1097,1099-1103,1116,1118,1125-1129
+  s_eba85365651efe::t_72ddb8b42dd9d5 1132
+examples/sandbox/messages.ts
+  s_eba85365651efe::t_81d56472146eb1 1-41
+examples/sandbox/send-mail.ts
+  s_eba85365651efe::t_81d56472146eb1 1-25
+examples/sandbox/attachments.ts
+  s_eba85365651efe::t_81d56472146eb1 1-22,24-33
+  s_eba85365651efe::t_af9b83628871e8 23
+src/lib/deprecation.ts
+  s_eba85365651efe::t_114a47a2fc52e5 1-15
+src/__tests__/lib/api/resources/Attachments.test.ts
+  s_eba85365651efe::t_2e36cc6cdd76da 31,61,65,77,90,109
+  s_eba85365651efe::t_cd745926d370bc 93-97
+src/lib/api/resources/Sandboxes.ts
+  s_eba85365651efe::t_ce459c1f26a3ff 5-115
+  s_9da43957910ed3::t_f07b83d5bbebce 1-4,116-117
+src/types/api/domains.ts
+  s_eba85365651efe::t_59adf2bc6bfd9c 1-51
+src/types/api/projects.ts
+  s_eba85365651efe::t_2df5ff7fa3e484 1,19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c151db3d44e9887d20019b38ef8c1f1b0aeec0c6",
+  "prompts": {},
+  "sessions": {
+    "s_0c0d4e5ad7c773": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a6a08e17-b286-4419-a264-261618511242",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_9da43957910ed3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b5e96d27-440e-4e90-9034-3c62712bebb3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_eba85365651efe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dac6cbb5-27cc-44c2-9c89-e5ebe308be6c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

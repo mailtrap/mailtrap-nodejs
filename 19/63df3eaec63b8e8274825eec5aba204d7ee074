@@ -1,0 +1,25 @@
+src/__tests__/lib/transport.test.ts
+  s_52281b2db40636::t_6c98be4163e329 134-142,152-160,166-171
+  s_52281b2db40636::t_5593c0b6aba51c 1-2
+  s_52281b2db40636::t_2c29b0c15c0957 95-99
+src/__tests__/adapters/attachment.test.ts
+  s_52281b2db40636::t_e4d8bdd7e61ebf 101-112
+src/adapters/attachement.ts
+  s_52281b2db40636::t_404503bf9d6959 13,23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1963df3eaec63b8e8274825eec5aba204d7ee074",
+  "prompts": {},
+  "sessions": {
+    "s_52281b2db40636": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "faca1eea-ace4-45e4-b9a0-8512fd592849",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}
