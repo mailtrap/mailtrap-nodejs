@@ -15,6 +15,7 @@ export interface ThreadMessageDelivery {
   status: ThreadMessageDeliveryStatus;
   delivered_at: string | null;
   bounced_at: string | null;
+  rejected_at: string | null;
 }
 
 export interface ThreadSummary {

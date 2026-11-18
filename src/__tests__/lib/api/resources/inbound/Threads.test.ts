@@ -110,6 +110,7 @@ describe("lib/api/resources/inbound/Threads: ", () => {
               status: "delivered",
               delivered_at: "2026-05-08T11:40:05.000Z",
               bounced_at: null,
+              rejected_at: null,
             },
           },
           { visibility_status: "placeholder", direction: "inbound" },
@@ -125,6 +126,7 @@ describe("lib/api/resources/inbound/Threads: ", () => {
       expect(received.forwards?.[0].status).toEqual("forwarded");
       expect(sent.delivery?.status).toEqual("delivered");
       expect(sent.delivery?.bounced_at).toBeNull();
+      expect(sent.delivery?.rejected_at).toBeNull();
       expect(placeholder.forwards).toBeUndefined();
       expect(placeholder.delivery).toBeUndefined();
     });
