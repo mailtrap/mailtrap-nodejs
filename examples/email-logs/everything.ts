@@ -44,6 +44,14 @@ async function emailLogsFlow() {
       const messageId = list.messages[0].message_id;
       const message = await client.emailLogs.get(messageId);
       console.log("Single message:", message.subject, "events:", message.events?.length ?? 0);
+
+      // Narrow events by `event_type`. A recipient's unsubscribe from, or
+      // resubscribe to, one subscription topic names the topic.
+      for (const event of message.events ?? []) {
+        if (event.event_type === "topic_unsubscribe" || event.event_type === "topic_resubscribe") {
+          console.log(event.event_type, "topic:", event.details.subscription_topic_id);
+        }
+      }
     }
   } catch (error) {
     console.error("Error in emailLogsFlow:", error instanceof Error ? error.message : String(error));

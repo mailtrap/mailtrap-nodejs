@@ -112,6 +112,11 @@ export type EmailCampaign = {
   delivery_mode: DeliveryMode;
   delivery_options: DeliveryOptions;
   template: CampaignTemplate;
+  /**
+   * ID of the campaign's subscription topic, as returned by
+   * `client.subscriptionTopics`; `null` when it has none.
+   */
+  subscription_topic_id: number | null;
 };
 
 export type ListEmailCampaignsParams = {
@@ -135,6 +140,12 @@ export type CreateEmailCampaignParams = {
   delivery_options?: DeliveryOptions;
   contact_list_ids?: number[];
   contact_segment_ids?: number[];
+  /**
+   * ID of a subscription topic, as returned by `client.subscriptionTopics`.
+   * The topic must cover the campaign's domain. Ignored on an account without
+   * subscription topics.
+   */
+  subscription_topic_id?: number;
 };
 
 export type UpdateEmailCampaignParams = {
@@ -149,6 +160,11 @@ export type UpdateEmailCampaignParams = {
   delivery_options?: DeliveryOptions;
   contact_list_ids?: number[];
   contact_segment_ids?: number[];
+  /**
+   * ID of a subscription topic, as returned by `client.subscriptionTopics`.
+   * A campaign's topic can be changed but not removed.
+   */
+  subscription_topic_id?: number;
 };
 
 export type ScheduleEmailCampaignParams = {

@@ -4,6 +4,7 @@ import AxiosMockAdapter from "axios-mock-adapter";
 import WebhooksApi from "../../../../lib/api/resources/Webhooks";
 import handleSendingError from "../../../../lib/axios-logger";
 import MailtrapError from "../../../../lib/MailtrapError";
+import { CreateWebhookParams } from "../../../../types/api/webhooks";
 
 import CONFIG from "../../../../config";
 
@@ -177,6 +178,38 @@ describe("lib/api/resources/Webhooks: ", () => {
       expect(mock.history.post[0].url).toEqual(endpoint);
       expect(JSON.parse(mock.history.post[0].data)).toEqual(expectedBody);
       expect(result).toEqual(inboundResponseData);
+    });
+
+    it("creates a campaigns webhook for subscription preference updates.", async () => {
+      const campaignsParams: CreateWebhookParams = {
+        url: "https://example.com/mailtrap/webhooks",
+        webhook_type: "campaigns",
+        event_types: ["unsubscribe", "subscription_preferences_update"],
+      };
+      const campaignsResponseData = {
+        data: {
+          id: 4,
+          url: "https://example.com/mailtrap/webhooks",
+          active: true,
+          webhook_type: "campaigns",
+          payload_format: "json",
+          event_types: ["unsubscribe", "subscription_preferences_update"],
+          signing_secret: "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+        },
+      };
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/webhooks`;
+      const expectedBody = { webhook: campaignsParams };
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint, expectedBody).reply(200, campaignsResponseData);
+      const result = await webhooksAPI.create(campaignsParams);
+
+      expect(JSON.parse(mock.history.post[0].data)).toEqual(expectedBody);
+      expect(result.data.event_types).toEqual([
+        "unsubscribe",
+        "subscription_preferences_update",
+      ]);
     });
   });
 

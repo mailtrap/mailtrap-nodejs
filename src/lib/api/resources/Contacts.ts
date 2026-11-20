@@ -30,7 +30,9 @@ export default class ContactsApi {
   }
 
   /**
-   * Creates a new contact.
+   * Creates a new contact. When it is saved but its `subscription_topics`
+   * are not, the request fails with `503` and a message naming the contact's
+   * ID: send the topics again in an `update` of that contact.
    */
   public async create(contact: ContactData) {
     return this.client.post<ContactResponse, ContactResponse>(
@@ -40,7 +42,9 @@ export default class ContactsApi {
   }
 
   /**
-   * Updates an existing contact by ID or email.
+   * Updates an existing contact by ID or email. When it is saved but its
+   * `subscription_topics` are not, the request fails with `503`: send them
+   * again in another update.
    */
   public async update(identifier: string, contact: ContactUpdateData) {
     const url = `${this.contactsURL}/${identifier}`;

@@ -27,6 +27,9 @@ export default class SuppressionsApi {
   public async getList(options?: ListOptions) {
     const params = {
       ...(options?.email && { email: options.email }),
+      ...(options?.include_topic_unsubscriptions && {
+        include_topic_unsubscriptions: true,
+      }),
     };
 
     return this.client.get<Suppression[], Suppression[]>(this.suppressionsURL, {

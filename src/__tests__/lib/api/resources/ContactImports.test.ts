@@ -116,6 +116,33 @@ describe("lib/api/resources/ContactImports: ", () => {
       expect(result).toEqual(expectedResponseData);
     });
 
+    it("sends each contact's subscription topics.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts/imports`;
+      const topicsRequest: ImportContactsRequest = {
+        contacts: [
+          {
+            email: "customer1@example.com",
+            subscription_topics: [
+              {
+                subscription_topic_id: 12,
+                domain_id: 4321,
+                status: "unsubscribed",
+              },
+            ],
+          },
+          { email: "customer2@example.com" },
+        ],
+      };
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint, topicsRequest).reply(200, createImportResponse);
+      const result = await contactImportsAPI.create(topicsRequest);
+
+      expect(JSON.parse(mock.history.post[0].data)).toEqual(topicsRequest);
+      expect(result).toEqual(createImportResponse);
+    });
+
     it("fails with error.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts/imports`;
       const expectedErrorMessage = "Request failed with status code 400";

@@ -17,6 +17,17 @@ async function suppressionsFlow() {
   const filteredSuppressions = await client.suppressions.getList({email: "test@example.com"});
   console.log("Filtered suppressions:", filteredSuppressions);
 
+  // Include contacts' unsubscriptions from single subscription topics, as
+  // "topic unsubscription" rows with their `subscription_topic_id`. Needs a
+  // token that can read contacts; without subscription topics there are none.
+  const withTopics = await client.suppressions.getList({
+    include_topic_unsubscriptions: true
+  });
+  console.log(
+    "Topic unsubscriptions:",
+    withTopics.filter((suppression) => suppression.type === "topic unsubscription")
+  );
+
   // Add an email to the suppression list. `type` defaults to "manual import".
   const created = await client.suppressions.create({
     email: "suppressed@example.com",
@@ -25,7 +36,9 @@ async function suppressionsFlow() {
   });
   console.log("Created suppression:", created.data);
 
-  // Delete a suppression by ID (if any exist)
+  // Delete a suppression by ID (if any exist). The list without
+  // `include_topic_unsubscriptions` has no topic unsubscriptions, which can't
+  // be deleted.
   if (suppressions.length > 0) {
     const suppressionToDelete = suppressions[0];
     await client.suppressions.delete(suppressionToDelete.id);

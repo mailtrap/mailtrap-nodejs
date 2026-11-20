@@ -45,6 +45,7 @@ export type EmailLogMessageEvent =
   | EmailLogMessageEventBounce
   | EmailLogMessageEventSpam
   | EmailLogMessageEventUnsubscribe
+  | EmailLogMessageEventTopicSubscription
   | EmailLogMessageEventReject;
 
 export type EmailLogMessageEventDeliveryDetails = {
@@ -113,6 +114,18 @@ export type EmailLogMessageEventUnsubscribe = {
   event_type: "unsubscribe";
   created_at: string;
   details: EmailLogMessageEventUnsubscribeDetails;
+};
+
+export type EmailLogMessageEventTopicSubscriptionDetails = {
+  web_ip_address: string | null;
+  subscription_topic_id: number | null;
+};
+
+/** The recipient unsubscribed from, or resubscribed to, one subscription topic. */
+export type EmailLogMessageEventTopicSubscription = {
+  event_type: "topic_unsubscribe" | "topic_resubscribe";
+  created_at: string;
+  details: EmailLogMessageEventTopicSubscriptionDetails;
 };
 
 export type EmailLogMessageEventRejectDetails = {
