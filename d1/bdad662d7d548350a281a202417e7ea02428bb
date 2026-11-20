@@ -1,0 +1,90 @@
+examples/sending/suppressions.ts
+  s_8d0319fc6f6eaa::t_b285012f6e323a 20-30,39-41
+src/types/api/contact-imports.ts
+  s_8d0319fc6f6eaa::t_0eb24395880f6b 1-2,11-27,29
+src/lib/api/SubscriptionTopics.ts
+  s_8d0319fc6f6eaa::t_ae5a63d9b48640 1-15
+examples/webhooks/everything.ts
+  s_8d0319fc6f6eaa::t_b285012f6e323a 48-57
+src/__tests__/lib/api/resources/EmailCampaigns.test.ts
+  s_8d0319fc6f6eaa::t_9982680419a294 186-188,292-294
+  s_8d0319fc6f6eaa::t_add8da702814d0 48,184-185,189-198,290-291,295-303
+  s_8d0319fc6f6eaa::t_9485dfe2cc99a1 304
+src/types/api/subscription-topics.ts
+  s_8d0319fc6f6eaa::t_12ae96c0cb4191 1-38
+src/lib/MailtrapClient.ts
+  s_8d0319fc6f6eaa::t_e07fb2e3b557a1 25,310-314
+  s_8d0319fc6f6eaa::t_373e5313915724 315-316
+src/types/api/suppressions.ts
+  s_8d0319fc6f6eaa::t_558dbec77297ad 1-4
+  s_8d0319fc6f6eaa::t_0eb24395880f6b 5-11,14,29-30,35-39,46
+src/__tests__/lib/api/resources/Webhooks.test.ts
+  s_8d0319fc6f6eaa::t_ccb931b38c658f 182-213
+  s_8d0319fc6f6eaa::t_47f2da73ef6bae 7
+examples/contact-imports/everything.ts
+  s_8d0319fc6f6eaa::t_f768cb2d0d2864 21
+  s_8d0319fc6f6eaa::t_b285012f6e323a 11-20,22-39,41-44,48-49
+examples/email-campaigns/everything.ts
+  s_8d0319fc6f6eaa::t_b285012f6e323a 11-30,45-48,50-51,63-65,68
+src/types/api/email-logs.ts
+  s_8d0319fc6f6eaa::t_0eb24395880f6b 48,119-129
+  s_8d0319fc6f6eaa::t_3cbb0c8c677c6f 130
+src/__tests__/lib/api/resources/Contacts.test.ts
+  s_8d0319fc6f6eaa::t_9982680419a294 140-154,216-220,309
+  s_8d0319fc6f6eaa::t_468393f1c60d92 7,74-82,137-139,191-215,221-248,289-308
+  s_8d0319fc6f6eaa::t_e080f22dde3d20 310
+src/__tests__/lib/api/SubscriptionTopics.test.ts
+  s_8d0319fc6f6eaa::t_47f2da73ef6bae 1-16
+src/__tests__/lib/api/resources/EmailLogs.test.ts
+  s_8d0319fc6f6eaa::t_0d1920773158ab 63-78,249-267
+examples/subscription-topics/everything.ts
+  s_8d0319fc6f6eaa::t_a0675ee2c3c46c 1-52
+src/lib/api/resources/SubscriptionTopics.ts
+  s_8d0319fc6f6eaa::t_d54c9eae600701 1-59
+src/__tests__/lib/api/resources/Suppressions.test.ts
+  s_8d0319fc6f6eaa::t_1d9e75db9b333f 103,109,113-150
+  s_8d0319fc6f6eaa::t_0df3db88751e11 151
+src/types/api/contacts.ts
+  s_8d0319fc6f6eaa::t_0eb24395880f6b 1-11,20-24,32-36
+README.md
+  s_8d0319fc6f6eaa::t_b285012f6e323a 276
+examples/email-logs/everything.ts
+  s_8d0319fc6f6eaa::t_b285012f6e323a 47-54
+src/types/api/email-campaigns.ts
+  s_8d0319fc6f6eaa::t_0eb24395880f6b 115-119,143-148,163-167
+src/lib/api/resources/Contacts.ts
+  s_8d0319fc6f6eaa::t_558dbec77297ad 33-35,45-47
+src/__tests__/lib/api/resources/SubscriptionTopics.test.ts
+  s_8d0319fc6f6eaa::t_bbfe9cd7bcf1ed 1-196
+src/types/api/webhooks.ts
+  s_8d0319fc6f6eaa::t_0eb24395880f6b 25-26
+  s_8d0319fc6f6eaa::t_558dbec77297ad 11-15
+examples/contacts/everything.ts
+  s_8d0319fc6f6eaa::t_f768cb2d0d2864 21
+  s_8d0319fc6f6eaa::t_b285012f6e323a 11-20,22-39,70-84
+  s_8d0319fc6f6eaa::t_5b1a5c552d2fac 85
+src/__tests__/lib/api/resources/ContactImports.test.ts
+  s_8d0319fc6f6eaa::t_d402be2f4a471c 137,142
+  s_8d0319fc6f6eaa::t_28b282e459d81e 119-136,138-141,143-145
+src/lib/api/resources/Suppressions.ts
+  s_8d0319fc6f6eaa::t_0eb24395880f6b 30-32
+src/__tests__/lib/mailtrap-client.test.ts
+  s_8d0319fc6f6eaa::t_47f2da73ef6bae 24,1053-1064
+  s_8d0319fc6f6eaa::t_4fb0e0a84b1fb6 1065-1066
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d1bdad662d7d548350a281a202417e7ea02428bb",
+  "prompts": {},
+  "sessions": {
+    "s_8d0319fc6f6eaa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5fbbb331-ece7-419f-bab6-7cc833a529b0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
