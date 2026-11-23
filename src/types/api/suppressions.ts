@@ -9,12 +9,18 @@ export type SuppressionType =
   | "manual import"
   | "topic unsubscription";
 
+/**
+ * `any` marks an opt-out stored without a sending stream; it can't be passed
+ * to `create`.
+ */
+export type SuppressionSendingStream = "transactional" | "bulk" | "any";
+
 export type Suppression = {
   id: string;
   type: SuppressionType;
   created_at: string;
   email: string;
-  sending_stream: "transactional" | "bulk";
+  sending_stream: SuppressionSendingStream;
   domain_name: string | null;
   message_bounce_category: string | null;
   message_category: string | null;
@@ -30,8 +36,18 @@ export type Suppression = {
   subscription_topic_id?: number | null;
 };
 
+/**
+ * The endpoint returns up to 1000 suppressions per request; page through
+ * larger lists by passing the last returned suppression's `id` as `last_id`.
+ */
 export type ListOptions = {
+  /** Filters by exact address (case-insensitive). */
   email?: string;
+  /** `start_time` and `end_time` bound `created_at` (ISO 8601); either one works alone. */
+  start_time?: string;
+  end_time?: string;
+  /** Returns the suppressions after the one with this `id`, for cursor-based pagination. */
+  last_id?: string;
   /**
    * Adds the contacts' unsubscriptions from single subscription topics, as
    * `topic unsubscription` rows. Needs a token that can read contacts.
@@ -42,7 +58,7 @@ export type ListOptions = {
 export type CreateSuppressionParams = {
   email: string;
   domain_id: number;
-  sending_stream: "transactional" | "bulk";
+  sending_stream: Exclude<SuppressionSendingStream, "any">;
   type?: Exclude<SuppressionType, "topic unsubscription">;
 };
 
