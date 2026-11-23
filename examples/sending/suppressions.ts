@@ -17,19 +17,18 @@ async function suppressionsFlow() {
   const filteredSuppressions = await client.suppressions.getList({email: "test@example.com"});
   console.log("Filtered suppressions:", filteredSuppressions);
 
-  // Get every suppression created in the last 30 days. A full page has 1000
+  // Count the suppressions created in the last 30 days. A full page has 1000
   // rows; pass the last row's `id` as `last_id` to get the next one.
   const startTime = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-  let page = await client.suppressions.getList({start_time: startTime});
-  const recentSuppressions = [...page];
-  while (page.length === 1000) {
-    page = await client.suppressions.getList({
-      start_time: startTime,
-      last_id: page[page.length - 1].id
-    });
-    recentSuppressions.push(...page);
-  }
-  console.log("Suppressions from the last 30 days:", recentSuppressions.length);
+  let recentCount = 0;
+  let lastId: string | undefined;
+  let page;
+  do {
+    page = await client.suppressions.getList({start_time: startTime, last_id: lastId});
+    recentCount += page.length;
+    lastId = page[page.length - 1]?.id;
+  } while (page.length === 1000);
+  console.log("Suppressions from the last 30 days:", recentCount);
 
   // Include contacts' unsubscriptions from single subscription topics, as
   // "topic unsubscription" rows with their `subscription_topic_id`. Needs a

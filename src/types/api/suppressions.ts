@@ -1,3 +1,5 @@
+import { SendingStream } from "./webhooks";
+
 /**
  * `topic unsubscription` rows are listed only with
  * `include_topic_unsubscriptions`, and can't be created or deleted.
@@ -13,7 +15,7 @@ export type SuppressionType =
  * `any` marks an opt-out stored without a sending stream; it can't be passed
  * to `create`.
  */
-export type SuppressionSendingStream = "transactional" | "bulk" | "any";
+export type SuppressionSendingStream = SendingStream | "any";
 
 export type Suppression = {
   id: string;
@@ -36,10 +38,6 @@ export type Suppression = {
   subscription_topic_id?: number | null;
 };
 
-/**
- * The endpoint returns up to 1000 suppressions per request; page through
- * larger lists by passing the last returned suppression's `id` as `last_id`.
- */
 export type ListOptions = {
   /** Filters by exact address (case-insensitive). */
   email?: string;
@@ -59,7 +57,7 @@ export type ListOptions = {
 export type CreateSuppressionParams = {
   email: string;
   domain_id: number;
-  sending_stream: Exclude<SuppressionSendingStream, "any">;
+  sending_stream: SendingStream;
   type?: Exclude<SuppressionType, "topic unsubscription">;
 };
 

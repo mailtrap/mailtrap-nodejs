@@ -141,20 +141,18 @@ describe("lib/api/resources/Suppressions: ", () => {
     it("passes start_time, end_time and last_id when set.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/suppressions`;
 
+      const params = {
+        start_time: "2023-01-01T00:00:00Z",
+        end_time: "2023-01-31T23:59:59Z",
+        last_id: "2",
+      };
+
       expect.assertions(1);
 
       mock.onGet(endpoint).reply(200, mockSuppressions);
-      await suppressionsAPI.getList({
-        start_time: "2023-01-01T00:00:00Z",
-        end_time: "2023-01-31T23:59:59Z",
-        last_id: "2",
-      });
+      await suppressionsAPI.getList(params);
 
-      expect(mock.history.get[0].params).toEqual({
-        start_time: "2023-01-01T00:00:00Z",
-        end_time: "2023-01-31T23:59:59Z",
-        last_id: "2",
-      });
+      expect(mock.history.get[0].params).toEqual(params);
     });
 
     it("returns rows stored without a sending stream as any.", async () => {
