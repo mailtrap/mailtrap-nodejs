@@ -18,10 +18,19 @@ const isForbidden = (error: unknown) =>
 // the account has no such topic, or no subscription topics at all.
 async function findSubscriptionTopicId(domainId: number) {
   try {
-    const topics = await client.subscriptionTopics.getList({ per_page: 100 });
-    return topics.data.find(
-      (topic) => topic.domain_id === null || topic.domain_id === domainId
-    )?.id;
+    let token: number | null = 1;
+    while (token !== null) {
+      const page = await client.subscriptionTopics.getList({
+        per_page: 100,
+        token,
+      });
+      const topic = page.data.find(
+        ({ domain_id }) => domain_id === null || domain_id === domainId
+      );
+      if (topic) return topic.id;
+      token = page.pagination.next_token;
+    }
+    return undefined;
   } catch (error) {
     if (isForbidden(error)) return undefined;
     throw error;
