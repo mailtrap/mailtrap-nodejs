@@ -43,8 +43,9 @@ export type Suppression = {
 export type ListOptions = {
   /** Filters by exact address (case-insensitive). */
   email?: string;
-  /** `start_time` and `end_time` bound `created_at` (ISO 8601); either one works alone. */
+  /** Start of the `created_at` window (inclusive), ISO 8601, e.g. `2024-01-01T00:00:00Z`. */
   start_time?: string;
+  /** End of the `created_at` window (inclusive), ISO 8601, e.g. `2024-01-31T23:59:59Z`. */
   end_time?: string;
   /** Returns the suppressions after the one with this `id`, for cursor-based pagination. */
   last_id?: string;
