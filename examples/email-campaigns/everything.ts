@@ -65,7 +65,6 @@ async function emailCampaignsFlow() {
       }),
     });
     console.log("Created campaign:", JSON.stringify(created.data, null, 2));
-    console.log("Subscription topic:", created.data.subscription_topic_id);
 
     const campaignId = created.data.id;
 

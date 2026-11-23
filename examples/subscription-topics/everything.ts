@@ -19,7 +19,7 @@ async function subscriptionTopicsFlow() {
     let token: number | null = 1;
     while (token !== null) {
       const page = await client.subscriptionTopics.getList({
-        per_page: 50,
+        per_page: 100,
         token,
       });
       topics.push(...page.data);

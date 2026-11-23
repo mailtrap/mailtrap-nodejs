@@ -1,4 +1,4 @@
-import { Pagination } from "./common";
+import { PageTokenParams, Pagination } from "./common";
 
 export type SubscriptionTopic = {
   id: number;
@@ -15,18 +15,7 @@ export type SubscriptionTopic = {
   updated_at: string;
 };
 
-export type ListSubscriptionTopicsParams = {
-  /**
-   * Page number to retrieve (page-token pagination). Defaults to 1. Accepts
-   * `pagination.next_token` as is; `null` is the same as leaving it out.
-   */
-  token?: number | null;
-  /**
-   * Number of topics per page. Maximum 100, defaults to 50. Pass the same
-   * value on every page.
-   */
-  per_page?: number | null;
-};
+export type ListSubscriptionTopicsParams = PageTokenParams;
 
 export type ListSubscriptionTopicsResponse = {
   data: SubscriptionTopic[];

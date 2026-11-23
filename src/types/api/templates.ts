@@ -1,4 +1,4 @@
-import { Pagination } from "./common";
+import { PageTokenParams, Pagination } from "./common";
 
 export type Template = {
   id: number;
@@ -14,18 +14,7 @@ export type Template = {
   updated_at: string;
 };
 
-export type ListTemplatesParams = {
-  /**
-   * Page number to retrieve (page-token pagination). Defaults to 1. Accepts
-   * `pagination.next_token` as is; `null` is the same as leaving it out.
-   */
-  token?: number | null;
-  /**
-   * Number of templates per page. Maximum 100, defaults to 50. Pass the same
-   * value on every page.
-   */
-  per_page?: number | null;
-};
+export type ListTemplatesParams = PageTokenParams;
 
 export type CreateTemplateParams = {
   name: string;
