@@ -1,0 +1,20 @@
+examples/sending/suppressions.ts
+  s_e50db68c1f8f52::t_ad80d0d44d740d 25-26,28-31
+  s_e50db68c1f8f52::t_7cda7d724b8324 20-22,32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "911e6e9dc7c882491a4b776b483a50c6c46bc010",
+  "prompts": {},
+  "sessions": {
+    "s_e50db68c1f8f52": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bb49a4d7-6180-4283-8e03-cadb0c6fe1af",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
