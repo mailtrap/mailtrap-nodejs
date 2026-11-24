@@ -415,6 +415,17 @@ describe("lib/api/resources/Messages: ", () => {
     ).rejects.toMatchObject({ message: "Not found" });
   });
 
+  it("extracts JSON errors sent as text/plain from text message responses", async () => {
+    const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.txt`;
+    mock.onGet(endpoint).reply(401, '{"error":"Incorrect API token"}', {
+      "Content-Type": "text/plain",
+    });
+
+    await expect(
+      messagesAPI.getTextMessage(sandboxId, messageId)
+    ).rejects.toMatchObject({ message: "Incorrect API token" });
+  });
+
   describe("getTextMessage(): ", () => {
     it("successfully gets text message.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/inboxes/${sandboxId}/messages/${messageId}/body.txt`;

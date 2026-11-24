@@ -200,18 +200,14 @@ function extractErrorMessage(data: unknown, defaultMessage: string): string {
  */
 function buildErrorMessage(error: AxiosError): string {
   let data: unknown = error.response?.data;
-  const contentType = Object.entries(error.response?.headers || {}).find(
-    ([name]) => name.toLowerCase() === "content-type"
-  )?.[1];
 
-  if (
-    typeof data === "string" &&
-    /application\/(?:[\w.+-]+\+)?json\b/i.test(String(contentType))
-  ) {
+  // Only decode bodies requested as raw text; axios already parsed the rest.
+  if (typeof data === "string" && error.config?.responseType === "text") {
     try {
-      data = JSON.parse(data);
+      const parsed: unknown = JSON.parse(data);
+      if (parsed && typeof parsed === "object") data = parsed;
     } catch {
-      // Preserve the response text if the server returns malformed JSON.
+      // Plain-text error body, keep as is.
     }
   }
 
