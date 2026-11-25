@@ -41,11 +41,20 @@ export type Suppression = {
 export type ListOptions = {
   /** Filters by exact address (case-insensitive). */
   email?: string;
-  /** Start of the `created_at` window (inclusive), ISO 8601, e.g. `2024-01-01T00:00:00Z`. */
+  /**
+   * Start of the `created_at` window (inclusive), ISO 8601, e.g.
+   * `2024-01-01T00:00:00Z`. Not applied when `email` is set.
+   */
   start_time?: string;
-  /** End of the `created_at` window (inclusive), ISO 8601, e.g. `2024-01-31T23:59:59Z`. */
+  /**
+   * End of the `created_at` window (inclusive), ISO 8601, e.g.
+   * `2024-01-31T23:59:59Z`. Not applied when `email` is set.
+   */
   end_time?: string;
-  /** Returns the suppressions after the one with this `id`, for cursor-based pagination. */
+  /**
+   * Returns the suppressions after the one with this `id`. Suppressions created
+   * in the same second as that one can be returned again.
+   */
   last_id?: string;
   /**
    * Adds the contacts' unsubscriptions from single subscription topics, as

@@ -280,7 +280,7 @@ General API:
 
 - Templates CRUD, paginated (experimental) – [`templates/everything.ts`](examples/templates/everything.ts)
 - Email templates CRUD (`/api/email_templates`) – [`templates/email-templates.ts`](examples/templates/email-templates.ts)
-- Suppressions (create, find by email or date, paginate & delete) – [`sending/suppressions.ts`](examples/sending/suppressions.ts)
+- Suppressions (create, find by email or date & delete) – [`sending/suppressions.ts`](examples/sending/suppressions.ts)
 - Tracking Opt-outs (list, create & delete) – [`sending/tracking-opt-outs.ts`](examples/sending/tracking-opt-outs.ts)
 - Billing info – [`general/billing.ts`](examples/general/billing.ts)
 - Accounts info – [`general/accounts.ts`](examples/general/accounts.ts)
