@@ -1,0 +1,9 @@
+# Managed centrally: changes made in this repository are overwritten.
+changelog:
+  categories:
+    - title: Changes
+      labels: ["*"]
+      exclude:
+        labels: [dependencies]
+    - title: Dependencies
+      labels: [dependencies]
