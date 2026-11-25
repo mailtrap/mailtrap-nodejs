@@ -109,7 +109,7 @@ export default class MessagesApi {
   public async getTextMessage(sandboxId: number, messageId: number) {
     const url = `${this.messagesURL}/${sandboxId}/messages/${messageId}/body.txt`;
 
-    return this.client.get<string, string>(url);
+    return this.client.get<string, string>(url, { responseType: "text" });
   }
 
   /**
@@ -118,7 +118,7 @@ export default class MessagesApi {
   public async getRawMessage(sandboxId: number, messageId: number) {
     const url = `${this.messagesURL}/${sandboxId}/messages/${messageId}/body.raw`;
 
-    return this.client.get<string, string>(url);
+    return this.client.get<string, string>(url, { responseType: "text" });
   }
 
   /**
@@ -127,7 +127,7 @@ export default class MessagesApi {
   public async getMessageHtmlSource(sandboxId: number, messageId: number) {
     const url = `${this.messagesURL}/${sandboxId}/messages/${messageId}/body.htmlsource`;
 
-    return this.client.get<string, string>(url);
+    return this.client.get<string, string>(url, { responseType: "text" });
   }
 
   /**
@@ -136,7 +136,7 @@ export default class MessagesApi {
   public async getHtmlMessage(sandboxId: number, messageId: number) {
     const url = `${this.messagesURL}/${sandboxId}/messages/${messageId}/body.html`;
 
-    return this.client.get<string, string>(url);
+    return this.client.get<string, string>(url, { responseType: "text" });
   }
 
   /**
@@ -145,7 +145,7 @@ export default class MessagesApi {
   public async getMessageAsEml(sandboxId: number, messageId: number) {
     const url = `${this.messagesURL}/${sandboxId}/messages/${messageId}/body.eml`;
 
-    return this.client.get<string, string>(url);
+    return this.client.get<string, string>(url, { responseType: "text" });
   }
 
   /**

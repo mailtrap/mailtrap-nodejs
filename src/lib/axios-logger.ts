@@ -199,11 +199,19 @@ function extractErrorMessage(data: unknown, defaultMessage: string): string {
  * Context information (status code, URL, etc.) is available in error.cause.
  */
 function buildErrorMessage(error: AxiosError): string {
-  const primaryMessage = error.response?.data
-    ? extractErrorMessage(error.response.data, error.message)
-    : error.message;
+  let data: unknown = error.response?.data;
 
-  return primaryMessage;
+  // Only decode bodies requested as raw text; axios already parsed the rest.
+  if (typeof data === "string" && error.config?.responseType === "text") {
+    try {
+      const parsed: unknown = JSON.parse(data);
+      if (parsed && typeof parsed === "object") data = parsed;
+    } catch {
+      // Plain-text error body, keep as is.
+    }
+  }
+
+  return data ? extractErrorMessage(data, error.message) : error.message;
 }
 
 /**
