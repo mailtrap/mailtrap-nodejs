@@ -1,0 +1,52 @@
+# Managed centrally: changes made in this repository are overwritten.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    # The cooldown delays version updates only. Security updates come at once.
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    # The cooldown delays version updates only. Security updates come at once.
+    cooldown:
+      default-days: 7
+    ignore:
+      # The types must match the oldest supported Node version.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # Lint majors wait for the move to flat config: eslint-config-airbnb-base supports eslint 8 at most.
+      - dependency-name: "@typescript-eslint/*"
+        update-types: ["version-update:semver-major"]
+      # Lint majors wait for the move to flat config: eslint-config-airbnb-base supports eslint 8 at most.
+      - dependency-name: "eslint*"
+        update-types: ["version-update:semver-major"]
+      # Lint majors wait for the move to flat config: eslint-config-airbnb-base supports eslint 8 at most.
+      - dependency-name: "prettier"
+        update-types: ["version-update:semver-major"]
+    groups:
+      minor-and-patch:
+        patterns: ["*"]
+        exclude-patterns: ["@babel/*","jest","babel-jest","@jest/*","@types/jest","eslint*","@typescript-eslint/*","prettier"]
+        update-types: ["minor", "patch"]
+      babel:
+        patterns: ["@babel/*"]
+      jest:
+        patterns: ["jest","babel-jest","@jest/*","@types/jest"]
+      lint:
+        patterns: ["eslint*","@typescript-eslint/*","prettier"]
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
