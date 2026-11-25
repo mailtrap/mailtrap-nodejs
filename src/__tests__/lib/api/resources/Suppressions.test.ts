@@ -138,6 +138,40 @@ describe("lib/api/resources/Suppressions: ", () => {
       expect(result[2].subscription_topic_id).toEqual(12);
     });
 
+    it("passes start_time, end_time and last_id when set.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/suppressions`;
+
+      const params = {
+        start_time: "2023-01-01T00:00:00Z",
+        end_time: "2023-01-31T23:59:59Z",
+        last_id: "2",
+      };
+
+      expect.assertions(1);
+
+      mock.onGet(endpoint).reply(200, mockSuppressions);
+      await suppressionsAPI.getList(params);
+
+      expect(mock.history.get[0].params).toEqual(params);
+    });
+
+    it("returns rows stored without a sending stream as any.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/suppressions`;
+      const anyStream: Suppression = {
+        ...mockSuppression,
+        id: "4",
+        type: "unsubscription",
+        sending_stream: "any",
+      };
+
+      expect.assertions(1);
+
+      mock.onGet(endpoint).reply(200, [anyStream]);
+      const result = await suppressionsAPI.getList();
+
+      expect(result[0].sending_stream).toEqual("any");
+    });
+
     it("sends nothing for include_topic_unsubscriptions: false.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/suppressions`;
 

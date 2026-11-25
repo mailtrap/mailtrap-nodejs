@@ -22,11 +22,15 @@ export default class SuppressionsApi {
   }
 
   /**
-   * List and search suppressions by email. The endpoint returns up to 1000 suppressions per request.
+   * List suppressions, optionally filtered by email or creation time.
+   * The endpoint returns up to 1000 suppressions per request.
    */
   public async getList(options?: ListOptions) {
     const params = {
       ...(options?.email && { email: options.email }),
+      ...(options?.start_time && { start_time: options.start_time }),
+      ...(options?.end_time && { end_time: options.end_time }),
+      ...(options?.last_id && { last_id: options.last_id }),
       ...(options?.include_topic_unsubscriptions && {
         include_topic_unsubscriptions: true,
       }),

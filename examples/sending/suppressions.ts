@@ -17,6 +17,11 @@ async function suppressionsFlow() {
   const filteredSuppressions = await client.suppressions.getList({email: "test@example.com"});
   console.log("Filtered suppressions:", filteredSuppressions);
 
+  // Get suppressions created in the last 30 days (up to 1000 per request)
+  const startTime = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const recentSuppressions = await client.suppressions.getList({start_time: startTime});
+  console.log("Suppressions from the last 30 days (up to 1000):", recentSuppressions);
+
   // Include contacts' unsubscriptions from single subscription topics, as
   // "topic unsubscription" rows with their `subscription_topic_id`. Needs a
   // token that can read contacts; without subscription topics there are none.
