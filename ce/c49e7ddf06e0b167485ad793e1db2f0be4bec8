@@ -1,0 +1,19 @@
+src/lib/api/resources/Suppressions.ts
+  s_a00d47cda9bfd9::t_23789f61185a51 25-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cec49e7ddf06e0b167485ad793e1db2f0be4bec8",
+  "prompts": {},
+  "sessions": {
+    "s_a00d47cda9bfd9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80f0de96-390c-4b81-a34e-d26582069615",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
