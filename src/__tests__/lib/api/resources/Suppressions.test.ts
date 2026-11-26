@@ -100,13 +100,53 @@ describe("lib/api/resources/Suppressions: ", () => {
     it("successfully gets suppressions (up to 1000 per request).", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/suppressions`;
 
-      expect.assertions(2);
+      expect.assertions(3);
 
       mock.onGet(endpoint).reply(200, mockSuppressions);
       const result = await suppressionsAPI.getList();
 
       expect(mock.history.get[0].url).toEqual(endpoint);
+      expect(mock.history.get[0].params).toEqual({});
       expect(result).toEqual(mockSuppressions);
+    });
+
+    it("includes topic unsubscriptions when asked to.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/suppressions`;
+      const topicUnsubscription: Suppression = {
+        ...mockSuppression,
+        id: "3",
+        type: "topic unsubscription",
+        sending_stream: "bulk",
+        message_bounce_category: null,
+        subscription_topic_id: 12,
+      };
+
+      expect.assertions(3);
+
+      mock
+        .onGet(endpoint, { params: { include_topic_unsubscriptions: true } })
+        .reply(200, [...mockSuppressions, topicUnsubscription]);
+      const result = await suppressionsAPI.getList({
+        include_topic_unsubscriptions: true,
+      });
+
+      const { url, params } = mock.history.get[0];
+      expect(axios.getUri({ url, params })).toEqual(
+        `${endpoint}?include_topic_unsubscriptions=true`
+      );
+      expect(result[2].type).toEqual("topic unsubscription");
+      expect(result[2].subscription_topic_id).toEqual(12);
+    });
+
+    it("sends nothing for include_topic_unsubscriptions: false.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/suppressions`;
+
+      expect.assertions(1);
+
+      mock.onGet(endpoint).reply(200, mockSuppressions);
+      await suppressionsAPI.getList({ include_topic_unsubscriptions: false });
+
+      expect(mock.history.get[0].params).toEqual({});
     });
 
     it("successfully gets suppressions filtered by email.", async () => {

@@ -22,6 +22,7 @@ import MarketingStatsBaseAPI from "./api/MarketingStats";
 import DomainsBaseAPI from "./api/Domains";
 import SendingDomainsBaseAPI from "./api/SendingDomains";
 import StatsBaseAPI from "./api/Stats";
+import SubscriptionTopicsBaseAPI from "./api/SubscriptionTopics";
 import SuppressionsBaseAPI from "./api/Suppressions";
 import TrackingOptOutsBaseAPI from "./api/TrackingOptOuts";
 import OrganizationsBaseAPI from "./api/Organizations";
@@ -304,6 +305,13 @@ export default class MailtrapClient {
    */
   get emailCampaigns() {
     return new EmailCampaignsBaseAPI(this.axios);
+  }
+
+  /**
+   * Getter for Subscription Topics API. Scoped to the token's account, so no accountId is required.
+   */
+  get subscriptionTopics() {
+    return new SubscriptionTopicsBaseAPI(this.axios);
   }
 
   /**

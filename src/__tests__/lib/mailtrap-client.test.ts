@@ -21,6 +21,7 @@ import SendingDomainsBaseAPI from "../../lib/api/SendingDomains";
 import EmailLogsBaseAPI from "../../lib/api/EmailLogs";
 import ContactEventsBaseAPI from "../../lib/api/ContactEvents";
 import MarketingStatsBaseAPI from "../../lib/api/MarketingStats";
+import SubscriptionTopicsBaseAPI from "../../lib/api/SubscriptionTopics";
 import warnDeprecated from "../../lib/deprecation";
 
 jest.mock("../../lib/deprecation");
@@ -1047,6 +1048,20 @@ describe("lib/mailtrap-client: ", () => {
         });
 
         expect(client.marketingStats).toBeInstanceOf(MarketingStatsBaseAPI);
+      });
+    });
+
+    describe("get subscriptionTopics(): ", () => {
+      it("returns subscription topics API object without an accountId.", () => {
+        expect.assertions(1);
+
+        const client = new MailtrapClient({
+          token: "MY_API_TOKEN",
+        });
+
+        expect(client.subscriptionTopics).toBeInstanceOf(
+          SubscriptionTopicsBaseAPI
+        );
       });
     });
   });

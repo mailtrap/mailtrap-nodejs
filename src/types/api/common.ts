@@ -11,3 +11,17 @@ export type Pagination = {
   current_url: string;
   next_url: string | null;
 };
+
+/** Query params of a list endpoint with page-token pagination. */
+export type PageTokenParams = {
+  /**
+   * Page number to retrieve. Defaults to 1. Accepts `pagination.next_token`
+   * as is; `null` is the same as leaving it out.
+   */
+  token?: number | null;
+  /**
+   * Number of items per page. Maximum 100, defaults to 50. Pass the same
+   * value on every page.
+   */
+  per_page?: number | null;
+};

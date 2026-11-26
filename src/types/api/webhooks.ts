@@ -8,6 +8,11 @@ export type PayloadFormat = "json" | "jsonlines";
 
 export type SendingStream = "transactional" | "bulk";
 
+/**
+ * `subscription_preferences_update` (a contact changed their subscription
+ * topic preferences) applies only to `email_sending` webhooks on the `bulk`
+ * stream and to `campaigns` webhooks.
+ */
 export type WebhookEventType =
   | "delivery"
   | "soft_bounce"
@@ -17,7 +22,8 @@ export type WebhookEventType =
   | "open"
   | "spam_complaint"
   | "click"
-  | "reject";
+  | "reject"
+  | "subscription_preferences_update";
 
 export type Webhook = {
   id: number;

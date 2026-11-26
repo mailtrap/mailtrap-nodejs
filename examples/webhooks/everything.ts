@@ -45,6 +45,16 @@ async function webhooksFlow() {
     // Delete the webhook
     const deleted = await client.webhooks.delete(webhookId);
     console.log("Deleted webhook:", JSON.stringify(deleted, null, 2));
+
+    // Campaigns webhooks, and email-sending webhooks on the bulk stream, can
+    // also report a contact's subscription topic preference changes.
+    const campaignsWebhook = await client.webhooks.create({
+      url: "https://example.com/webhooks/mailtrap/campaigns",
+      webhook_type: "campaigns",
+      event_types: ["unsubscribe", "subscription_preferences_update"],
+    });
+    console.log("Created campaigns webhook:", JSON.stringify(campaignsWebhook, null, 2));
+    await client.webhooks.delete(campaignsWebhook.data.id);
   } catch (error) {
     console.error("Error in webhooksFlow:", error instanceof Error ? error.message : String(error));
   }

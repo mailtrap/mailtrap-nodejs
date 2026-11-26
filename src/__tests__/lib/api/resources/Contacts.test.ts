@@ -4,6 +4,7 @@ import AxiosMockAdapter from "axios-mock-adapter";
 import ContactsApi from "../../../../lib/api/resources/Contacts";
 import handleSendingError from "../../../../lib/axios-logger";
 import MailtrapError from "../../../../lib/MailtrapError";
+import { ContactSubscriptionTopic } from "../../../../types/api/contacts";
 
 import CONFIG from "../../../../config";
 
@@ -70,6 +71,15 @@ describe("lib/api/resources/Contacts: ", () => {
     },
   };
 
+  const subscriptionTopics: ContactSubscriptionTopic[] = [
+    { subscription_topic_id: 12, domain_id: 4321, status: "subscribed" },
+    { subscription_topic_id: 12, domain_id: 4322, status: "unsubscribed" },
+  ];
+
+  const topicWriteFailedMessage =
+    "The contact was saved, but its subscription topic preferences were not. " +
+    "Send them again in an update of contact 018dd5e3-f6d2-7c00-8f9b-e5c3f2d8a132.";
+
   describe("class ContactsApi(): ", () => {
     describe("init: ", () => {
       it("initializes with all necessary params.", () => {
@@ -124,6 +134,24 @@ describe("lib/api/resources/Contacts: ", () => {
       expect(result).toEqual(expectedResponseData);
     });
 
+    it.each([
+      ["a list of topic statuses", subscriptionTopics],
+      ["null when they couldn't be read", null],
+    ])("returns subscription_topics as %s.", async (_description, topics) => {
+      const email = "john.smith@example.com";
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts/${email}`;
+      const responseData = {
+        data: { ...createContactResponse.data, subscription_topics: topics },
+      };
+
+      expect.assertions(1);
+
+      mock.onGet(endpoint).reply(200, responseData);
+      const result = await contactsAPI.get(email);
+
+      expect(result.data.subscription_topics).toEqual(topics);
+    });
+
     it("fails with error when getting a contact.", async () => {
       const email = "nonexistent@example.com";
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts/${email}`;
@@ -159,6 +187,64 @@ describe("lib/api/resources/Contacts: ", () => {
       expect(mock.history.post[0].url).toEqual(endpoint);
       expect(result).toEqual(expectedResponseData);
     });
+
+    it("sends subscription_topics and reads them back.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts`;
+      const contact = {
+        ...createContactRequest.contact,
+        subscription_topics: subscriptionTopics,
+      };
+      const responseData = {
+        data: {
+          ...createContactResponse.data,
+          subscription_topics: subscriptionTopics,
+        },
+      };
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint, { contact }).reply(201, responseData);
+      const result = await contactsAPI.create(contact);
+
+      expect(JSON.parse(mock.history.post[0].data)).toEqual({ contact });
+      expect(result).toEqual(responseData);
+    });
+
+    it.each([
+      [
+        422,
+        {
+          errors: {
+            subscription_topics: ["are not available for this account"],
+          },
+        },
+        "subscription_topics: are not available for this account",
+      ],
+      [503, { errors: topicWriteFailedMessage }, topicWriteFailedMessage],
+    ])(
+      "fails with the topic error on %i.",
+      async (statusCode, body, expectedErrorMessage) => {
+        const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts`;
+
+        expect.assertions(3);
+
+        mock.onPost(endpoint).reply(statusCode, body);
+
+        try {
+          await contactsAPI.create({
+            ...createContactRequest.contact,
+            subscription_topics: subscriptionTopics,
+          });
+        } catch (error) {
+          expect(error).toBeInstanceOf(MailtrapError);
+          if (error instanceof MailtrapError) {
+            expect(error.message).toEqual(expectedErrorMessage);
+            // @ts-expect-error ES5 types don't know about cause property
+            expect(error.cause?.response?.status).toEqual(statusCode);
+          }
+        }
+      }
+    );
 
     it("fails with error.", async () => {
       const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts`;
@@ -198,6 +284,28 @@ describe("lib/api/resources/Contacts: ", () => {
 
       expect(mock.history.patch[0].url).toEqual(endpoint);
       expect(result).toEqual(expectedResponseData);
+    });
+
+    it("updates only the subscription topics.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/contacts/${contactId}`;
+      const contact = {
+        email: "john.smith111@example.com",
+        subscription_topics: [subscriptionTopics[1]],
+      };
+      const responseData = {
+        data: {
+          ...updateContactResponse.data,
+          subscription_topics: subscriptionTopics,
+        },
+      };
+
+      expect.assertions(2);
+
+      mock.onPatch(endpoint, { contact }).reply(200, responseData);
+      const result = await contactsAPI.update(contactId, contact);
+
+      expect(JSON.parse(mock.history.patch[0].data)).toEqual({ contact });
+      expect(result.data.subscription_topics).toEqual(subscriptionTopics);
     });
 
     it("fails with error.", async () => {

@@ -45,6 +45,7 @@ describe("lib/api/resources/EmailCampaigns: ", () => {
         '<html><body><h1>Hi {{first_name}}!</h1><p><a href="__unsubscribe_url__">Unsubscribe</a></p></body></html>',
       body_text: null,
     },
+    subscription_topic_id: null,
   };
 
   describe("class EmailCampaignsApi(): ", () => {
@@ -180,6 +181,21 @@ describe("lib/api/resources/EmailCampaigns: ", () => {
       expect(result).toEqual(responseData);
     });
 
+    it("sends subscription_topic_id and reads it back.", async () => {
+      const topicParams = { ...params, subscription_topic_id: 12 };
+      const topicResponse = {
+        data: { ...campaign, subscription_topic_id: 12 },
+      };
+
+      expect.assertions(2);
+
+      mock.onPost(endpoint, topicParams).reply(201, topicResponse);
+      const result = await emailCampaignsAPI.create(topicParams);
+
+      expect(JSON.parse(mock.history.post[0].data)).toEqual(topicParams);
+      expect(result.data.subscription_topic_id).toBe(12);
+    });
+
     it("fails with error.", async () => {
       const expectedErrorMessage = "domain_id: must exist";
 
@@ -269,6 +285,21 @@ describe("lib/api/resources/EmailCampaigns: ", () => {
       expect(mock.history.patch[0].url).toEqual(updateEndpoint);
       expect(JSON.parse(mock.history.patch[0].data)).toEqual(params);
       expect(result).toEqual(responseData);
+    });
+
+    it("changes the campaign's subscription topic.", async () => {
+      const topicParams = { subscription_topic_id: 13 };
+      const topicResponse = {
+        data: { ...campaign, subscription_topic_id: 13 },
+      };
+
+      expect.assertions(2);
+
+      mock.onPatch(updateEndpoint, topicParams).reply(200, topicResponse);
+      const result = await emailCampaignsAPI.update(campaignId, topicParams);
+
+      expect(JSON.parse(mock.history.patch[0].data)).toEqual(topicParams);
+      expect(result.data.subscription_topic_id).toBe(13);
     });
 
     it("fails with error.", async () => {

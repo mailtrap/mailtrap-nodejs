@@ -60,6 +60,22 @@ describe("lib/api/resources/EmailLogs: ", () => {
           web_ip_address: "198.51.100.50",
         },
       },
+      {
+        event_type: "topic_unsubscribe",
+        created_at: "2025-01-15T10:40:00Z",
+        details: {
+          web_ip_address: "198.51.100.50",
+          subscription_topic_id: 12,
+        },
+      },
+      {
+        event_type: "topic_resubscribe",
+        created_at: "2025-01-15T10:45:00Z",
+        details: {
+          web_ip_address: null,
+          subscription_topic_id: 12,
+        },
+      },
     ],
   };
 
@@ -230,7 +246,25 @@ describe("lib/api/resources/EmailLogs: ", () => {
       expect(mock.history.get[0].url).toEqual(endpoint);
       expect(result).toEqual(mockMessageDetails);
       expect(result.raw_message_url).toBeDefined();
-      expect(result.events).toHaveLength(1);
+      expect(result.events).toHaveLength(3);
+    });
+
+    it("passes an event type it doesn't know through as is.", async () => {
+      const endpoint = `${GENERAL_ENDPOINT}/api/accounts/${accountId}/email_logs/${messageId}`;
+      const unknownEvent = {
+        event_type: "future_event",
+        created_at: "2025-01-15T10:50:00Z",
+        details: { anything: "goes" },
+      };
+
+      expect.assertions(1);
+
+      mock
+        .onGet(endpoint)
+        .reply(200, { ...mockMessageDetails, events: [unknownEvent] });
+      const result = await emailLogsAPI.get(messageId);
+
+      expect(result.events).toEqual([unknownEvent]);
     });
 
     it("fails with not found (404).", async () => {

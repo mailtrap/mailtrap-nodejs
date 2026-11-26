@@ -8,6 +8,35 @@ const SENDING_DOMAIN_ID = "<YOUR-SENDING-DOMAIN-ID-HERE>";
 // The Email Campaigns API is token-scoped — no `accountId` is needed.
 const client = new MailtrapClient({ token: TOKEN });
 
+// An account without subscription topics answers `403` with an empty body.
+const isForbidden = (error: unknown) =>
+  (error as { cause?: { response?: { status?: number } } }).cause?.response
+    ?.status === 403;
+
+// A campaign's subscription topic must cover its domain: an "All domains"
+// topic (`domain_id: null`) or one of that domain. Returns `undefined` when
+// the account has no such topic, or no subscription topics at all.
+async function findSubscriptionTopicId(domainId: number) {
+  try {
+    let token: number | null = 1;
+    while (token !== null) {
+      const page = await client.subscriptionTopics.getList({
+        per_page: 100,
+        token,
+      });
+      const topic = page.data.find(
+        ({ domain_id }) => domain_id === null || domain_id === domainId
+      );
+      if (topic) return topic.id;
+      token = page.pagination.next_token;
+    }
+    return undefined;
+  } catch (error) {
+    if (isForbidden(error)) return undefined;
+    throw error;
+  }
+}
+
 async function emailCampaignsFlow() {
   try {
     const scheduledAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
@@ -22,8 +51,13 @@ async function emailCampaignsFlow() {
     console.log("Campaigns:", JSON.stringify(list.data, null, 2));
     console.log("Pagination:", JSON.stringify(list.pagination, null, 2));
 
+    const subscriptionTopicId = await findSubscriptionTopicId(
+      Number(SENDING_DOMAIN_ID)
+    );
+
     // Create a campaign. It starts in the `draft` state. Single-campaign
-    // responses are wrapped in a `{ data }` envelope.
+    // responses are wrapped in a `{ data }` envelope. `subscription_topic_id`
+    // is optional; leave it out rather than sending `null`.
     const created = await client.emailCampaigns.create({
       name: "Spring Sale",
       domain_id: Number(SENDING_DOMAIN_ID),
@@ -35,6 +69,9 @@ async function emailCampaignsFlow() {
         domain: "acme.com",
       },
       template_attributes: { subject: "Spring is here — 30% off" },
+      ...(subscriptionTopicId !== undefined && {
+        subscription_topic_id: subscriptionTopicId,
+      }),
     });
     console.log("Created campaign:", JSON.stringify(created.data, null, 2));
 
