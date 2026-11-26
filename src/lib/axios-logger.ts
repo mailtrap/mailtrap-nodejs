@@ -214,6 +214,75 @@ function buildErrorMessage(error: AxiosError): string {
   return data ? extractErrorMessage(data, error.message) : error.message;
 }
 
+const REDACTED = "[REDACTED]";
+
+/**
+ * Copies request headers with the `Authorization` value replaced.
+ * Keeps the prototype, so `AxiosHeaders` methods keep working on the copy.
+ */
+function redactHeaders<T extends object>(headers: T): T {
+  const copy = Object.assign(
+    Object.create(Object.getPrototypeOf(headers)),
+    headers
+  );
+
+  Object.keys(copy).forEach((name) => {
+    if (name.toLowerCase() === "authorization") {
+      copy[name] = REDACTED;
+    }
+  });
+
+  return copy;
+}
+
+/**
+ * Copies request config without the API token: redacts the `Authorization` header
+ * and drops the HTTP agents, whose sockets reference in-flight requests and their
+ * raw headers.
+ */
+function redactConfig<T extends AxiosError["config"]>(config: T): T {
+  if (!config) {
+    return config;
+  }
+
+  const { httpAgent, httpsAgent, ...rest } = config;
+
+  return {
+    ...rest,
+    headers: config.headers && redactHeaders(config.headers),
+  } as T;
+}
+
+/**
+ * Strips the API token from an axios error before it leaves the client, so logging
+ * the error (or its `cause`) can't leak it. Redacts the `Authorization` header in the
+ * request config and removes the `request` objects, which hold the raw request
+ * headers. Status, response data, URL and method stay intact.
+ */
+function redactAxiosError(error: AxiosError): AxiosError {
+  /* eslint-disable no-param-reassign */
+  const originalConfig = error.config;
+  const config = redactConfig(originalConfig);
+
+  error.config = config;
+  delete error.request;
+
+  if (error.response) {
+    const { request, ...response } = error.response;
+
+    error.response = {
+      ...response,
+      config:
+        config && response.config === originalConfig
+          ? config
+          : redactConfig(response.config),
+    };
+  }
+  /* eslint-enable no-param-reassign */
+
+  return error;
+}
+
 /**
  * Error handler for axios response.
  */
@@ -222,7 +291,7 @@ export default function handleSendingError(error: AxiosError | unknown) {
     const message = buildErrorMessage(error);
 
     // @ts-expect-error weird typing around Error class, but it's tested to work
-    throw new MailtrapError(message, { cause: error });
+    throw new MailtrapError(message, { cause: redactAxiosError(error) });
   }
 
   throw error; // should not happen, but otherwise rethrow error as is

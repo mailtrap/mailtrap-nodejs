@@ -1,4 +1,6 @@
-import { AxiosError } from "axios";
+import { inspect } from "util";
+
+import { AxiosError, AxiosHeaders } from "axios";
 import axiosLogger from "../../lib/axios-logger";
 import MailtrapError from "../../lib/MailtrapError";
 
@@ -703,6 +705,103 @@ describe("lib/axios-logger: ", () => {
           expect(error.message).toBe("string error");
         }
       }
+    });
+
+    describe("token redaction: ", () => {
+      const token = "Bearer canary-token-unit";
+
+      const catchMailtrapError = (error: unknown): MailtrapError => {
+        try {
+          axiosLogger(error);
+        } catch (thrown) {
+          return thrown as MailtrapError;
+        }
+        throw new Error("expected handleSendingError to throw");
+      };
+
+      it("redacts the Authorization header and drops requests and agents", () => {
+        const config = {
+          url: "https://send.api.mailtrap.io/api/send",
+          method: "post",
+          headers: new AxiosHeaders({
+            Authorization: token,
+            "User-Agent": "test-agent",
+          }),
+          httpAgent: { sockets: { header: token } },
+          httpsAgent: { sockets: { header: token } },
+        } as any;
+        const request = { _header: `Authorization: ${token}\r\n` };
+        const responseData = { errors: ["Unauthorized"] };
+        const axiosError = new AxiosError(
+          "Request failed with status code 401",
+          "ERR_BAD_REQUEST",
+          config,
+          request,
+          {
+            data: responseData,
+            status: 401,
+            statusText: "Unauthorized",
+            headers: {},
+            config,
+            request,
+          }
+        );
+
+        const error = catchMailtrapError(axiosError);
+        const { cause } = error as { cause?: AxiosError };
+
+        expect(error.message).toBe("Unauthorized");
+        expect(cause).toBe(axiosError);
+        expect(cause?.status).toBe(401);
+        expect(cause?.response?.status).toBe(401);
+        expect(cause?.response?.data).toEqual(responseData);
+        expect(cause?.config?.url).toBe(config.url);
+        expect(cause?.config?.method).toBe("post");
+        expect(cause?.config?.headers).toBeInstanceOf(AxiosHeaders);
+        expect(cause?.config?.headers.get("Authorization")).toBe("[REDACTED]");
+        expect(cause?.config?.headers.get("User-Agent")).toBe("test-agent");
+        expect(cause?.config?.httpAgent).toBeUndefined();
+        expect(cause?.config?.httpsAgent).toBeUndefined();
+        expect(cause?.response?.config).toBe(cause?.config);
+        expect(cause?.request).toBeUndefined();
+        expect(cause?.response?.request).toBeUndefined();
+        expect(config.headers.get("Authorization")).toBe(token);
+        expect(inspect(error, { depth: Infinity })).not.toContain(token);
+        expect(JSON.stringify(cause)).not.toContain(token);
+      });
+
+      it("redacts plain-object headers in any letter case", () => {
+        const axiosError = new AxiosError("Network Error", "ERR_NETWORK", {
+          headers: { authorization: token },
+        } as any);
+        axiosError.response = {
+          data: {},
+          status: 500,
+          statusText: "Internal Server Error",
+          headers: {},
+          config: { headers: { AUTHORIZATION: token } } as any,
+        };
+
+        const error = catchMailtrapError(axiosError);
+
+        expect(axiosError.config?.headers).toEqual({
+          authorization: "[REDACTED]",
+        });
+        expect(axiosError.response.config.headers).toEqual({
+          AUTHORIZATION: "[REDACTED]",
+        });
+        expect(inspect(error, { depth: Infinity })).not.toContain(token);
+      });
+
+      it("handles errors without config or response", () => {
+        const axiosError = new AxiosError("mock-error");
+
+        const error = catchMailtrapError(axiosError);
+
+        expect(error.message).toBe("mock-error");
+        expect(axiosError.config).toBeUndefined();
+        expect(axiosError.response).toBeUndefined();
+      });
     });
   });
 });
