@@ -44,7 +44,7 @@ describe("adapters/content: ", () => {
       ];
 
       unresolvedContents.forEach((content) => {
-        expect(() => adaptContent(content)).toThrowError(
+        expect(() => adaptContent(content)).toThrow(
           new Error(CONTENT_REQUIRED)
         );
       });
