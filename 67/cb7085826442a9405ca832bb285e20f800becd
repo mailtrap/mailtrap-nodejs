@@ -1,0 +1,19 @@
+src/types/api/suppressions.ts
+  s_5122a86f9a84f7::t_de429957ed044d 46,48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "67cb7085826442a9405ca832bb285e20f800becd",
+  "prompts": {},
+  "sessions": {
+    "s_5122a86f9a84f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "703022c3-3be0-45af-a588-943997df85cf",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

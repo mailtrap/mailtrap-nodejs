@@ -1,0 +1,29 @@
+README.md
+  s_5122a86f9a84f7::t_320dfda714bf35 283
+src/__tests__/lib/api/resources/Suppressions.test.ts
+  s_5122a86f9a84f7::t_30faea799bc3d1 141-176
+examples/sending/suppressions.ts
+  s_5122a86f9a84f7::t_d0bc0b284c7650 20-33
+src/types/api/suppressions.ts
+  s_5122a86f9a84f7::t_262f7bdcf4c5cc 39-42,44,46-50
+  s_5122a86f9a84f7::t_61ea9900bd3bc3 12-17,23
+  s_5122a86f9a84f7::t_742188a915e235 61
+src/lib/api/resources/Suppressions.ts
+  s_5122a86f9a84f7::t_0e974128d2f47e 25-26,31-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "175d3b40a491c873b244f648848fc05fd959a286",
+  "prompts": {},
+  "sessions": {
+    "s_5122a86f9a84f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "703022c3-3be0-45af-a588-943997df85cf",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

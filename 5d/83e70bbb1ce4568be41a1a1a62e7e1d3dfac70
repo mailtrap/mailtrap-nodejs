@@ -1,0 +1,24 @@
+src/__tests__/lib/error-redaction.test.ts
+  s_9bb638d4216151::t_9ad41941efe668 1-185,187,189,191
+  s_9bb638d4216151::t_21e37635dc1699 186,188,190,192
+src/__tests__/lib/axios-logger.test.ts
+  s_9bb638d4216151::t_dc3e6d37b3a22a 1-3,709-805
+src/lib/axios-logger.ts
+  s_9bb638d4216151::t_211647bdcdffb3 209-277,286
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5d83e70bbb1ce4568be41a1a1a62e7e1d3dfac70",
+  "prompts": {},
+  "sessions": {
+    "s_9bb638d4216151": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "59d09b00-bfc9-4287-95ef-c69e18730c39",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
