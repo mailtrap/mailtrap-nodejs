@@ -12,7 +12,7 @@ describe("adapters/attachment: ", () => {
     it("throws `filename required` error.", () => {
       const attachment = {};
 
-      expect(() => adaptAttachment(attachment)).toThrowError(
+      expect(() => adaptAttachment(attachment)).toThrow(
         new Error(FILENAME_REQUIRED)
       );
     });
@@ -22,7 +22,7 @@ describe("adapters/attachment: ", () => {
         filename: "mock-filename",
       };
 
-      expect(() => adaptAttachment(attachment)).toThrowError(
+      expect(() => adaptAttachment(attachment)).toThrow(
         new Error(CONTENT_REQUIRED)
       );
     });
@@ -64,7 +64,7 @@ describe("adapters/attachment: ", () => {
       unresolvedContents.forEach((content) => {
         expect(() =>
           adaptAttachment({ filename: "mock-filename", content })
-        ).toThrowError(new Error(CONTENT_REQUIRED));
+        ).toThrow(new Error(CONTENT_REQUIRED));
       });
     });
 
