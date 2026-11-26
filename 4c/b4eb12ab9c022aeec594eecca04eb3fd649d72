@@ -1,0 +1,21 @@
+src/__tests__/adapters/attachment.test.ts
+  s_ebc2e11f70a92d::t_999df7363c350a 15,25,67
+src/__tests__/adapters/content.test.ts
+  s_ebc2e11f70a92d::t_999df7363c350a 47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4cb4eb12ab9c022aeec594eecca04eb3fd649d72",
+  "prompts": {},
+  "sessions": {
+    "s_ebc2e11f70a92d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a7005f-23e7-4393-84d9-71049974ecd1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}
